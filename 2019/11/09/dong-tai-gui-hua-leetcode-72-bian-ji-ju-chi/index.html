@@ -428,7 +428,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    920
+                    921
                 </div>
                 
 
@@ -480,13 +480,18 @@ exection -&gt; execution (插入 &#39;u&#39;)</code></pre><blockquote>
 </blockquote>
 <h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><p>编辑距离（Minimum Edit Distance，MED）是用来衡量两个字符串相似度的常用方法， 求两个字符串的编辑距离也算是一个经典问题了。</p>
 <p>我们的两个字符串$A$,$B$分别代表了当前的字符串和目标字符串，实际上，将$A$变成$B$和将$B$变成$A$所需要的步数是一样的（逆过程），因此所需要的最小步数才可以用距离这个概念来表示。</p>
-<p>如果有一个字符串是空串，那么显然可以只用另一个字符串的长度来表示，即：<br>$$<br>Dis(A,B)=max(len(A),len(B)),  if(len(A)==0 || len(B)==0)<br>$$<br>此外，距离可以从上一步的最优结果推到而来，这就是编辑距离的动态规划解法，注意到我们的三种情况其实就对应了三种允许的操作。看起来删除和插入操作好像是对称的，其实并没有本质的区别，只是因为我们的目标字符串是$B$：<br>$$<br>\begin{equation}</p>
-<p>Dis(A_i,B_j)=min\begin{cases}</p>
-<p>Dis(A_{i-1},B_j)+1 ，删除字符A_i，因为Dis(A_{i-1},B_j)已经满足成为字符串B_{1:j}的条件\\</p>
-<p>Dis(A_i,B_{j-1})+1 ，插入字符B_j\\</p>
-<p>Dis(A_{i-1},B_{j-1})+(A_i==B_j)，相等不操作，不相等则将字符A_i替换为B_j</p>
-<p>\end{cases}</p>
-<p>\end{equation}<br>$$<br>实际上在最后一个字母相等的情况下，肯定是直接等于左上角的结果最小，不需要再额外判断了。</p>
+<p>如果有一个字符串是空串，那么显然可以只用另一个字符串的长度来表示，即：<br>$$<br>Dis(A,B)=max(len(A),len(B)),  if(len(A)==0 || len(B)==0)<br>$$<br>此外，距离可以从上一步的最优结果推到而来，这就是编辑距离的动态规划解法，注意到我们的三种情况其实就对应了三种允许的操作。看起来删除和插入操作好像是对称的，其实并没有本质的区别，只是因为我们的目标字符串是$B$：</p>
+<p>$$<br>Dis(A_i,B_j)=min(Dis(A_{i-1},B_j)+1,Dis(A_i,B_{j-1})+1,Dis(A_{i-1},B_{j-1})+(A_i==B_j))<br>$$</p>
+<p>三个操作分别表示</p>
+<ul>
+<li><p>删除字符$A_i$，因为$Dis(A_{i-1},B_j)$已经满足成为字符串$B_{1:j}$的条件</p>
+</li>
+<li><p>插入字符$B_j$</p>
+</li>
+<li><p>相等不操作，不相等则将字符$A_i$替换为$B_j$</p>
+</li>
+</ul>
+<p>实际上在最后一个字母相等的情况下，肯定是直接等于左上角的结果最小，不需要再额外判断了。</p>
 <h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
     <span class="token keyword">public</span> <span class="token keyword">int</span> <span class="token function">minDistance</span><span class="token punctuation">(</span>String word1<span class="token punctuation">,</span> String word2<span class="token punctuation">)</span> <span class="token punctuation">{</span>
         <span class="token keyword">int</span> len1<span class="token operator">=</span>word1<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>len2<span class="token operator">=</span>word2<span class="token punctuation">.</span><span class="token function">length</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
