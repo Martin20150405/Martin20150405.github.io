@@ -4,11 +4,14 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="[单调栈]LeetCode-739.每日温度, Martin&#39;s">
+    <meta name="keywords" content="[数学]LeetCode-31.下一个排列, Martin&#39;s">
     <meta name="baidu-site-verification" content>
     <meta name="google-site-verification" content>
     <meta name="360-site-verification" content>
-    <meta name="description" content="题目Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you ">
+    <meta name="description" content="题目实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。
+如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。
+必须原地修改，只允许使用额外常数空间。
+以下是一些例子，输入位于左侧列，其相">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -16,7 +19,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>[单调栈]LeetCode-739.每日温度 | Martin&#39;s</title>
+    <title>[数学]LeetCode-31.下一个排列 | Martin&#39;s</title>
     <link rel="icon" type="image/jpeg" href="/favicon.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -258,13 +261,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/10.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        [单调栈]LeetCode-739.每日温度
+                        [数学]LeetCode-31.下一个排列
                     </div>
                 </div>
             </div>
@@ -375,8 +378,8 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/单调栈/" target="_blank">
-                            <span class="chip bg-color">单调栈</span>
+                        <a href="/tags/数学/" target="_blank">
+                            <span class="chip bg-color">数学</span>
                         </a>
                         
                     </div>
@@ -399,7 +402,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-11-07
+                    2019-11-08
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -413,7 +416,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    871
+                    768
                 </div>
                 
 
@@ -436,83 +439,55 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you would have to wait until a warmer temperature. If there is no future day for which this is possible, put 0 instead.</p>
-<p>For example, given the list of temperatures T = [73, 74, 75, 71, 69, 72, 76, 73], your output should be [1, 1, 4, 2, 1, 1, 0, 0].</p>
-<p>Note: The length of temperatures will be in the range [1, 30000]. Each temperature will be an integer in the range [30, 100].</p>
-<p>根据每日 气温 列表，请重新生成一个列表，对应位置的输入是你需要再等待多久温度才会升高超过该日的天数。如果之后都不会升高，请在该位置用 0 来代替。</p>
-<p>例如，给定一个列表 temperatures = [73, 74, 75, 71, 69, 72, 76, 73]，你的输出应该是 [1, 1, 4, 2, 1, 1, 0, 0]。</p>
-<p>提示：气温 列表长度的范围是 [1, 30000]。每个气温的值的均为华氏度，都是在 [30, 100] 范围内的整数。</p>
+                <h2 id="题目"><a href="#题目" class="headerlink" title="题目"></a>题目</h2><p>实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。</p>
+<p>如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。</p>
+<p>必须原地修改，<strong>只允许使用额外常数空间</strong>。</p>
+<p>以下是一些例子，输入位于左侧列，其相应输出位于右侧列。<br>1,2,3 → 1,3,2<br>3,2,1 → 1,2,3<br>1,1,5 → 1,5,1</p>
+<p>Implement next permutation, which rearranges numbers into the lexicographically next greater permutation of numbers.</p>
+<p>If such arrangement is not possible, it must rearrange it as the lowest possible order (ie, sorted in ascending order).</p>
+<p>The replacement must be in-place and use only constant extra memory.</p>
+<p>Here are some examples. Inputs are in the left-hand column and its corresponding outputs are in the right-hand column.</p>
+<p>1,2,3 → 1,3,2<br>3,2,1 → 1,2,3<br>1,1,5 → 1,5,1</p>
 <blockquote>
-<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/daily-temperatures" target="_blank" rel="noopener">https://leetcode-cn.com/problems/daily-temperatures</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
+<p>来源：力扣（LeetCode）<br>链接：<a href="https://leetcode-cn.com/problems/next-permutation" target="_blank" rel="noopener">https://leetcode-cn.com/problems/next-permutation</a><br>著作权归领扣网络所有。商业转载请联系官方授权，非商业转载请注明出处。</p>
 </blockquote>
-<h2 id="思路1"><a href="#思路1" class="headerlink" title="思路1"></a>思路1</h2><p>题意即找到每个数右侧第一个大于该数的数字，除了暴力遍历以外，另一种做法是保留我们遇到的数字，直到找到答案了再移除，可以借助单调栈的结构，此处使用单调<strong>非</strong>递增栈，方便起见只保存下标。</p>
+<h2 id="思路"><a href="#思路" class="headerlink" title="思路"></a>思路</h2><ul>
+<li><p>题目的意思是找一个字典序刚好比当前序列大的排列，如果当前序列已经是降序的，那么直接倒转即可</p>
+</li>
+<li><p>原地算法表示程序使用的空间必须是常数，与输入的数据规模无关</p>
+</li>
+<li><p>在中间的某一个排列可以分为三段，A:从前往后递增，B:从后往前递增，C:A与B之间的数（可能不存在），如数列</p>
+<p>[<strong>1,2,7</strong>,4,5,<strong><em>6,3</em></strong>],要找到字典序更大的，无论如何调整B都不可能，而B中势必存在比C中最后一个元素更大的数，那么我们只需要将这个数换成B中刚好比他大的，再做一些调整就可以了。当然C可能不存在，那么实际上C就是A的最后一个元素。</p>
+<p>我们需要找到的是满足条件的排列中，字典序最小的，因此在做完交换后，所需要做的调整就是将最后一段（长度和B相等）变成字典序最小的情况，显然这一段依然是单调递减的（从后往前递增），因此只要将这一段倒转即可。</p>
+<p>[<strong>1,2,7</strong>,4,5,<strong><em>6,3</em></strong>]–&gt;[<strong>1,2,7</strong>,4,6,<strong><em>5,3</em></strong>]–&gt;[<strong>1,2,7</strong>,4,6,<strong><em>3,5</em></strong>]</p>
+</li>
+<li><p>想法的表述可能比较啰嗦，具体而言，算法分为4步：</p>
 <ul>
-<li>单调<strong>非</strong>递增栈（&lt;=）：从栈底到栈顶的数字越来越小，允许重复</li>
-<li>单调递减栈(&lt;)：从栈底到栈顶的数字越来越小，<strong>不</strong>允许重复</li>
+<li>从后往前找到第一个不再增加的数字$S_i$</li>
+<li>找到这个数字后刚好比他大的数字$S_j$</li>
+<li>交换$S_i$与$S_j$</li>
+<li>将$S_j$之后的一段数（这里是说下标$i$对应的那个位置，现在右侧可能就只有$S_i$）倒转</li>
 </ul>
-<p>本题既可以顺序遍历也可以逆序遍历</p>
-<ul>
-<li>顺序遍历方案：保留遇到的数字，如果当前数字比栈顶元素（之前遇到的）大，那么当前数字就是之前那个数字的答案</li>
-<li>逆序遍历方案：从右往左遍历，去除栈顶所有比当前元素小的元素，如果栈空，那说明没有比当前元素大的，否则栈顶元素就是当前元素的答案</li>
+</li>
 </ul>
-<h2 id="代码1"><a href="#代码1" class="headerlink" title="代码1"></a>代码1</h2><pre class="line-numbers language-java"><code class="language-java"><span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">//单调栈从右往左遍历</span>
-    <span class="token keyword">public</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">dailyTemperatures</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> T<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">int</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>ret<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>T<span class="token punctuation">.</span>length<span class="token punctuation">]</span><span class="token punctuation">;</span>
-        Stack<span class="token operator">&lt;</span>Integer<span class="token operator">></span> stack<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span>T<span class="token punctuation">.</span>length<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>i<span class="token operator">>=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">--</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-            <span class="token keyword">int</span> cur<span class="token operator">=</span>T<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
-            <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>stack<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> T<span class="token punctuation">[</span>stack<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token operator">&lt;=</span>cur<span class="token punctuation">)</span>
-                stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>stack<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
-            <span class="token keyword">else</span> ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>stack<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span>i<span class="token punctuation">;</span>
-            stack<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token punctuation">}</span>
-        <span class="token keyword">return</span> ret<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span>
-
+<h2 id="代码"><a href="#代码" class="headerlink" title="代码"></a>代码</h2><pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token comment" spellcheck="true">//一些特例</span>
+<span class="token comment" spellcheck="true">//{1},{2,1}</span>
 <span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
-    <span class="token comment" spellcheck="true">//单调栈从左往右遍历</span>
-    <span class="token keyword">public</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">dailyTemperatures</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> T<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">int</span> len<span class="token operator">=</span>T<span class="token punctuation">.</span>length<span class="token punctuation">;</span>
-        <span class="token keyword">int</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>ret<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>len<span class="token punctuation">]</span><span class="token punctuation">;</span>
-        Stack<span class="token operator">&lt;</span>Integer<span class="token operator">></span> stack<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">Stack</span><span class="token operator">&lt;</span><span class="token operator">></span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>len<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-            <span class="token keyword">int</span> cur<span class="token operator">=</span>T<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
-            <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token operator">!</span>stack<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token operator">&amp;&amp;</span> T<span class="token punctuation">[</span>stack<span class="token punctuation">.</span><span class="token function">peek</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token operator">&lt;</span>cur<span class="token punctuation">)</span><span class="token punctuation">{</span>
-                <span class="token keyword">int</span> tp<span class="token operator">=</span>stack<span class="token punctuation">.</span><span class="token function">pop</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
-                ret<span class="token punctuation">[</span>tp<span class="token punctuation">]</span><span class="token operator">=</span>i<span class="token operator">-</span>tp<span class="token punctuation">;</span>
-            <span class="token punctuation">}</span>
-            <span class="token keyword">if</span><span class="token punctuation">(</span>stack<span class="token punctuation">.</span><span class="token function">empty</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
-            stack<span class="token punctuation">.</span><span class="token function">push</span><span class="token punctuation">(</span>i<span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token keyword">public</span><span class="token operator">:</span>
+    <span class="token keyword">void</span> <span class="token function">nextPermutation</span><span class="token punctuation">(</span>vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span><span class="token operator">&amp;</span> nums<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token keyword">int</span> n<span class="token operator">=</span>nums<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> i<span class="token punctuation">,</span>j<span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span>i<span class="token operator">=</span>n<span class="token number">-2</span><span class="token punctuation">;</span>i<span class="token operator">>=</span><span class="token number">0</span><span class="token punctuation">;</span><span class="token operator">--</span>i<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">&lt;</span>nums<span class="token punctuation">[</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
         <span class="token punctuation">}</span>
-        <span class="token keyword">return</span> ret<span class="token punctuation">;</span>
-    <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
-<h2 id="思路2"><a href="#思路2" class="headerlink" title="思路2"></a>思路2</h2><p>另一种思路不是该题的标准解，但是想法很巧妙，速度又很快。</p>
-<p>具体而言，由于我们得到的结果实际上就代表了比当前元素大的所在位置，因此可以直接进行跳转，不需要再一个个比较，有点类似于KMP中的跳转表。</p>
-<p><img src="fig_method2.png" alt></p>
-<h2 id="代码2"><a href="#代码2" class="headerlink" title="代码2"></a>代码2</h2><pre class="line-numbers language-java"><code class="language-java"><span class="token comment" spellcheck="true">//利用ret[j]的结果进行跳转</span>
-<span class="token keyword">class</span> <span class="token class-name">Solution</span> <span class="token punctuation">{</span>
-    <span class="token keyword">public</span> <span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> <span class="token function">dailyTemperatures</span><span class="token punctuation">(</span><span class="token keyword">int</span><span class="token punctuation">[</span><span class="token punctuation">]</span> T<span class="token punctuation">)</span> <span class="token punctuation">{</span>
-        <span class="token keyword">int</span> <span class="token punctuation">[</span><span class="token punctuation">]</span>ret<span class="token operator">=</span><span class="token keyword">new</span> <span class="token class-name">int</span><span class="token punctuation">[</span>T<span class="token punctuation">.</span>length<span class="token punctuation">]</span><span class="token punctuation">;</span>
-        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span>T<span class="token punctuation">.</span>length<span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>i<span class="token operator">>=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">--</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-            <span class="token comment" spellcheck="true">//从下一个元素开始，每次都试图调到比当前元素更大的元素</span>
-            <span class="token comment" spellcheck="true">//小的那些就不再比较了</span>
-            <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span>T<span class="token punctuation">.</span>length<span class="token punctuation">;</span>j<span class="token operator">+=</span>ret<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
-                <span class="token keyword">if</span><span class="token punctuation">(</span>T<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">></span>T<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                    ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>j<span class="token operator">-</span>i<span class="token punctuation">;</span>
-                    <span class="token keyword">break</span><span class="token punctuation">;</span>
-                <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>ret<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
-                    ret<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
-                    <span class="token keyword">break</span><span class="token punctuation">;</span>
-                <span class="token punctuation">}</span>
-            <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//对应于两个特例，需要判断i是否越界</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>i<span class="token operator">>=</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">for</span><span class="token punctuation">(</span>j<span class="token operator">=</span>n<span class="token number">-1</span><span class="token punctuation">;</span>j<span class="token operator">></span>i<span class="token punctuation">;</span><span class="token operator">--</span>j<span class="token punctuation">)</span> <span class="token keyword">if</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">></span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token function">swap</span><span class="token punctuation">(</span>nums<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>nums<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
         <span class="token punctuation">}</span>
-        <span class="token keyword">return</span> ret<span class="token punctuation">;</span>
+        <span class="token function">reverse</span><span class="token punctuation">(</span>nums<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">+</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>nums<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
     <span class="token punctuation">}</span>
-<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<span class="token punctuation">}</span><span class="token punctuation">;</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
             </div>
             <hr />
@@ -671,9 +646,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《[单调栈]LeetCode-739.每日温度》
+                    《[数学]LeetCode-31.下一个排列》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/11/07/dan-diao-zhan-leetcode-739-mei-ri-wen-du/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/11/08/shu-xue-leetcode-31-xia-yi-ge-pai-lie/" property="cc:attributionName"
                rel="cc:attributionURL">
                 Martin
             </a> 采用
@@ -717,27 +692,35 @@
             <div class="article-badge left-badge text-color">
                 <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/11/08/shu-xue-leetcode-31-xia-yi-ge-pai-lie/">
+                <a href="/2019/11/09/dong-tai-gui-hua-leetcode-72-bian-ji-ju-chi/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="[数学]LeetCode-31.下一个排列">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="[动态规划]LeetCode-72.编辑距离">
                         
-                        <span class="card-title">[数学]LeetCode-31.下一个排列</span>
+                        <span class="card-title">[动态规划]LeetCode-72.编辑距离</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            题目实现获取下一个排列的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。
-如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。
-必须原地修改，只允许使用额外常数空间。
-以下是一些例子，输入位于左侧列，其相
+                            题目给定两个单词 word1 和 word2，计算出将 word1 转换成 word2 所使用的最少操作数 。
+你可以对一个单词进行如下三种操作：
+
+插入一个字符
+
+删除一个字符
+
+替换一个字符
+
+
+示例 1:
+输入: word1 = &q
                         
                     </div>
                     <div class="publish-info">
                         <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-08
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-09
                         </span>
                         <span class="publish-author">
                             
@@ -754,8 +737,12 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/数学/" target="_blank">
-                        <span class="chip bg-color">数学</span>
+                    <a href="/tags/动态规划/" target="_blank">
+                        <span class="chip bg-color">动态规划</span>
+                    </a>
+                    
+                    <a href="/tags/经典算法题/" target="_blank">
+                        <span class="chip bg-color">经典算法题</span>
                     </a>
                     
                 </div>
@@ -769,37 +756,44 @@
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/11/06/xin-keng-luo-cheng-ji-nian/">
+                <a href="/2019/11/07/dan-diao-zhan-leetcode-739-mei-ri-wen-du/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="新坑落成纪念">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="[单调栈]LeetCode-739.每日温度">
                         
-                        <span class="card-title">新坑落成纪念</span>
+                        <span class="card-title">[单调栈]LeetCode-739.每日温度</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            20191106很久没有写博客啦，之前学习的东西都没有系统的整理过，因此和小伙伴@Fx-Ren(awesome_rfx@163.com)一起开一个新坑，给自己一些压力，希望之后能更新的勤快一些。
-博客配置参考了这个,主题是Matery，感谢
+                            题目Given a list of daily temperatures T, return a list such that, for each day in the input, tells you how many days you 
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-06
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-07
                             </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
                             
-                            <a href="/categories/随笔/" class="post-category" target="_blank">
-                                    随笔
+                            <a href="/categories/题解/" class="post-category" target="_blank">
+                                    题解
                                 </a>
                             
                             
                         </span>
                     </div>
+                </div>
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/单调栈/" target="_blank">
+                        <span class="chip bg-color">单调栈</span>
+                    </a>
+                    
                 </div>
                 
             </div>
