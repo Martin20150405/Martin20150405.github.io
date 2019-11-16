@@ -4,6 +4,33 @@
   
     
     <entry>
+      <title>[DL]Winograd快速卷积算法</title>
+      <link href="/2019/11/13/dl-winograd-kuai-su-juan-ji-suan-fa/"/>
+      <url>/2019/11/13/dl-winograd-kuai-su-juan-ji-suan-fa/</url>
+      
+        <content type="html"><![CDATA[<h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>卷积神经网络是很多任务尤其是计算机视觉任务的基础，但很大程度上，模型需要的大量卷积计算限制了模型的可用性。因此，如何快速的完成卷积操作就至关重要。</p><p>此处的卷积是指图像处理领域的卷积操作，且数据通常为多通道的二维数组，卷积核的长宽相等。</p><p>常用的优化方法包括三个方面：</p><ul><li>硬件：堆数据堆模型再堆硬件是提升性能最常见的手段，本文假设读者都是买不起煤气灶的穷人</li><li>模型复杂度：降低模型复杂度包括降低参数冗余的花式的卷积设计，如ShuffleNet中的分组卷积+通道混合，MobileNet中的Depthwise和Pointwise分解卷积等，以及模型的裁剪、量化和稀疏化。</li><li>框架计算速度：目前主流的深度学习框架在加快计算上，一方面是利用数据SIMD的特性，进行硬件上并行化（SSE、Neon、线程并行），又或者通过一些矢量化手段（如Caffe、MXNet中的im2col）来充分利用软硬件的特点，实现更高的计算速度，另一方面则是像FFT以及Winograd等在卷积计算原理上不同的方法，从而减少了计算量。</li></ul><p>本文介绍的 Winograd 是存在已久最近被重新发现的方法，在大部分场景中，Winograd 方法都显示和较大的优势，目前TF Lite、Tencent NCNN、Ali MNN 中计算卷积就使用了该方法。详述该方法并进行测试的是CVPR 2016中的一篇文章《Fast Algorithms for Convolutional Neural Networks》，本文主要以该文章来进行方法的介绍和讲解。</p><h2 id="问题定义"><a href="#问题定义" class="headerlink" title="问题定义"></a>问题定义</h2><h3 id="符号"><a href="#符号" class="headerlink" title="符号"></a>符号</h3><p>$Image_{H\cdot W\cdot C}$:表示一张多通道（通常为三通道的）图片，使用$I$表示，下标视情况省略，当$C$为1时，表示灰度图，当$W$为1时，表示一维数据</p><p>$Kernel_{R\cdot R}$：表示一个大小为$R$的二维卷积核，使用$K$表示</p><p>$Height/Row,Width/Col,Channel/Depth$：分别表示一张图片的行，列，通道数</p><p>$I_{OH\cdot OW \cdot OC}=Conv(I_{H\cdot W \cdot C},K_R)$：表示使用卷积核$K$对图像$I$进行卷积操作，得到一张新的图像，为了和论文中一致，我们也使用$F(I_{OH\cdot OW \cdot OC},K_R)$来表示上述操作。</p><h3 id="一维卷积"><a href="#一维卷积" class="headerlink" title="一维卷积"></a>一维卷积</h3><ul><li>形式:$I_{OH}=Conv(I_{H},K_R)$或$F(I_{OH},K_R)$</li></ul><p>输出的图像大小取决于卷积核大小、Stride以及Padding策略，在这里我们假设Stride都是1，没有Padding，且只统计乘法运算，则</p><ul><li>计算量：$FLO=OH\cdot R=(H-R+1)\cdot R$</li></ul><h3 id="二维卷积"><a href="#二维卷积" class="headerlink" title="二维卷积"></a>二维卷积</h3><ul><li>形式:$I_{OH\cdot OW \cdot OC}=Conv(I_{H\cdot W\cdot C},K_R)$或$F(I_{OH\cdot OW \cdot OC},K_R)$</li></ul><p>多个通道的二维卷积遵循层内连乘，层间累加的方法，需要的卷积核数量为$C\cdot OC$:</p><ul><li>计算量：$FLO=(OH\cdot OW \cdot OC)\cdot (R\cdot R)\cdot C$</li></ul><p>具体而言，输出图片的每个通道都是通过一组卷积核在所有通道上相乘累加得到的。</p><p><img src="fig_2d_conv.png" alt></p><p>有兴趣的童鞋可以自己算一下需要的加法操作次数，智障作者算了一下应该是$OP=(OH\cdot OW \cdot OC)\cdot ((R\cdot R-1)\cdot C+C-1)=(OH\cdot OW \cdot OC)\cdot (R\cdot R\cdot C-1)$次，和乘法基本相同。</p><p>具体讨论算法的时候我们假设输入输出的通道数都是1，即$FLO=(OH\cdot OW)\cdot (R\cdot R)$。</p><ul><li>形式:$I_{OH\cdot OW}=Conv(I_{H\cdot W},K_R)$或$F(I_{OH\cdot OW},K_R)$</li></ul><h2 id="跑题：im2col"><a href="#跑题：im2col" class="headerlink" title="跑题：im2col"></a>跑题：im2col</h2><p>im2col是一种非常容易理解的矢量化（Vectorization）手段，具体而言就是把我们每次进行卷积操作时涉及到的元素展开一个列向量，最终得到一个$I_{(R\cdot R)\cdot (OH\cdot OW)}$的矩阵。</p><p><img src="fig_im2col.png" alt></p><p>按照同样的方法把卷积核展开，最后卷积操作就可以用一个矩阵乘法来表示</p><p><img src="fig_im2col_result.png" alt></p><p>这里输入是3个通道，输出是1个，相比写4个for循环，im2col大大加快了计算速度，但是没有减少计算量。</p><h2 id="Winograd"><a href="#Winograd" class="headerlink" title="Winograd"></a>Winograd</h2><p>我们能够想象的下界是：输入数据的每个元素至少参与一次乘法。这也是我们力求达到的目标，即乘法次数尽可能的靠近下界。</p><p>举个例子，$F(I_2,K_3)$表示输入信号$d=\left[ \begin{array}{llll}{d_{0}} &amp; {d_{1}} &amp; {d_{2}} &amp; {d_{3}}\end{array}\right]^{T}$，卷积核$g=\left[ \begin{array}{lll}{g_{0}} &amp; {g_{1}} &amp; {g_{2}}\end{array}\right]^{T}$的一维卷积操作。那么问题就可以表示为如下的形式：</p><p>$$F(I_2,K_3) = \left[ \begin{array}{lll}{d_{0}} &amp; {d_{1}} &amp; {d_{2}} \\ {d_{1}} &amp; {d_{2}} &amp; {d_{3}}\end{array}\right] \left[ \begin{array}{l}{g_{0}} \\ {g_{1}} \\ {g_{2}}\end{array}\right]=\left[ \begin{array}{c}{r_0} \\ {r_1}\end{array}\right]$$</p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 机器学习 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 卷积神经网络 </tag>
+            
+            <tag> Winograd </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>[动态规划]LeetCode-72.编辑距离</title>
       <link href="/2019/11/09/dong-tai-gui-hua-leetcode-72-bian-ji-ju-chi/"/>
       <url>/2019/11/09/dong-tai-gui-hua-leetcode-72-bian-ji-ju-chi/</url>
