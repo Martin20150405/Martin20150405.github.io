@@ -260,7 +260,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -385,6 +385,10 @@
                             <span class="chip bg-color">Winograd</span>
                         </a>
                         
+                        <a href="/tags/端侧推理/" target="_blank">
+                            <span class="chip bg-color">端侧推理</span>
+                        </a>
+                        
                     </div>
                     
                 </div>
@@ -419,14 +423,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.5k
+                    4.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    9 分
+                    17 分
                 </div>
                 
                 
@@ -450,7 +454,10 @@
 <li>模型复杂度：降低模型复杂度包括降低参数冗余的花式的卷积设计，如ShuffleNet中的分组卷积+通道混合，MobileNet中的Depthwise和Pointwise分解卷积等，以及模型的裁剪、量化和稀疏化。</li>
 <li>框架计算速度：目前主流的深度学习框架在加快计算上，一方面是利用数据SIMD的特性，进行硬件上并行化（SSE、Neon、线程并行），又或者通过一些矢量化手段（如Caffe、MXNet中的im2col）来充分利用软硬件的特点，实现更高的计算速度，另一方面则是像FFT、<a href="https://www.jianshu.com/p/dc67e4a3c841" target="_blank" rel="noopener">Strassen算法</a>以及Winograd算法等在卷积计算原理上不同的方法，从而减少了计算量。</li>
 </ul>
-<p>本文介绍的 Winograd 是存在已久最近被重新发现的方法（The Coppersmith-Winograd Matrix Multiplication Algorithm），在大部分场景中，Winograd 方法都显示和较大的优势，目前TF Lite、Tencent NCNN、Ali MNN 中计算卷积就使用了该方法。详述该方法并进行测试的是CVPR 2016中的一篇文章《Fast Algorithms for Convolutional Neural Networks》，本文主要以该文章来进行方法的介绍和讲解。换言之，我们的问题是需要在<strong>模型（耗时操作主要是小型卷积核如3x3的卷积）和设备确定</strong>的情况下，在<strong>Inference阶段</strong>尽可能快地计算卷积结果。</p>
+<p>本文介绍的 Winograd 是存在已久最近被重新发现的方法（The Coppersmith-Winograd Matrix Multiplication Algorithm），在大部分场景中，Winograd 方法都显示和较大的优势，目前TF Lite、Tencent NCNN、Ali MNN 中计算卷积就使用了该方法。详述该方法并进行测试的是CVPR 2016中的一篇文章《Fast Algorithms for Convolutional Neural Networks》，本文主要以该文章来进行方法的介绍和讲解。</p>
+<p>贴两张ARM报告的图来说明一下问题，换言之，我们的问题是需要在<strong>模型（耗时操作主要是小型卷积核如3x3的卷积）和设备确定</strong>的情况下，在<strong>Inference阶段</strong>尽可能快地计算卷积结果。</p>
+<p><img src="fig_arm_1.png" alt></p>
+<p><img src="fig_arm_2.png" alt></p>
 <h2 id="卷积问题定义"><a href="#卷积问题定义" class="headerlink" title="卷积问题定义"></a>卷积问题定义</h2><h3 id="符号"><a href="#符号" class="headerlink" title="符号"></a>符号</h3><p>$Image_{H\cdot W\cdot C}$:表示一张多通道（通常为三通道的）图片，使用$I$表示，下标视情况省略，当$C$为1时，表示灰度图，当$W$为1时，表示一维数据</p>
 <p>$Kernel_{R\cdot R}$：表示一个大小为$R$的二维卷积核，使用$K$表示</p>
 <p>$Height/Row,Width/Col,Channel/Depth$：分别表示一张图片的行，列，通道数</p>
@@ -482,17 +489,28 @@
 <p><img src="fig_conv_dlbook1.png" alt></p>
 <p><img src="fig_conv_dlbook2.png" alt></p>
 <p>在传统的图像处理领域，卷积核的参数是<strong>已知的</strong>（且往往是对称的），而在卷积神经网络中则成为了<strong>待定参数</strong>。实际上，虽然说将卷积核上下翻转并左右翻转（即旋转180度）才是真正的卷积操作，但是也可以认为卷积层做的就是卷积，只是特征矩阵是倒序存储的。又或者说由于卷积核的参数是可变的，这样做不但提高了效率也不影响结果。</p>
-<h2 id="跑题：im2col实现"><a href="#跑题：im2col实现" class="headerlink" title="跑题：im2col实现"></a>跑题：im2col实现</h2><p>im2col是一种非常容易理解的矢量化（Vectorization）手段，具体而言就是把我们每次进行卷积操作时涉及到的元素展开一个列向量，最终得到一个$I_{(R\cdot R)\cdot (OH\cdot OW)}$的矩阵，卷积核则拆成$K_{1\cdot (R\cdot R)}$的向量。</p>
+<h2 id="跑题：im2col实现"><a href="#跑题：im2col实现" class="headerlink" title="跑题：im2col实现"></a>跑题：im2col实现</h2><p>im2col是一种非常容易理解的矢量化（Vectorization）手段，基于im2col和GEMM（ General Matrix Multiplication ）的方法可以获得较正常卷积计算较高的加速比，具体而言就是把我们每次进行卷积操作时涉及到的元素展开一个列向量，最终得到一个$I_{(R\cdot R)\cdot (OH\cdot OW)}$的矩阵，卷积核则拆成$K_{1\cdot (R\cdot R)}$的向量。</p>
 <p><img src="fig_im2col.png" alt></p>
-<p>按照同样的方法把卷积核展开，最后卷积操作就可以用一个矩阵乘法来表示</p>
+<p>按照同样的方法把卷积核展开，最后卷积操作就可以用一个矩阵乘法来表示，计算完成后，再使用col2im将结果转换为图片。</p>
 <p><img src="fig_im2col_result.png" alt></p>
-<p>这里输入是3个通道，输出是1个，相比写4个for循环，im2col<strong>大大加快了计算速度</strong>（矩阵乘法可并行，数据在内存中的存储连续，Cache命中率提高），但是<strong>没有减少计算量，且内存占用倍增</strong>，另外，生成多通道矩阵依然需要写5个循环（NHWCRR），算是一种用空间来换取时间的做法。关于Caffe中im2col和col2im的实现可以看<a href="https://blog.csdn.net/jiongnima/article/details/69736844" target="_blank" rel="noopener">这里</a>，具体的实现细节其实和我们理解的过程是有较大不同的。</p>
-<h2 id="Winograd"><a href="#Winograd" class="headerlink" title="Winograd"></a>Winograd</h2><h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>如何才能变得更高更快更强呢，由于计算一次乘法所需要的时钟周期要比计算一次加法大很多，对于乘法操作我们能够想象的下界是：输入数据的每个元素至少参与一次乘法。这也是我们力求达到的目标，即乘法次数尽可能的靠近下界。</p>
+<p>这里输入是3个通道，输出是1个，相比写4个for循环，im2col<strong>大大加快了计算速度</strong>（矩阵乘法可并行，数据在内存中的存储连续，Cache命中率提高），但是<strong>没有减少计算量，且内存占用几乎倍增</strong>，另外，生成多通道矩阵依然需要写5个循环（NHWCRR），算是一种用空间来换取时间的做法。关于Caffe中im2col和col2im的实现可以看<a href="https://blog.csdn.net/jiongnima/article/details/69736844" target="_blank" rel="noopener">这里</a>，具体的实现细节其实和我们理解的过程是有较大不同的。</p>
+<p><img src="fig_arm_3.png" alt></p>
+<p>需要强调的一点是，由于我们的硬件设计就是良好支持并行化的，所以<strong>算得少</strong>和<strong>算得快</strong>并不能简单的认为是一回事。</p>
+<p>Caffe原作者贾扬清对其框架中卷积实现的吐槽可以看<a href="https://github.com/Yangqing/caffe/wiki/Convolution-in-Caffe:-a-memo" target="_blank" rel="noopener">这里</a>，摘录一段如下：</p>
+<blockquote>
+<p>In the last few months chatting with people about Caffe, a common comment I got was: “<em>Caffe’s convolution has some memory issues</em>.”</p>
+<p>While this is true in some sense, I am not sure whether it is truly an issue - rather, <strong>it is a graduate-student level design choice when I was writing the Caffe framework in just 2 months’ budget with a looming thesis deadline.</strong> It turns out to have its own pros (faster than any trivial implementation unless you optimize really seriously) and cons (large memory consumption). A more detailed explanation follows, if you are interested.</p>
+<p>……</p>
+<p>Thus, I took a simpler approach: reduce the problem to a simpler one, where others have already optimized it really well. </p>
+</blockquote>
+<p>关于傅里叶变换计算卷积的方法在卷积神经网络中并不是很常用（因为一般还没直接算快），可以参看<a href="https://www.zhihu.com/question/264307400" target="_blank" rel="noopener">这个</a>，Strassen则是在矩阵较大时具有较好的加速效果，具体的方法细节之后再详细说</p>
+<p>（因为作者也没完全看懂╮(￣▽￣)╭）。</p>
+<h2 id="Winograd"><a href="#Winograd" class="headerlink" title="Winograd"></a>Winograd</h2><h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p>在我们的硬件受限的情况下（例如只有单核CPU），如何才能变得更高更快更强呢，由于计算一次乘法所需要的时钟周期要比计算一次加法大很多，对于乘法操作我们能够想象的下界是：输入数据的每个元素至少参与一次乘法。这也是我们力求达到的目标，即乘法次数尽可能的靠近下界。</p>
 <p>形式化的表述，针对一个输出长度为$m$，卷积核大小为$r$的卷积运算，其所需要的最小乘法次数与输入数据的长度相同：</p>
 <p>$$\mu(F(I_m, K_r))=m+r-1=H$$</p>
 <p>每个维度相对独立，因此拓展到二维的情况也是一样的：</p>
 <p>$$\begin{aligned} \mu(F(I_{m \cdot n}, K_{r \cdot s})) =\mu(F(I_{m}, K_{r})) \mu(F(I_{n}, K_{s})) =(m+r-1)(n+s-1) \end{aligned}=H \cdot W$$</p>
-<p>根据该理论，在卷积核较小的情况下，我们可以获得相对普通卷积计算而言较大的加速比。该理论最早由<code>Shmuel Winograd</code>于1980年提出，是本文最重要的理论之一。</p>
+<p>根据该理论，在卷积核较小的情况下，我们可以获得相对普通卷积计算而言较大的加速比。该理论最早由<code>Shmuel Winograd</code>于1980年提出，是本文最重要的理论，没有之一。</p>
 <h4 id="F-I-2-K-3-与-F-I-2-cdot-2-K-3-cdot-3"><a href="#F-I-2-K-3-与-F-I-2-cdot-2-K-3-cdot-3" class="headerlink" title="$F(I_2,K_3)$与$F(I_{2\cdot 2},K_{3 \cdot 3})$"></a>$F(I_2,K_3)$与$F(I_{2\cdot 2},K_{3 \cdot 3})$</h4><p>举个例子，$F(I_2,K_3)$表示输入信号$d=\left[ \begin{array}{llll}{d_{0}} &amp; {d_{1}} &amp; {d_{2}} &amp; {d_{3}}\end{array}\right]^{T}$，卷积核$g=\left[ \begin{array}{lll}{g_{0}} &amp; {g_{1}} &amp; {g_{2}}\end{array}\right]^{T}$的一维卷积操作。那么问题就可以表示为如下的形式：</p>
 <p>$$F(I_2,K_3) = \left[ \begin{array}{lll}{d_{0}} &amp; {d_{1}} &amp; {d_{2}} \\ {d_{1}} &amp; {d_{2}} &amp; {d_{3}}\end{array}\right] \left[ \begin{array}{l}{g_{0}} \\ {g_{1}} \\ {g_{2}}\end{array}\right]=\left[ \begin{array}{c}{r_0} \\ {r_1}\end{array}\right]$$</p>
 <p> 如果是一般的矩阵乘法，则需要<strong>6次乘法和4次加法</strong>，如下： </p>
@@ -502,33 +520,83 @@
 <p>$$F(I_2,K_3) = \left[ \begin{array}{lll}{d_{0}} &amp; {d_{1}} &amp; {d_{2}} \\ {d_{1}} &amp; {d_{2}} &amp; {d_{3}}\end{array}\right] \left[ \begin{array}{l}{g_{0}} \\ {g_{1}} \\ {g_{2}}\end{array}\right]=\left[ \begin{array}{c}{m_{1}+m_{2}+m_{3}} \\ {m_{2}-m_{3}-m_{4}}\end{array}\right]$$</p>
 <p>其中，</p>
 <p>$$\begin{array}{ll}{m_{1}=\left(d_{0}-d_{2}\right) g_{0}} &amp; {m_{2}=\left(d_{1}+d_{2}\right) \frac{g_{0}+g_{1}+g_{2}}{2}} \\ {m_{4}=\left(d_{1}-d_{3}\right) g_{2}} &amp; {m_{3}=\left(d_{2}-d_{1}\right) \frac{g_{0}-g_{1}+g_{2}}{2}}\end{array}$$</p>
-<p><strong>在神经网络的推理阶段，卷积核$g$上的元素是固定的</strong>，共3次加法与两次乘法，因此$g$相关的运算可以提前算好，预测阶段只需计算一次，可以忽略，所以一共所需的运算次数<strong>4次乘法和8次加法/减法</strong>。 速度提升比例为<strong>1.5倍</strong>。</p>
-<p>可是这怎么就能减少计算量呢，会不会得到的结果不一样？有兴趣的童鞋可以自行把所有符号代入化简，针对这个例子，得到的结果是完全相同的！当然在具体计算的时候可能会存在浮点精度误差。因此在这个例子里面完全就是仅仅使用不同的数学表示达到了减少计算量的目的。</p>
+<p><strong>在神经网络的推理阶段，卷积核$g$上的元素是固定的</strong>，共3次加法与2次乘法，因此$g$相关的运算可以提前算好，预测阶段只需计算一次，可以忽略，所以一共所需的运算次数<strong>4次乘法和8次加法/减法</strong>。 速度提升比例为<strong>1.5倍</strong>。</p>
+<p>可是这怎么就能减少计算量呢，会不会得到的结果不一样？有兴趣的童鞋可以自行把所有符号代入化简，针对这个例子，得到的结果是<strong>完全相同</strong>的！当然在具体计算的时候可能会存在浮点精度误差。因此在这个例子里面完全就是仅仅使用不同的数学表示达到了减少计算量的目的，真是太巧妙了。</p>
+<h4 id="一维卷积形式化表述"><a href="#一维卷积形式化表述" class="headerlink" title="一维卷积形式化表述"></a>一维卷积形式化表述</h4><p>上述例子可以用通用矩阵乘法（GEMM）和元素级乘法（EWMM）的混合矩阵变换来形式化表述。</p>
+<p>一维卷积的形式化表述如下：</p>
+<p>$$Y=A^{T}\left[(G g) \odot\left(B^{T} d\right)\right]$$</p>
+<p>详细解释如下：</p>
+<ul>
+<li>$g$：卷积核 ，维度$r\cdot 1$</li>
+<li>$d$：输入信号，维度$H\cdot 1$</li>
+<li>$G$：Filter transform矩阵，用于将卷积核变换到另一个空间，维度$(m+r-1)\cdot r=H \cdot r$</li>
+<li>$B^T$：Input transform矩阵，用于将输入数据变换到另一个空间，维度$(m+r-1)\cdot (m+r-1)=H \cdot H$</li>
+<li>$A^T$：Output transform矩阵，用于将数据转换回输出空间，维度$m\cdot (m+r-1)=m*H$</li>
+<li>$Y$：卷积结果，维度$m\cdot 1$</li>
+</ul>
+<p>其中，$\odot$表示对应位置相乘，暗示此处两个矩阵的维度是一致的，上面的例子里面具体的参数如下，</p>
+<p>$$B^{T}=\left[ \begin{array}{cccc}{1} &amp; {0} &amp; {-1} &amp; {0} \\ {0} &amp; {1} &amp; {1} &amp; {0} \\ {0} &amp; {-1} &amp; {1} &amp; {0} \\ {0} &amp; {1} &amp; {0} &amp; {-1}\end{array}\right]$$</p>
+<p>$$G=\left[ \begin{array}{ccc}{1} &amp; {0} &amp; {0} \\ {\frac{1}{2}} &amp; {\frac{1}{2}} &amp; {\frac{1}{2}} \\ {\frac{1}{2}} &amp; {-\frac{1}{2}} &amp; {\frac{1}{2}} \\ {0} &amp; {0} &amp; {1}\end{array}\right]$$</p>
+<p>$$A^{T}=\left[ \begin{array}{llll}{1} &amp; {1} &amp; {1} &amp; {0} \\ {0} &amp; {1} &amp; {-1} &amp; {-1}\end{array}\right]$$</p>
+<p>$$g=\left[ \begin{array}{lll}{g_{0}} &amp; {g_{1}} &amp; {g_{2}}\end{array}\right]^{T},d=\left[ \begin{array}{llll}{d_{0}} &amp; {d_{1}} &amp; {d_{2}} &amp; {d_{3}}\end{array}\right]^{T}$$</p>
+<p>整个计算过程在逻辑上可以分为4步：</p>
+<ul>
+<li>Input transform</li>
+<li>Filter transform</li>
+<li>Hadamard product（ 哈达玛积 ）</li>
+<li>Output transform</li>
+</ul>
+<p>此处，$A^{T}$即$m$前面的系数，$B^{T}$即数据$d$前面的系数，$G$即卷积核$g$前面的系数，由于卷积核相关参数是提前计算好的，虽然我们将卷积的过程表述成了矩阵乘法的形式，<strong>但是此处只有$\odot$包含了乘法</strong>，其他的系数全是$\pm 1$，因此只有加减法。之后会提到具体如何实现，有兴趣的同学可以先自己思考一下下。</p>
+<h4 id="二维卷积形式化表述"><a href="#二维卷积形式化表述" class="headerlink" title="二维卷积形式化表述"></a>二维卷积形式化表述</h4><p>文中关于一维卷积向二维卷积的扩展只有寥寥数语：</p>
+<blockquote>
+<p>A minimal 1D algorithm $F(m, r)$ is nested with itself to obtain a minimal 2D algorithm.</p>
+<p>The nesting technique can be generalized for non-square filters and outputs,$F(m × n, r × s)$,<br>by nesting an algorithm for $F(m, r)$ with an algorithm for $F(n, s)$.</p>
+</blockquote>
+<p>文中给出的二维卷积形式化表述如下：</p>
+<p>$$Y=A^{T}\left[\left[G g G^{T}\right] \odot\left[B^{T} d B\right]\right] A$$</p>
+<p>详细解释如下：</p>
+<ul>
+<li>$g$：卷积核 ，维度$r\cdot r$</li>
+<li>$d$：输入信号，维度$H\cdot H$</li>
+<li>$G$：Filter transform矩阵，用于将卷积核变换到另一个空间，维度$(m+r-1)\cdot r=H \cdot r$</li>
+<li>$B^T$：Input transform矩阵，用于将输入数据变换到另一个空间，维度$(m+r-1)\cdot (m+r-1)=H \cdot H$</li>
+<li>$A^T$：Output transform矩阵，用于将数据转换回输出空间，维度$m\cdot (m+r-1)=m*H$</li>
+<li>$Y$：卷积结果，维度$m\cdot m$</li>
+</ul>
+<p>对于$F(I_{2\cdot 2},K_{3 \cdot 3})$，其中所有矩阵中的参数，包括$G$，$B^T$，$A^T$都是和$F(I_2,K_3)$一样的。</p>
+<p>依然只有$\odot$包含了乘法，乘法的次数为16次，相比于标准卷积的次数$36=2\times 2 \times 3 \times 3$，速度提升比例为<strong>2.25倍</strong>。其中Input transform包括$32=4\times 4 \times 2$次加法，Filter transform包括28次浮点数操作（预先计算），Output transform（Inverse transform）包括$24=2\times 2 \times 3 \times 2$次加法。</p>
+<p>等等，怎么就<code>nested with itself</code>了，参数还是一样的？</p>
 <p>那么问题来了：</p>
 <ul>
-<li>该理论是否对于所有的卷积情况都适用</li>
-<li>如何证明</li>
+<li>二维卷积的形式化表述是否正确，如何证明</li>
+<li>通常输入的图像尺寸都较大，如何使用Winograd对其进行卷积计算，难道要实现$F(I_{448\cdot 448}, K_{3 \cdot 3})$吗，三维的卷积（卷积神经网络中的实际情况）该如何实现</li>
+<li>该理论是否对于所有的卷积情况都适用，如何证明</li>
 <li>上面形式化表示中所使用的矩阵参数该如何获得</li>
+<li>形式化表示中的矩阵乘法看起来似乎比常规卷积做了更多的乘法操作，真正的算法实现是如何转换成加法的</li>
 </ul>
-<h3 id="证明"><a href="#证明" class="headerlink" title="证明"></a>证明</h3><h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
-<li></li>
+<h4 id="二维卷积形式化推导"><a href="#二维卷积形式化推导" class="headerlink" title="二维卷积形式化推导"></a>二维卷积形式化推导</h4><p>我们先来解决第一个问题，</p>
+<h3 id="基于Winograd的卷积计算算法流程"><a href="#基于Winograd的卷积计算算法流程" class="headerlink" title="基于Winograd的卷积计算算法流程"></a>基于Winograd的卷积计算算法流程</h3><p>第二个问题，其实我们并不会真的去实现$F(I_{448\cdot 448}, K_{3 \cdot 3})$，而是将图片划分成多个相同大小部分重叠的<code>tile</code>，在此基础上使用如$F(I_{2\cdot 2},K_{3 \cdot 3})$的方式来计算，最后合并统计结果。对于三维卷积，实际上是和标准卷积一样，逐层做二维卷积，再每层对应位置结果相加。但除此之外，针对多个卷积核还有更加巧妙的做法<strong>TODO</strong>。</p>
+<p><code>tile</code>在此处代表一个图像块，具体划分方式如下：</p>
+<h3 id="证明"><a href="#证明" class="headerlink" title="证明"></a>证明</h3><h4 id="—-理论证明相关"><a href="#—-理论证明相关" class="headerlink" title="—-理论证明相关"></a>—-理论证明相关</h4><h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><h4 id="算法复杂度分析"><a href="#算法复杂度分析" class="headerlink" title="算法复杂度分析"></a>算法复杂度分析</h4><h4 id="实验设定与结果"><a href="#实验设定与结果" class="headerlink" title="实验设定与结果"></a>实验设定与结果</h4><h3 id="实现"><a href="#实现" class="headerlink" title="实现"></a>实现</h3><h4 id="矩阵参数获取"><a href="#矩阵参数获取" class="headerlink" title="矩阵参数获取"></a>矩阵参数获取</h4><h4 id="端侧推理"><a href="#端侧推理" class="headerlink" title="端侧推理"></a>端侧推理</h4><h2 id="跑题：-NC-4HW4"><a href="#跑题：-NC-4HW4" class="headerlink" title="跑题： NC/4HW4"></a>跑题： NC/4HW4</h2><p>NC/4HW4第一个4表示把原feature map的通道按4分组不够补0，然后每组内的4个feature map按照RGBA交织排列。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>Winograd算法存在一定的计算精度损失。不过CNN模型需要的计算精度实际上很低，例如有用fp16、int8实现CNN的方法，也有用更低bit数甚至binary计算实现的方法，它们都有不错的ImageNet分类精度。 </li>
+<li>Winograd算法可以用矩阵形式来表示，但是具体实现时，并不意味着要调用矩阵运算的接口，为了更快的计算速度，通常会直接将计算展开，故代码量较大，且对于不同的<code>tile</code>大小需要专门定制的代码（好在也就那么几种），通常卷积核的大小为$2\times 2$到$7\times 7$。</li>
 <li></li>
 </ul>
 <h2 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h2><ul>
-<li><p><a href="https://www.cnblogs.com/shine-lee/p/10906535.html" target="_blank" rel="noopener">卷积神经网络中的Winograd快速卷积算法</a></p>
-</li>
-<li><p><a href="https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Lavin_Fast_Algorithms_for_CVPR_2016_paper.pdf" target="_blank" rel="noopener">Fast Algorithms for Convolutional Neural Networks</a></p>
-</li>
-<li><p><a href>Shmuel Winograd. Arithmetic complexity of computations</a></p>
-</li>
-<li><p><a href="https://zhuanlan.zhihu.com/p/71816894" target="_blank" rel="noopener">开源背后 | 面对端侧推理引擎的挑战，阿里工程师如何应对</a></p>
-</li>
-<li><p><a href="https://github.com/Tencent/FeatherCNN/blob/booster/src/booster/arm/winograd_kernels.cpp" target="_blank" rel="noopener">FeatherCNN实现</a></p>
-</li>
-<li><p><a href="https://zhuanlan.zhihu.com/p/51569443" target="_blank" rel="noopener">深度学习轻量级推理及加速</a></p>
-</li>
-<li><p><a href="https://zhuanlan.zhihu.com/p/67117914" target="_blank" rel="noopener">【移动端DL框架】当前主流的移动端深度学习框架一览</a></p>
-</li>
+<li><a href="https://www.cnblogs.com/shine-lee/p/10906535.html" target="_blank" rel="noopener">卷积神经网络中的Winograd快速卷积算法</a></li>
+<li><a href="https://www.cv-foundation.org/openaccess/content_cvpr_2016/papers/Lavin_Fast_Algorithms_for_CVPR_2016_paper.pdf" target="_blank" rel="noopener">Paper-CVPR 2016-Fast Algorithms for Convolutional Neural Networks</a></li>
+<li><a href="https://books.google.com/books?id=wANiW8bGQpEC" target="_blank" rel="noopener">Book-Shmuel Winograd.1980 Arithmetic complexity of computations</a></li>
+<li><a href="https://yq.aliyun.com/articles/707074" target="_blank" rel="noopener">开源背后 | 面对端侧推理引擎的挑战，阿里工程师如何应对</a></li>
+<li><a href="https://github.com/Tencent/FeatherCNN/blob/booster/src/booster/arm/winograd_kernels.cpp" target="_blank" rel="noopener">Tencent FeatherCNN实现</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/51569443" target="_blank" rel="noopener">深度学习轻量级推理及加速</a></li>
+<li><a href="https://zhuanlan.zhihu.com/p/67117914" target="_blank" rel="noopener">【移动端DL框架】当前主流的移动端深度学习框架一览</a></li>
+<li><a href="https://www.bilibili.com/video/av50718398" target="_blank" rel="noopener">Video-Fast Algorithms for Convolutional Neural Networks by Andrew Lavin and Scott Gray</a></li>
+<li><a href="https://www.bilibili.com/video/av53072685" target="_blank" rel="noopener">Video-Even Faster CNNs Exploring the New Class of Winograd Algorithms</a></li>
+<li><a href="https://www.slideshare.net/embeddedvision/even-faster-cnns-exploring-the-new-class-of-winograd-algorithms-a-presentation-from-arm?from_action=save" target="_blank" rel="noopener">PPT-算法解析</a></li>
+<li><a href="https://arxiv.org/abs/1810.01973" target="_blank" rel="noopener">Paper-Sparse Winograd Convolutional neural networks on small-scale systolic arrays</a> </li>
+<li><a href="https://github.com/andravin/wincnn" target="_blank" rel="noopener">Code-参数生成 andravin/wincnn</a></li>
+<li></li>
 </ul>
 
             </div>
@@ -761,7 +829,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="[DL]Winograd快速卷积算法">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="[DL]Winograd快速卷积算法">
                         
                         <span class="card-title">[DL]Winograd快速卷积算法</span>
                     </div>
@@ -802,6 +870,10 @@
                         <span class="chip bg-color">Winograd</span>
                     </a>
                     
+                    <a href="/tags/端侧推理/" target="_blank">
+                        <span class="chip bg-color">端侧推理</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -817,7 +889,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="[动态规划]LeetCode-72.编辑距离">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="[动态规划]LeetCode-72.编辑距离">
                         
                         <span class="card-title">[动态规划]LeetCode-72.编辑距离</span>
                     </div>
@@ -1025,7 +1097,7 @@
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">5.1k</span>
+            <span class="white-color">7k</span>
             
 
             <br>
