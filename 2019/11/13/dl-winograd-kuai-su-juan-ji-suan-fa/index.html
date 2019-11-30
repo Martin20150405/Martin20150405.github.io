@@ -276,7 +276,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/0.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/4.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -762,7 +762,7 @@ pprint<span class="token punctuation">(</span>simplify<span class="token punctua
 <p>原方程组则等价于$x\equiv x_1 (\mod m)$，这样就消去了一个方程，和剩下的方程联立直到满足$m_1, m_2, …, m_n$满足两两互质即可。</p>
 <h4 id="多项式概念扩展"><a href="#多项式概念扩展" class="headerlink" title="多项式概念扩展"></a>多项式概念扩展</h4><p>可以将整数的欧几里得除法定义扩展到多项式，用长除法来表示：<br>$$<br>\begin{align} \frac{x^4 + x^3 - x^2 + 3x + 2}{x^3 + 3x^2 + 3x + 2} &amp;= \frac{-2x^3 - 4x^2 + x + 2}{x^3 + 3x^2 + 3x + 2} + (x) \\ &amp;= \frac{2x^2 + 7x + 6}{x^3 + 3x^2 + 3x + 2} + (x-2) \end{align}<br>$$<br>$q(x)$为除数，$r(x)$为余数， 长除法除到最后余数的最高次幂小于除数的最高次幂即可。<br>$$<br>{x^4 + x^3 - x^2 + 3x + 2} = (x-2)\,\underbrace{(x^3 + 3x^2 + 3x + 2)}_{q(x)}  +\underbrace{(2x^2 + 7x + 6)}_{r(x)}<br>$$<br>可以按照同样的方式来定义GCD：<br>$$<br>x^2 + 7x + 6 = (x + 1)(x + 6)\<br>x^2 − 5x − 6 = (x + 1)(x − 6)<br>$$<br>则两多项式的GCD为$(x+1)$，此时的互质是说两个多项式除零次多项式（常数）外不再有其他的公因式 。</p>
 <p>类似的，贝祖定理、扩展欧几里得定理，中国剩余定理的解$ x \equiv \sum^n_{i=1} a_i N_i t_i  (mod\ N) $也可以被扩展到多项式：<br>$$<br>CRT(x)\equiv \left(\sum_{i=0}^na^{(i)}(x)N^{(i)}(x)t^{(i)}(x)\right)(mod\ {N(x)})<br>$$<br>在多项式中有一个<strong>度（degree）</strong>的概念，即多项式中包含的最高次项的次数。</p>
-<h4 id="拉格朗日多项式插值法"><a href="#拉格朗日多项式插值法" class="headerlink" title="拉格朗日多项式插值法"></a>拉格朗日多项式插值法</h4><h4 id="Cook-Toom-Algorithm"><a href="#Cook-Toom-Algorithm" class="headerlink" title="Cook-Toom Algorithm"></a>Cook-Toom Algorithm</h4><h4 id="Winograd-Algorithm-for-F-I-2-cdot-2-K-3-cdot-3"><a href="#Winograd-Algorithm-for-F-I-2-cdot-2-K-3-cdot-3" class="headerlink" title="Winograd Algorithm for $F(I_{2\cdot 2},K_{3 \cdot 3})$"></a>Winograd Algorithm for $F(I_{2\cdot 2},K_{3 \cdot 3})$</h4><h4 id="Winograd-Algorithm-for-F-I-4-cdot-4-K-3-cdot-3"><a href="#Winograd-Algorithm-for-F-I-4-cdot-4-K-3-cdot-3" class="headerlink" title="Winograd Algorithm for $F(I_{4\cdot 4},K_{3 \cdot 3})$"></a>Winograd Algorithm for $F(I_{4\cdot 4},K_{3 \cdot 3})$</h4><h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><h4 id="总流程"><a href="#总流程" class="headerlink" title="总流程"></a>总流程</h4><p>我们计算的总流程可以用下图（来源：2019 GMTC 全球大前端技术大会，阿里MNN组）表示，其中所有矩阵中的参数都是提前计算好的，在我们拿到卷积核的参数时可以先对其进行预处理，针对数据的变换和输出的变换则实时计算：</p>
+<h4 id="卷积与多项式乘法"><a href="#卷积与多项式乘法" class="headerlink" title="卷积与多项式乘法"></a>卷积与多项式乘法</h4><h4 id="拉格朗日多项式插值法"><a href="#拉格朗日多项式插值法" class="headerlink" title="拉格朗日多项式插值法"></a>拉格朗日多项式插值法</h4><h4 id="Cook-Toom-Algorithm"><a href="#Cook-Toom-Algorithm" class="headerlink" title="Cook-Toom Algorithm"></a>Cook-Toom Algorithm</h4><h4 id="Winograd-Algorithm-for-F-I-2-cdot-2-K-3-cdot-3"><a href="#Winograd-Algorithm-for-F-I-2-cdot-2-K-3-cdot-3" class="headerlink" title="Winograd Algorithm for $F(I_{2\cdot 2},K_{3 \cdot 3})$"></a>Winograd Algorithm for $F(I_{2\cdot 2},K_{3 \cdot 3})$</h4><h4 id="Winograd-Algorithm-for-F-I-4-cdot-4-K-3-cdot-3"><a href="#Winograd-Algorithm-for-F-I-4-cdot-4-K-3-cdot-3" class="headerlink" title="Winograd Algorithm for $F(I_{4\cdot 4},K_{3 \cdot 3})$"></a>Winograd Algorithm for $F(I_{4\cdot 4},K_{3 \cdot 3})$</h4><h3 id="实验"><a href="#实验" class="headerlink" title="实验"></a>实验</h3><h4 id="总流程"><a href="#总流程" class="headerlink" title="总流程"></a>总流程</h4><p>我们计算的总流程可以用下图（来源：2019 GMTC 全球大前端技术大会，阿里MNN组）表示，其中所有矩阵中的参数都是提前计算好的，在我们拿到卷积核的参数时可以先对其进行预处理，针对数据的变换和输出的变换则实时计算：</p>
 <p><img src="fig_winograd_implementation_overview.png" alt></p>
 <h4 id="计算优化"><a href="#计算优化" class="headerlink" title="计算优化"></a>计算优化</h4><p>在扩展到$F(I_{4\cdot 4},K_{3 \cdot 3})$时，我们并没有给出具体的计算方式，只给了矩阵的参数。和$F(I_{2\cdot 2},K_{3 \cdot 3})$类似的，其中很多计算都可以被复用。我们观察矩阵，给相关联的元素标上色：</p>
 <p><img src="fig_winograd_f43_matrix.jpg" alt></p>
@@ -1490,32 +1490,32 @@ pprint<span class="token punctuation">(</span>simplify<span class="token punctua
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
-            </div>
+                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
             <div class="card">
-                <a href="/2019/11/13/dl-winograd-kuai-su-juan-ji-suan-fa/">
+                <a href="/2019/11/27/ml-tong-ji-xue-xi-cong-ru-men-dao-fang-qi-1/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/0.jpg" class="responsive-img" alt="[DL]Winograd快速卷积算法">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="[ML]-统计学习从入门到放弃-1（卡尔曼滤波与粒子滤波）">
                         
-                        <span class="card-title">[DL]Winograd快速卷积算法</span>
+                        <span class="card-title">[ML]-统计学习从入门到放弃-1（卡尔曼滤波与粒子滤波）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            前言卷积神经网络是很多任务尤其是计算机视觉任务的基础，但很大程度上，模型需要的大量卷积计算限制了模型的可用性。因此，如何快速的完成卷积操作就至关重要。
-此处的卷积是指图像处理领域的卷积操作，且数据通常为多通道的二维数组，卷积核的长宽相等。
+                            蒙特卡罗方法蒙特卡罗（Monte Carlo）方法又称统计模拟方法，是通过从概率模型的随机抽样进行近似数值计算的方法。
+维基上介绍的基本思想如下：
 
+通常蒙特卡罗方法可以粗略地分成两类：一类是所求解的问题本身具有内在的随机性，借助计算机的运
                         
                     </div>
                     <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-13
-                            </span>
+                        <span class="publish-date">
+                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-27
+                        </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -1528,20 +1528,23 @@ pprint<span class="token punctuation">(</span>simplify<span class="token punctua
                         </span>
                     </div>
                 </div>
-
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/卷积神经网络/" target="_blank">
-                        <span class="chip bg-color">卷积神经网络</span>
+                    <a href="/tags/卡尔曼滤波器/" target="_blank">
+                        <span class="chip bg-color">卡尔曼滤波器</span>
                     </a>
                     
-                    <a href="/tags/Winograd/" target="_blank">
-                        <span class="chip bg-color">Winograd</span>
+                    <a href="/tags/粒子滤波器/" target="_blank">
+                        <span class="chip bg-color">粒子滤波器</span>
                     </a>
                     
-                    <a href="/tags/端侧推理/" target="_blank">
-                        <span class="chip bg-color">端侧推理</span>
+                    <a href="/tags/蒙特卡罗方法/" target="_blank">
+                        <span class="chip bg-color">蒙特卡罗方法</span>
+                    </a>
+                    
+                    <a href="/tags/贝叶斯理论/" target="_blank">
+                        <span class="chip bg-color">贝叶斯理论</span>
                     </a>
                     
                 </div>
@@ -1559,7 +1562,7 @@ pprint<span class="token punctuation">(</span>simplify<span class="token punctua
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="[动态规划]LeetCode-72.编辑距离">
+                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="[动态规划]LeetCode-72.编辑距离">
                         
                         <span class="card-title">[动态规划]LeetCode-72.编辑距离</span>
                     </div>
@@ -1767,7 +1770,7 @@ pprint<span class="token punctuation">(</span>simplify<span class="token punctua
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">16.5k</span>
+            <span class="white-color">21.2k</span>
             
 
             <br>
