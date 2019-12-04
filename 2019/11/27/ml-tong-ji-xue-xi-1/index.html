@@ -554,7 +554,7 @@
 <h4 id="序列重要性重采样（Sequential-Importance-Resampling-SIR）"><a href="#序列重要性重采样（Sequential-Importance-Resampling-SIR）" class="headerlink" title="序列重要性重采样（Sequential Importance Resampling, SIR）"></a>序列重要性重采样（Sequential Importance Resampling, SIR）</h4><p>经过几次迭代之后，很多例子的权重都变小到可以忽略不计，这就是SIS会造成的<strong>退化问题（degeneracy problem）</strong> 。我们定义有效粒子数为：<br>$$<br>\widehat{N_{e f f}}=\frac{1}{\sum_{i=1}^{N}\left(w_{k}^{(i)}\right)^{2}}<br>$$<br>若有效粒子数小于某一阈值，则对粒子做重采样，即可减缓退化问题。重采样的概念是去除权重过小的粒子，专注于权重较大的粒子。进行重采样时，要<strong>由现有的粒子分布取样</strong>，产生一组新的粒子。由于新样本独立同分布，因此权重重新设定为$\frac{1}{N}$。</p>
 <p>粒子滤波的核心思想是随机采样+重要性重采样+预测，如下图所示：</p>
 <p><img src="fig_particle_filter.jpg" alt></p>
-<p>若我们选取$q\left(x_{k}^{(i)} | x_{k-1}^{(i)}, y_{1: k}\right)=p(x_k\mid x_{k-1})$，则采样方式被确定，权重更新也可以被化简为$w_{k}^{(i)} \propto w_{k-1}^{(i)} p\left(y_{k} | x_{k}^{(i)}\right)$。</p>
+<p>若我们选取$q\left(x_{k}^{(i)} | x_{k-1}^{(i)}, y_{1: k}\right)=p(x_k\mid x_{k-1})$，则采样方式被确定，权重更新也可以被化简为$w_{k}^{(i)} \propto w_{k-1}^{(i)} p\left(y_{k} | x_{k}^{(i)}\right)$。该想法被称为“Generate and Test”，即根据状态生成现有观测，若生成的概率越大则采样的权重也就越大。</p>
 <h4 id="SIR算法流程"><a href="#SIR算法流程" class="headerlink" title="SIR算法流程"></a>SIR算法流程</h4><p>前提：$k-1$时刻的采样已经完成，$w_{k-1}^{(i)}$已知。</p>
 <ul>
 <li><p>SIS：针对所有样本进行采样，并更新样本权重<br>$$<br>\begin{aligned} &amp;for \ i=1,\cdots ,N \\x_k^{(i)}&amp;\thicksim q(x_k\mid x_{k-1},y_{1:k}) \\w_{k}^{(i)} &amp; \propto w_{k-1}^{(i)} \frac{p\left(y_{k} | x_{k}^{(i)}\right) p\left(x_{k}^{(i)} | x_{k-1}^{(i)}\right)}{q\left(x_{k}^{(i)} | x_{k-1}^{(i)}, y_{1: k}\right)}\end{aligned}<br>$$</p>
