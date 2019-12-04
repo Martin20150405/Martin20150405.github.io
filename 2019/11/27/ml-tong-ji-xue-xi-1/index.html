@@ -444,14 +444,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.1k
+                    5.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    21 分
+                    22 分
                 </div>
                 
                 
@@ -510,9 +510,14 @@
 <p>下图中使用了$x$来表示观测，$z$表示状态（潜变量）：</p>
 <p><img src="fig_state_model.jpg" alt></p>
 <p>实际上因为我们是先进行预测操作，因此$k$时刻的模型噪声实际上是用$u_{k-1}$来表示。算法是迭代/递归的，在系统中我们不需要保存以往的观测数据，只需要根据目前的观测、之前的计算结果以及动态更新的函数即可。</p>
+<p>这里实际上遵循了两个假设，这在预测和更新的推导中非常重要：</p>
+<ul>
+<li>（时间）齐次（一阶）马尔科夫假设：状态只与前一个状态有关</li>
+<li>观测独立假设：每一个观测互相独立</li>
+</ul>
 <h3 id="非线性贝叶斯跟踪"><a href="#非线性贝叶斯跟踪" class="headerlink" title="非线性贝叶斯跟踪"></a>非线性贝叶斯跟踪</h3><p>从贝叶斯理论的观点来看，实时跟踪系统的状态就是根据到时间$k$为止的已知信息（观测）$y_{1:k}$，来递归地计算出状态$x_k$的可信度，用概率密度函数$p(x_k\mid y_{1:k})$来表示。</p>
 <p>我们假设初始概率密度函数$p(x_0\mid y_{0})\equiv p(x_0)$是已知（先验概率）的，则通过迭代<strong>预测</strong>和<strong>更新</strong>两个步骤就可以递归地计算出$p(x_k\mid y_{1:k})$。</p>
-<p>假设$p(x_{k-1}\mid y_{1:k-1})$已知，在$k$时间进行上述两步操作。</p>
+<p>假设$p(x_{k-1}\mid y_{1:k-1})$已知，在$k$时间进行上述两步操作（实际上，对下一步的预测在当前就可以进行）。</p>
 <h4 id="预测"><a href="#预测" class="headerlink" title="预测"></a>预测</h4><p>利用查普曼-科尔莫戈罗夫等式(Chapman–Kolmogorov equation)，可以由状态转移函数与时间 $${k-1}$$概率密度函数，$p(x_{k-1}\mid y_{1:k-1})$计算出时间$k$的<strong>先验概率</strong>${p(x_{k}\mid y_{1:k-1})}$。</p>
 <p>由于状态转移模型被假设为一阶马尔科夫过程，故${p(x_{k}\mid x_{k-1}, y_{1:k-1})}=p(x_{k}\mid x_{k-1})$，而$p(x_{k}\mid x_{k-1})$则由<strong>状态转移函数</strong>和$v_{k-1}$的统计值得到:<br>$$<br>\begin{aligned} p\left(x_{k} | y_{1: k-1}\right) &amp;=\int p\left(x_{k}, x_{k-1} | y_{1: k-1}\right) d x_{k-1} \\ &amp;=\int p\left(x_{k} | x_{k-1}, y_{1: k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right) d x_{k-1} \\ &amp;=\int p\left(x_{k} | x_{k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right) d x_{k-1} \end{aligned}<br>$$</p>
 <h4 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h4><p>在时间$k$时我们获得了新的观测值$y_k$，因此可以利用贝叶斯法则，由<strong>先验概率</strong>${p(x_{k}\mid y_{1:k-1})}$得到<strong>后验概率</strong>${p(x_{k}\mid y_{1:k})}$，即考虑观测值后的概率，其中的似然概率函数$p\left(y_{k} | x_{k}\right)$由<strong>观测函数</strong>和$n_k$的统计值得到：<br>$$<br>{p\left(x_{k} | y_{1: k}\right)=\frac{p\left(y_{k} | x_{k}\right) p\left(x_{k} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)}} \<br>$$<br>其中的归一化常数（Evidence）为：<br>$$<br>{p\left(y_{k} | y_{1: k-1}\right)=\int p\left(y_{k} | x_{k}\right) p\left(x_{k} | y_{1: k-1}\right) d x_{k}}<br>$$<br>上述两步骤的递推关系是贝叶斯最优解的基本概念，但是公式中使用的积分，对于一般非线性，非高斯的系统，难以得到解析解，因此需要使用蒙特卡罗方法来近似。</p>
@@ -545,11 +550,23 @@
 <p>粒子滤波器是<a href="https://zh.wikipedia.org/wiki/卡尔曼滤波" target="_blank" rel="noopener">卡尔曼滤波器</a>的一般化方法，卡尔曼滤波器建立在线性的状态空间和<a href="https://zh.wikipedia.org/wiki/正态分布" target="_blank" rel="noopener">高斯分布</a>的噪声上；而粒子滤波器的状态空间模型可以是非线性，且噪声分布可以是任何型式。</p>
 </blockquote>
 <p>看简介可以发现，粒子滤波的范围比卡尔曼滤波器更广，但是计算量要大上不少。</p>
-<h4 id="序列重要性采样（Sequential-Importance-Sampling-SIS）"><a href="#序列重要性采样（Sequential-Importance-Sampling-SIS）" class="headerlink" title="序列重要性采样（Sequential Importance Sampling, SIS）"></a>序列重要性采样（Sequential Importance Sampling, SIS）</h4><p>SIS将后验概率${p(x_{k}\mid y_{1:k})}$用$N$个随机采样的样本（称作粒子）与其各自的权重表示为：<br>$$<br>\{x_k^{(i)},w_k^{(i)}\}_{i=1}^{N}<br>$$<br>其中权重则根据重要性采样的规则产生，且$\sum w_i=1$，则函数的期望可以用加权平均来近似：<br>$$<br>\int f\left(x_{k}\right) p\left(x_{k} | y_{1: k}\right) d x_{k} \approx \sum_{i=1}^{N} w_{k}^{(i)} f\left(x_{k}^{(i)}\right)<br>$$<br>SIS是将重要性采样递归执行的方法，通过前一次采样的权重来计算下一次采样的权重，假设采样的样本分布可以表示为：<br>$$<br>x^{(i)}\thicksim q(x),i=1,\cdots ,N<br>$$<br>其中$q(x)$称为<strong>重要性密度(importance density)</strong> ，若样本$x_k^{(i)}$（$k$是时间下标）由重要性密度$q(x_k\mid y_{1:k})$抽取出来，则权重可以表示为：<br>$$<br>w_{k}^{(i)} \propto \frac{p\left(x_{k}^{(i)} | y_{1: k}\right)}{q\left(x_{k}^{(i)} | y_{1: k}\right)}<br>$$<br>将重要性密度分解为：<br>$$<br>q\left(x_{k} | y_{1: k}\right)=q\left(x_{k} | x_{k-1}, y_{1: k}\right) q\left(x_{k-1} | y_{1: k-1}\right)<br>$$<br>再将后验概率表示为：<br>$$<br>\begin{aligned} p\left(x_{k} | y_{1: k}\right) &amp;=\frac{p\left(y_{k} | x_{k}, y_{1: k-1}\right) p\left(x_{k} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp;=\frac{p\left(y_{k} | x_{k}, y_{1: k-1}\right) p\left(x_{k} | x_{k-1}, y_{1: k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp;=\frac{p\left(y_{k} | x_{k}\right) p\left(x_{k} | x_{k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp; \propto p\left(y_{k} | x_{k}\right) p\left(x_{k} | x_{k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right) \end{aligned}<br>$$<br>则权重的递归式可以表示为：<br>$$<br>\begin{aligned} w_{k}^{(i)} &amp; \propto \frac{p\left(y_{k} | x_{k}^{(i)}\right) p\left(x_{k}^{(i)} | x_{k-1}^{(i)}\right) p\left(x_{k-1}^{(i)} | y_{1: k-1}\right)}{q\left(x_{k}^{(i)} | x_{k-1}^{(i)}, y_{1: k}\right) q\left(x_{k-1}^{(i)} | y_{1: k-1}\right)} \\ &amp;=w_{k-1}^{(i)} \frac{p\left(y_{k} | x_{k}^{(i)}\right) p\left(x_{k}^{(i)} | x_{k-1}^{(i)}\right)}{q\left(x_{k}^{(i)} | x_{k-1}^{(i)}, y_{1: k}\right)} \end{aligned}<br>$$</p>
+<h4 id="序列重要性采样（Sequential-Importance-Sampling-SIS）"><a href="#序列重要性采样（Sequential-Importance-Sampling-SIS）" class="headerlink" title="序列重要性采样（Sequential Importance Sampling, SIS）"></a>序列重要性采样（Sequential Importance Sampling, SIS）</h4><p>SIS将后验概率${p(x_{k}\mid y_{1:k})}$用$N$个随机采样的样本（称作粒子）与其各自的权重表示为：<br>$$<br>\{x_k^{(i)},w_k^{(i)}\}_{i=1}^{N}<br>$$<br>其中权重则根据重要性采样的规则产生，且$\sum w_i=1$，则函数的期望可以用加权平均来近似：<br>$$<br>\int f\left(x_{k}\right) p\left(x_{k} | y_{1: k}\right) d x_{k} \approx \sum_{i=1}^{N} w_{k}^{(i)} f\left(x_{k}^{(i)}\right)<br>$$<br>SIS是将重要性采样递归执行的方法，通过前一次采样的权重来计算下一次采样的权重，假设采样的样本分布可以表示为：<br>$$<br>x^{(i)}\thicksim q(x),i=1,\cdots ,N<br>$$<br>其中$q(x)$称为<strong>重要性密度(importance density)</strong> ，若样本$x_k^{(i)}$（$k$是时间下标）由重要性密度$q(x_k\mid y_{1:k})$抽取出来，则权重可以表示为：<br>$$<br>w_{k}^{(i)} \propto \frac{p\left(x_{k}^{(i)} | y_{1: k}\right)}{q\left(x_{k}^{(i)} | y_{1: k}\right)}<br>$$<br>将重要性密度分解为（假定有这个分解）：<br>$$<br>q\left(x_{k} | y_{1: k}\right)=q\left(x_{k} | x_{k-1}, y_{1: k}\right) q\left(x_{k-1} | y_{1: k-1}\right)<br>$$<br>再将后验概率表示为：<br>$$<br>\begin{aligned} p\left(x_{k} | y_{1: k}\right)<br>&amp;=\frac{p\left(x_{k} , y_{1: k}\right)}{p\left(y_{1: k}\right)}\<br>&amp;=\frac{p\left(y_{1: {k-1}}\right)p\left(x_{k} , y_{k} \mid y_{1: {k-1}}\right)}{p\left(y_{1: {k-1}}\right)p\left(y_{k} | y_{1: k-1}\right)}<br>\\&amp;=\frac{p\left(y_{k} | x_{k}, y_{1: k-1}\right) p\left(x_{k} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp;=\frac{p\left(y_{k} | x_{k}, y_{1: k-1}\right) p\left(x_{k} | x_{k-1}, y_{1: k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp;=\frac{p\left(y_{k} | x_{k}\right) p\left(x_{k} | x_{k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp; \propto p\left(y_{k} | x_{k}\right) p\left(x_{k} | x_{k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right) \end{aligned}<br>$$<br>则权重的递归式可以表示为：<br>$$<br>\begin{aligned} w_{k}^{(i)} &amp; \propto \frac{p\left(y_{k} | x_{k}^{(i)}\right) p\left(x_{k}^{(i)} | x_{k-1}^{(i)}\right) p\left(x_{k-1}^{(i)} | y_{1: k-1}\right)}{q\left(x_{k}^{(i)} | x_{k-1}^{(i)}, y_{1: k}\right) q\left(x_{k-1}^{(i)} | y_{1: k-1}\right)} \\ &amp;=w_{k-1}^{(i)} \frac{p\left(y_{k} | x_{k}^{(i)}\right) p\left(x_{k}^{(i)} | x_{k-1}^{(i)}\right)}{q\left(x_{k}^{(i)} | x_{k-1}^{(i)}, y_{1: k}\right)} \end{aligned}<br>$$</p>
 <h4 id="序列重要性重采样（Sequential-Importance-Resampling-SIR）"><a href="#序列重要性重采样（Sequential-Importance-Resampling-SIR）" class="headerlink" title="序列重要性重采样（Sequential Importance Resampling, SIR）"></a>序列重要性重采样（Sequential Importance Resampling, SIR）</h4><p>经过几次迭代之后，很多例子的权重都变小到可以忽略不计，这就是SIS会造成的<strong>退化问题(degeneracy problem)</strong> 。我们定义有效粒子数为：<br>$$<br>\widehat{N_{e f f}}=\frac{1}{\sum_{i=1}^{N}\left(w_{k}^{(i)}\right)^{2}}<br>$$<br>若有效粒子数小于某一阈值，则对粒子做重采样，即可减缓退化问题。重采样的概念是去除权重过小的粒子，专注于权重较大的粒子。进行重采样时，要<strong>由现有的粒子分布取样</strong>，产生一组新的粒子。由于新样本独立同分布，因此权重重新设定为$\frac{1}{N}$。</p>
 <p>粒子滤波的核心思想是随机采样+重要性重采样+预测，如下图所示：</p>
 <p><img src="fig_particle_filter.jpg" alt></p>
-<h4 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h4><p>TODO</p>
+<h4 id="SIR算法流程"><a href="#SIR算法流程" class="headerlink" title="SIR算法流程"></a>SIR算法流程</h4><p>前提：$t-1$时刻的采样已经完成，$w_{k-1}^{(i)}$已知。</p>
+<ul>
+<li><p>SIS：针对所有样本进行采样，并更新样本权重<br>$$<br>\begin{aligned} &amp;for \ i=1,\cdots ,N \\x_t^{(i)}&amp;\thicksim q(x_t\mid x_{t-1},y_{1:t}) \<br>w_{k}^{(i)} &amp; \propto w_{k-1}^{(i)} \frac{p\left(y_{k} | x_{k}^{(i)}\right) p\left(x_{k}^{(i)} | x_{k-1}^{(i)}\right)}{q\left(x_{k}^{(i)} | x_{k-1}^{(i)}, y_{1: k}\right)}\end{aligned}<br>$$</p>
+</li>
+<li><p>归一化样本权重</p>
+</li>
+<li><p>计算$\widehat{N_{e f f}}$，若$\widehat{N_{e f f}}&lt;N_T$则需要重采样</p>
+</li>
+<li><p>重采样的方法很多，一种方法是利用概率密度函数PDF的积分CDF来均匀采样，具体的算法流程如下：</p>
+<p><img src="fig_particle_filter_resample.png" alt></p>
+</li>
+</ul>
+<p>也就是说每个样本现在对应$[0,1]$之间的某个区间，权重越大的对应的区间越长，我们在$[0,1]$之间均匀采点，并取该点对应的样本，最后所有样本的权重重置为$\frac{1}{N}$。</p>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
 <li>统计学习方法（第二版）-李航</li>
 <li><a href="https://www.jianshu.com/p/f6ce8943560c?from=singlemessage" target="_blank" rel="noopener">轻松理解卡尔曼滤波</a></li>
@@ -792,7 +809,8 @@
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            
+                            《统计学习方法第二版-李航》的笔记非常多，可以参考这个
+Chap01 统计学习及监督学习概论
                         
                     </div>
                     <div class="publish-info">
@@ -1040,7 +1058,7 @@
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">21.7k</span>
+            <span class="white-color">22.1k</span>
             
 
             <br>
