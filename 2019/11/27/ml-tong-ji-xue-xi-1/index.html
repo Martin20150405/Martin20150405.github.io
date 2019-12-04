@@ -4,7 +4,7 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="[ML]-统计学习从入门到放弃-1（卡尔曼滤波与粒子滤波）, Martin&#39;s">
+    <meta name="keywords" content="[ML]-统计学习-1（卡尔曼滤波与粒子滤波）, Martin&#39;s">
     <meta name="baidu-site-verification" content>
     <meta name="google-site-verification" content>
     <meta name="360-site-verification" content>
@@ -19,7 +19,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>[ML]-统计学习从入门到放弃-1（卡尔曼滤波与粒子滤波） | Martin&#39;s</title>
+    <title>[ML]-统计学习-1（卡尔曼滤波与粒子滤波） | Martin&#39;s</title>
     <link rel="icon" type="image/jpeg" href="/favicon.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -277,13 +277,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        [ML]-统计学习从入门到放弃-1（卡尔曼滤波与粒子滤波）
+                        [ML]-统计学习-1（卡尔曼滤波与粒子滤波）
                     </div>
                 </div>
             </div>
@@ -444,14 +444,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    4.7k
+                    5.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    19 分
+                    21 分
                 </div>
                 
                 
@@ -501,6 +501,11 @@
 <p>马尔科夫链可能存在唯一、无穷或零个平稳分布</p>
 </blockquote>
 <h4 id="马尔科夫链蒙特卡罗法随机抽样"><a href="#马尔科夫链蒙特卡罗法随机抽样" class="headerlink" title="马尔科夫链蒙特卡罗法随机抽样"></a>马尔科夫链蒙特卡罗法随机抽样</h4><p>TODO</p>
+<h3 id="贝叶斯公式"><a href="#贝叶斯公式" class="headerlink" title="贝叶斯公式"></a>贝叶斯公式</h3><p>贝叶斯公式的形式本身很简单，但是具体到应用问题却总是让人云里雾里的，原始的定义如下：<br>$$<br>P\left(B_{i} | A\right)=\frac{P\left(B_{i}\right) P\left(A | B_{i}\right)}{\sum_{j=1}^{n} P\left(B_{j}\right) P\left(A | B_{j}\right)} =\frac{P\left(B_{i}\right) P\left(A | B_{i}\right)}{P\left(A\right)}<br>$$<br>后验为先验（Prior）与似然（Likelihood）的乘积除以证据（Evidence），但是使用这种方法表示并不好理解，之前发现一张很生动的图：</p>
+<p><img src="fig_bayes.jpg" alt></p>
+<p>我们假定数据为$X$，需要推断的参数为$\theta$，则贝叶斯公式可以表示为：<br>$$<br>P\left(\theta \mid X\right)=\frac{P\left(X \mid \theta\right) P\left(\theta \right)}{P\left(X\right)}<br>$$</p>
+<p>频率派认为$\theta$是未知的常量，而$X$则是随机变量，主要研究样本空间，计算得到一个参数使得得到样本的概率最大：<br>$$<br>\theta_{MLE}=\arg \max _{\theta} \underbrace{\log P(X | \theta)}_{L(\theta)}<br>$$<br>而贝叶斯派则认为$\theta$是服从概率分布的随机变量，其分布$P(\theta)$称为先验，样本则是固定的，主要研究参数的分布，找到一个概率分布最大的点来做估计：<br>$$<br>\theta_{MAP}=\arg \max _{\theta} {P(\theta \mid X)}<br>$$</p>
+<h4 id="贝叶斯预测"><a href="#贝叶斯预测" class="headerlink" title="贝叶斯预测"></a>贝叶斯预测</h4><p>我们假定有一个新的样本$\tilde{x}$，则我们需要求的就是$p(\tilde{x} | X)$的分布，通过$X–&gt;\theta–&gt;\tilde{x}$把旧数据和新数据连接起来：<br>$$<br>\begin{array}{l}{p(\tilde{x} | X)=\int_{\theta}p(\tilde{x}, \theta | X) d \theta} {=\int_{\theta} p(\tilde{x} | \theta,X) p(\theta | X) d \theta}{=\int_{\theta} p(\tilde{x} | \theta) p(\theta | X) d \theta}\end{array}<br>$$<br>中间一步是条件概率公式，左侧的条件概率中$X$不相关可以被去除。</p>
 <h3 id="状态空间模型"><a href="#状态空间模型" class="headerlink" title="状态空间模型"></a>状态空间模型</h3><p>通常状态空间模型定义如下：<br>$$<br>x_k=f_k(x_{k-1},u_{k-1})\\<br>y_k=h_k(x_k,n_k)<br>$$<br>其中，$k$代表时刻，$x_k$代表$k$时刻的状态，$y_k$代表$k$时刻的观测，$f(\cdot)$代表状态转移函数，$g(\cdot)$代表观测函数，$u_{k-1}$代表$k-1$时刻的模型噪声（如模型不够精确），$n_k$则代表$k$时刻的观测噪声（如观测设备的不准确）。<strong>状态本身是不能直接得到的，只能通过观测来估计。</strong>由于噪声的存在，我们无法估计出真实的状态，只能根据我们的观测以及某种最优准则（MinimalMSE，MAP等）得出一个估计值。</p>
 <p>下图中使用了$x$来表示观测，$z$表示状态（潜变量）：</p>
 <p><img src="fig_state_model.jpg" alt></p>
@@ -527,7 +532,7 @@
 <p>综合我们的预测结果和观测结果，我们得到如下两个高斯分布：<br>$$<br>\begin{array}{l}{\left(\vec{\mu}_{0}, \Sigma_{0}\right)=\left(\mathbf{H}_{k} {\mathbf{x}}_{k}, \mathrm{H}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T}\right)} \\ {\left(\vec{\mu}_{1}, \mathbf{\Sigma}_{1}\right)=\left(\mathrm{y}_{k}, \mathbf{R}_{k}\right)}\end{array}<br>$$<br>将这两个高斯概率密度函数相乘，我们就得到了一个新的高斯分布，这正是卡尔曼滤波想要的<strong>最优估计</strong>。</p>
 <p>新的分布如下所示：<br>$$<br>\begin{aligned} \mathbf{K} &amp;=\Sigma_{0}\left(\Sigma_{0}+\Sigma_{1}\right)^{-1} \\ \vec{\mu}^{\prime} &amp;=\overrightarrow{\mu_{0}}+\mathrm{K}(\overrightarrow{\mu_{1}}-\overrightarrow{\mu_{0}}) \\ \Sigma^{\prime} &amp;=\Sigma_{0}-\mathrm{K} \Sigma_{0} \end{aligned}<br>$$<br>也即：<br>$$<br>\begin{aligned} \mathbf{K} &amp;=\mathrm{H}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T}\left(\mathrm{H}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T}+\mathbf{R}_{k}\right)^{-1} \\ \mathbf{H}_{k} {\mathbf{x}}_{k}^{\prime} &amp;=\mathbf{H}_{k} {\mathbf{x}}_{k}+\mathrm{K}\left(\mathrm{y}_{k}-\mathrm{H}_{k} {\mathbf{x}}_{k}\right) \\ \mathbf{H}_{k} \mathbf{P}_{k}^{\prime} \mathbf{H}_{k}^{T} &amp;=\mathrm{H}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T}-\mathrm{KH}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T} \end{aligned}<br>$$<br>化简可得：<br>$$<br>\begin{aligned} {\mathbf{x}}_{k}^{\prime} &amp;={\mathbf{x}}_{k} +\mathbf{K}^{\prime}\left(y_{k}-\mathbf{H}_{k} {\mathbf{x}}_{k}\right) \\ \mathbf{P}_{k}^{\prime} &amp;=\mathrm{P}_{k} -\mathbf{K}^{\prime} \mathbf{H}_{k} \mathbf{P}_{k} \\ \mathbf{K}^{\prime} &amp;=\mathbf{P}_{k} \mathbf{H}_{k}^{T}\left(\mathrm{H}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T}+\mathbf{R}_{k}\right)^{-1} \end{aligned}<br>$$<br>其中的$K^\prime$就是<strong>卡尔曼增益</strong>。</p>
 <p>由此我们可以得到卡尔曼滤波的具体实现：</p>
-<h4 id="预测-1"><a href="#预测-1" class="headerlink" title="预测"></a>预测</h4><p>$$<br>x=Fx+Bu\<br>P=FPF^T+Q<br>$$</p>
+<h4 id="预测-1"><a href="#预测-1" class="headerlink" title="预测"></a>预测</h4><p>$$<br>x=Fx+Bu\quad P=FPF^T+Q<br>$$</p>
 <h4 id="修正"><a href="#修正" class="headerlink" title="修正"></a>修正</h4><p>$$<br>dy =y-Hx \\ S =HPH^{T}+R \\ K =PH^{T} S^{-1} \\ x =x+K * {dy}<br>$$</p>
 <p>$$<br>P =({I}-{K}{H}) *{P}<br>$$</p>
 <p>其中，$dy$为观测余量，$S$为观测余量的协方差矩阵。</p>
@@ -544,6 +549,7 @@
 <h4 id="序列重要性重采样（Sequential-Importance-Resampling-SIR）"><a href="#序列重要性重采样（Sequential-Importance-Resampling-SIR）" class="headerlink" title="序列重要性重采样（Sequential Importance Resampling, SIR）"></a>序列重要性重采样（Sequential Importance Resampling, SIR）</h4><p>经过几次迭代之后，很多例子的权重都变小到可以忽略不计，这就是SIS会造成的<strong>退化问题(degeneracy problem)</strong> 。我们定义有效粒子数为：<br>$$<br>\widehat{N_{e f f}}=\frac{1}{\sum_{i=1}^{N}\left(w_{k}^{(i)}\right)^{2}}<br>$$<br>若有效粒子数小于某一阈值，则对粒子做重采样，即可减缓退化问题。重采样的概念是去除权重过小的粒子，专注于权重较大的粒子。进行重采样时，要<strong>由现有的粒子分布取样</strong>，产生一组新的粒子。由于新样本独立同分布，因此权重重新设定为$\frac{1}{N}$。</p>
 <p>粒子滤波的核心思想是随机采样+重要性重采样+预测，如下图所示：</p>
 <p><img src="fig_particle_filter.jpg" alt></p>
+<h4 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h4><p>TODO</p>
 <h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
 <li>统计学习方法（第二版）-李航</li>
 <li><a href="https://www.jianshu.com/p/f6ce8943560c?from=singlemessage" target="_blank" rel="noopener">轻松理解卡尔曼滤波</a></li>
@@ -706,9 +712,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《[ML]-统计学习从入门到放弃-1（卡尔曼滤波与粒子滤波）》
+                    《[ML]-统计学习-1（卡尔曼滤波与粒子滤波）》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/11/27/ml-tong-ji-xue-xi-cong-ru-men-dao-fang-qi-1/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/11/27/ml-tong-ji-xue-xi-1/" property="cc:attributionName"
                rel="cc:attributionURL">
                 Martin
             </a> 采用
@@ -749,7 +755,7 @@
         repo: 'martin20150405.github.io',
         owner: 'martin20150405',
         admin: "martin20150405",
-        id: '2019/11/27/ml-tong-ji-xue-xi-cong-ru-men-dao-fang-qi-1/',
+        id: '2019/11/27/ml-tong-ji-xue-xi-1/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -775,13 +781,13 @@
                 <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
             </div>
             <div class="card">
-                <a href="/2019/11/27/ml-tong-ji-xue-xi-cong-ru-men-dao-fang-qi-1/">
+                <a href="/2019/11/27/ml-tong-ji-xue-xi-1/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="[ML]-统计学习从入门到放弃-1（卡尔曼滤波与粒子滤波）">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="[ML]-统计学习-1（卡尔曼滤波与粒子滤波）">
                         
-                        <span class="card-title">[ML]-统计学习从入门到放弃-1（卡尔曼滤波与粒子滤波）</span>
+                        <span class="card-title">[ML]-统计学习-1（卡尔曼滤波与粒子滤波）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
@@ -844,7 +850,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/4.jpg" class="responsive-img" alt="[DL]Winograd快速卷积算法">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="[DL]Winograd快速卷积算法">
                         
                         <span class="card-title">[DL]Winograd快速卷积算法</span>
                     </div>
@@ -1047,7 +1053,7 @@
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">21.2k</span>
+            <span class="white-color">21.7k</span>
             
 
             <br>
