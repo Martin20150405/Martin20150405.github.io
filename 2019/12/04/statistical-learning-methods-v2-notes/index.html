@@ -4,14 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="[ML]-统计学习-1（卡尔曼滤波与粒子滤波）, Martin&#39;s">
+    <meta name="keywords" content="Statistical Learning Methods v2 Notes, Martin&#39;s">
     <meta name="baidu-site-verification" content>
     <meta name="google-site-verification" content>
     <meta name="360-site-verification" content>
-    <meta name="description" content="蒙特卡罗方法蒙特卡罗（Monte Carlo）方法又称统计模拟方法，是通过从概率模型的随机抽样进行近似数值计算的方法。
-维基上介绍的基本思想如下：
-
-通常蒙特卡罗方法可以粗略地分成两类：一类是所求解的问题本身具有内在的随机性，借助计算机的运">
+    <meta name="description" content="Statistical Learning Methods v2 Notes | Martin&#39;s">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -19,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>[ML]-统计学习-1（卡尔曼滤波与粒子滤波） | Martin&#39;s</title>
+    <title>Statistical Learning Methods v2 Notes | Martin&#39;s</title>
     <link rel="icon" type="image/jpeg" href="/favicon.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -277,13 +274,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        [ML]-统计学习-1（卡尔曼滤波与粒子滤波）
+                        Statistical Learning Methods v2 Notes
                     </div>
                 </div>
             </div>
@@ -394,20 +391,12 @@
                     
                     <div class="article-tag">
                         
-                        <a href="/tags/卡尔曼滤波器/" target="_blank">
-                            <span class="chip bg-color">卡尔曼滤波器</span>
+                        <a href="/tags/统计学习方法/" target="_blank">
+                            <span class="chip bg-color">统计学习方法</span>
                         </a>
                         
-                        <a href="/tags/粒子滤波器/" target="_blank">
-                            <span class="chip bg-color">粒子滤波器</span>
-                        </a>
-                        
-                        <a href="/tags/蒙特卡罗方法/" target="_blank">
-                            <span class="chip bg-color">蒙特卡罗方法</span>
-                        </a>
-                        
-                        <a href="/tags/贝叶斯理论/" target="_blank">
-                            <span class="chip bg-color">贝叶斯理论</span>
+                        <a href="/tags/笔记/" target="_blank">
+                            <span class="chip bg-color">笔记</span>
                         </a>
                         
                     </div>
@@ -430,7 +419,7 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-11-27
+                    2019-12-04
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -444,14 +433,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.1k
+                    0
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    21 分
+                    1 分
                 </div>
                 
                 
@@ -467,94 +456,7 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h3 id="蒙特卡罗方法"><a href="#蒙特卡罗方法" class="headerlink" title="蒙特卡罗方法"></a>蒙特卡罗方法</h3><p>蒙特卡罗（Monte Carlo）方法又称统计模拟方法，是通过从概率模型的随机抽样进行近似数值计算的方法。</p>
-<p>维基上介绍的基本思想如下：</p>
-<blockquote>
-<p>通常蒙特卡罗方法可以粗略地分成两类：一类是所求解的问题本身具有内在的随机性，借助计算机的运算能力可以直接模拟这种随机的过程。例如在核物理研究中，分析中子在反应堆中的传输过程。中子与原子核作用受到量子力学规律的制约，人们只能知道它们相互作用发生的概率，却无法准确获得中子与原子核作用时的位置以及裂变产生的新中子的行进速率和方向。科学家依据其概率进行随机抽样得到裂变位置、速度和方向，这样模拟大量中子的行为后，经过统计就能获得中子传输的范围，作为反应堆设计的依据。</p>
-<p>另一种类型是所求解问题可以转化为某种随机分布的特征数，比如<a href="https://zh.wikipedia.org/wiki/随机事件" target="_blank" rel="noopener">随机事件</a>出现的<a href="https://zh.wikipedia.org/wiki/概率" target="_blank" rel="noopener">概率</a>，或者<a href="https://zh.wikipedia.org/wiki/随机变量" target="_blank" rel="noopener">随机变量</a>的<a href="https://zh.wikipedia.org/wiki/期望值" target="_blank" rel="noopener">期望值</a>。通过随机抽样的方法，以随机事件出现的<a href="https://zh.wikipedia.org/wiki/频率" target="_blank" rel="noopener">频率</a>估计其<a href="https://zh.wikipedia.org/wiki/概率" target="_blank" rel="noopener">概率</a>，或者以<a href="https://zh.wikipedia.org/wiki/抽樣" target="_blank" rel="noopener">抽样</a>的<a href="https://zh.wikipedia.org/w/index.php?title=数字特征&action=edit&redlink=1" target="_blank" rel="noopener">数字特征</a>估算<a href="https://zh.wikipedia.org/wiki/随机变量" target="_blank" rel="noopener">随机变量</a>的<a href="https://zh.wikipedia.org/w/index.php?title=数字特征&action=edit&redlink=1" target="_blank" rel="noopener">数字特征</a>，并将其作为问题的解。这种方法多用于求解复杂的多维积分问题。</p>
-</blockquote>
-<p>但实际上最常见的应用本身似乎并不像这些概念一般晦涩难懂，例如积分和圆周率的求解，用事件发生的频率来估计事件的概率，通过快速大量的模拟实验来得到问题的近似解：</p>
-<p><img src="fig_monte_carlo_pi.gif" alt></p>
-<blockquote>
-<p>蒙特卡洛是摩纳哥公国的一座城市，位于欧洲地中海之滨、法国的东南方，属于一个版图很小的国家摩纳哥公国，世人称之为“赌博之国”、“袖珍之国”、“邮票小国”。</p>
-<p>蒙特卡洛的赌业，海洋博物馆的奇观，格蕾丝王妃的下嫁，都为这个小国增添了许多传奇色彩，作为世界上人口最密集的一个国度，摩纳哥在仅有1.95平方千米的国土上聚集了3.3万的人口，可谓地窄人稠。但相对于法国，摩纳哥的地域实在是微乎其微，在法国地图上，这个国中之国就像一小滴不慎滴在法国版图内的墨汁，小得不大会引起人去注意它的存在。</p>
-</blockquote>
-<p>也许从名字的来源上可以更好的理解蒙特卡罗的思想：其要解决的问题是，假设概率分布的定义已知，通过抽样获得概率分布的随机样本，并以此来对概率分布的特征进行分析。比如，从样本得到经验分布，从而估计总体分布，或者从样本计算出样本均值，从而估计总体期望，核心是<strong>随机抽样</strong>。随着采样的增多，得到正确结果的概率逐渐加大，但是除非采用确定性方法进行采样，否则无法确定得到的是否为真正的正确结果。</p>
-<h4 id="接受-拒绝抽样法"><a href="#接受-拒绝抽样法" class="headerlink" title="接受-拒绝抽样法"></a>接受-拒绝抽样法</h4><p>有些时候分布$p(x)$无法直接采样，则我们可以通过找一个可以直接抽样的分布$q(x)$，即建议分布（proposal distribution）来间接采样。这里需要保证的是$cq(x)&gt;p(x),c&gt;0$始终成立，假设我们的抽样结果是$x^<em>$，则我们根据$\frac{p(x^</em>)}{cq(x^<em>)}$的概率来接受（即按照均匀分布在$(0,1)$范围内抽样，$u\leq\frac{p(x^</em>)}{cq(x^*)}$就接受）此次抽样：</p>
-<p><img src="fig_accept_reject_sampling.png" alt></p>
-<p>重复上述步骤则可以得到概率分布的随机样本$x_1,x_2,\cdots,x_n$。</p>
-<p>但实际上，针对一些复杂的分布我们只能得到其条件分布（边缘分布），却很难得到概率分布的一般形式，这个时候该方法并不适用。</p>
-<h3 id="马尔科夫链蒙特卡罗法"><a href="#马尔科夫链蒙特卡罗法" class="headerlink" title="马尔科夫链蒙特卡罗法"></a>马尔科夫链蒙特卡罗法</h3><p>一般蒙特卡罗法中的抽样样本是独立的，而马尔科夫蒙特卡罗法中的抽样样本不是独立的，样本序列行程马尔科夫链。</p>
-<h4 id="马尔科夫过程"><a href="#马尔科夫过程" class="headerlink" title="马尔科夫过程"></a>马尔科夫过程</h4><p>马尔科夫过程（Markov Process），又称为马尔科夫链（Markov Chain），其直观解释是：未来只依赖于现在，而与过去无关。</p>
-<p>定义：考虑一个随机变量序列$X=\{ X_0,X_1,\cdots ,X_t,\cdots \}$，每个随机变量的取值集合都相同，即状态空间$S$，随机变量可以是离散或连续的，下标表示时间，以上序列构成随机过程。</p>
-<p>假设$P(X_0)=\pi_0$，称为初始状态分布，在某个时刻随机变量$X_t$只与前一个时刻$X_{t-1}$有条件分布$P(X_t \mid X_{t-1})$，而不依赖过去的随机变量，这一性质成为马尔科夫性，即：<br>$$<br>P(X_t\mid X_0,X_1,\cdots,X_t,\cdots)=P(X_t \mid X_{t-1}),\quad t=1,2,\cdots<br>$$<br>具有该性质的随机序列成为马尔科夫过程，具备离散状态的马尔科夫过程通常成为马尔科夫链。</p>
-<p>上述条件分布又称作马尔科夫链的概率转移分布，决定了马尔科夫链的特性。</p>
-<p>若概率转移分布与时间无关，称为时间齐次（time homogeneous）的马尔科夫链，即：<br>$$<br>P(X_{t+s}\mid X_{t-1+s})=P(X_t \mid X_{t-1}),\quad t=1,2,\cdots;\quad s=1,2,\cdots<br>$$<br>以上定义为一阶马尔科夫链，若扩展到$n$阶，则是只与过去$n$个时刻相关。</p>
-<p>之后讨论的默认都是时间齐次一阶马尔科夫链。</p>
-<h4 id="概率转移与平稳分布"><a href="#概率转移与平稳分布" class="headerlink" title="概率转移与平稳分布"></a>概率转移与平稳分布</h4><p>马尔科夫链的转移概率可以用如下矩阵表示：<br>$$<br>P=\left[\begin{array}{cccc}{p_{11}} &amp; {p_{12}} &amp; {p_{13}} &amp; {\cdots} \\ {p_{21}} &amp; {p_{22}} &amp; {p_{23}} &amp; {\cdots} \\ {p_{31}} &amp; {p_{32}} &amp; {p_{33}} &amp; {\cdots} \\ {\cdots} &amp; {\cdots} &amp; {\cdots} &amp; {\cdots}\end{array}\right]<br>$$<br>满足所有元素不为负且列和为1，该矩阵又称为随机矩阵。</p>
-<p>形象的解释是，当前的状态转移到其他所有状态都有可能，具体的概率取决于当前状态和其他的状态，但可能性的总和为1，例如下图：</p>
-<p><img src="fig_markov_chain_example.png" alt></p>
-<p>马尔科夫链的初始状态分布可以表示为：<br>$$<br>\pi(0)=\left[\begin{array}{c}{\pi_{1}(0)} \\ {\pi_{2}(0)} \\ {\vdots}\end{array}\right]<br>$$<br>那一次状态转移的过程就可以表示成一次矩阵乘法的形式，实际上，递推可以得到：<br>$$<br>\pi(t)=P^t\pi(0)<br>$$<br>这里的$P^t$称为$t$步转移概率矩阵。</p>
-<p><strong>平稳分布</strong>：在此状态进行随机状态转移，之后任一时刻的状态分布都是该分布。求解平稳分布，只需要假设平稳分布代入上述转移解方程即可。</p>
-<p>若有唯一平稳分布存在，当$t$足够大时，$P^t$的每一列都是平稳分布（遍历定理）。</p>
-<blockquote>
-<p>马尔科夫链可能存在唯一、无穷或零个平稳分布</p>
-</blockquote>
-<h4 id="马尔科夫链蒙特卡罗法随机抽样"><a href="#马尔科夫链蒙特卡罗法随机抽样" class="headerlink" title="马尔科夫链蒙特卡罗法随机抽样"></a>马尔科夫链蒙特卡罗法随机抽样</h4><p>TODO</p>
-<h3 id="贝叶斯公式"><a href="#贝叶斯公式" class="headerlink" title="贝叶斯公式"></a>贝叶斯公式</h3><p>贝叶斯公式的形式本身很简单，但是具体到应用问题却总是让人云里雾里的，原始的定义如下：<br>$$<br>P\left(B_{i} | A\right)=\frac{P\left(B_{i}\right) P\left(A | B_{i}\right)}{\sum_{j=1}^{n} P\left(B_{j}\right) P\left(A | B_{j}\right)} =\frac{P\left(B_{i}\right) P\left(A | B_{i}\right)}{P\left(A\right)}<br>$$<br>后验为先验（Prior）与似然（Likelihood）的乘积除以证据（Evidence），但是使用这种方法表示并不好理解，之前发现一张很生动的图：</p>
-<p><img src="fig_bayes.jpg" alt></p>
-<p>我们假定数据为$X$，需要推断的参数为$\theta$，则贝叶斯公式可以表示为：<br>$$<br>P\left(\theta \mid X\right)=\frac{P\left(X \mid \theta\right) P\left(\theta \right)}{P\left(X\right)}<br>$$</p>
-<p>频率派认为$\theta$是未知的常量，而$X$则是随机变量，主要研究样本空间，计算得到一个参数使得得到样本的概率最大：<br>$$<br>\theta_{MLE}=\arg \max _{\theta} \underbrace{\log P(X | \theta)}_{L(\theta)}<br>$$<br>而贝叶斯派则认为$\theta$是服从概率分布的随机变量，其分布$P(\theta)$称为先验，样本则是固定的，主要研究参数的分布，找到一个概率分布最大的点来做估计：<br>$$<br>\theta_{MAP}=\arg \max _{\theta} {P(\theta \mid X)}<br>$$</p>
-<h4 id="贝叶斯预测"><a href="#贝叶斯预测" class="headerlink" title="贝叶斯预测"></a>贝叶斯预测</h4><p>我们假定有一个新的样本$\tilde{x}$，则我们需要求的就是$p(\tilde{x} | X)$的分布，通过$X–&gt;\theta–&gt;\tilde{x}$把旧数据和新数据连接起来：<br>$$<br>\begin{array}{l}{p(\tilde{x} | X)=\int_{\theta}p(\tilde{x}, \theta | X) d \theta} {=\int_{\theta} p(\tilde{x} | \theta,X) p(\theta | X) d \theta}{=\int_{\theta} p(\tilde{x} | \theta) p(\theta | X) d \theta}\end{array}<br>$$<br>中间一步是条件概率公式，左侧的条件概率中$X$不相关可以被去除。</p>
-<h3 id="状态空间模型"><a href="#状态空间模型" class="headerlink" title="状态空间模型"></a>状态空间模型</h3><p>通常状态空间模型定义如下：<br>$$<br>x_k=f_k(x_{k-1},u_{k-1})\\<br>y_k=h_k(x_k,n_k)<br>$$<br>其中，$k$代表时刻，$x_k$代表$k$时刻的状态，$y_k$代表$k$时刻的观测，$f(\cdot)$代表状态转移函数，$g(\cdot)$代表观测函数，$u_{k-1}$代表$k-1$时刻的模型噪声（如模型不够精确），$n_k$则代表$k$时刻的观测噪声（如观测设备的不准确）。<strong>状态本身是不能直接得到的，只能通过观测来估计。</strong>由于噪声的存在，我们无法估计出真实的状态，只能根据我们的观测以及某种最优准则（MinimalMSE，MAP等）得出一个估计值。</p>
-<p>下图中使用了$x$来表示观测，$z$表示状态（潜变量）：</p>
-<p><img src="fig_state_model.jpg" alt></p>
-<p>实际上因为我们是先进行预测操作，因此$k$时刻的模型噪声实际上是用$u_{k-1}$来表示。算法是迭代/递归的，在系统中我们不需要保存以往的观测数据，只需要根据目前的观测、之前的计算结果以及动态更新的函数即可。</p>
-<h3 id="非线性贝叶斯跟踪"><a href="#非线性贝叶斯跟踪" class="headerlink" title="非线性贝叶斯跟踪"></a>非线性贝叶斯跟踪</h3><p>从贝叶斯理论的观点来看，实时跟踪系统的状态就是根据到时间$k$为止的已知信息（观测）$y_{1:k}$，来递归地计算出状态$x_k$的可信度，用概率密度函数$p(x_k\mid y_{1:k})$来表示。</p>
-<p>我们假设初始概率密度函数$p(x_0\mid y_{0})\equiv p(x_0)$是已知（先验概率）的，则通过迭代<strong>预测</strong>和<strong>更新</strong>两个步骤就可以递归地计算出$p(x_k\mid y_{1:k})$。</p>
-<p>假设$p(x_{k-1}\mid y_{1:k-1})$已知，在$k$时间进行上述两步操作。</p>
-<h4 id="预测"><a href="#预测" class="headerlink" title="预测"></a>预测</h4><p>利用查普曼-科尔莫戈罗夫等式(Chapman–Kolmogorov equation)，可以由状态转移函数与时间 $${k-1}$$概率密度函数，$p(x_{k-1}\mid y_{1:k-1})$计算出时间$k$的<strong>先验概率</strong>${p(x_{k}\mid y_{1:k-1})}$。</p>
-<p>由于状态转移模型被假设为一阶马尔科夫过程，故${p(x_{k}\mid x_{k-1}, y_{1:k-1})}=p(x_{k}\mid x_{k-1})$，而$p(x_{k}\mid x_{k-1})$则由<strong>状态转移函数</strong>和$v_{k-1}$的统计值得到:<br>$$<br>\begin{aligned} p\left(x_{k} | y_{1: k-1}\right) &amp;=\int p\left(x_{k}, x_{k-1} | y_{1: k-1}\right) d x_{k-1} \\ &amp;=\int p\left(x_{k} | x_{k-1}, y_{1: k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right) d x_{k-1} \\ &amp;=\int p\left(x_{k} | x_{k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right) d x_{k-1} \end{aligned}<br>$$</p>
-<h4 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h4><p>在时间$k$时我们获得了新的观测值$y_k$，因此可以利用贝叶斯法则，由<strong>先验概率</strong>${p(x_{k}\mid y_{1:k-1})}$得到<strong>后验概率</strong>${p(x_{k}\mid y_{1:k})}$，即考虑观测值后的概率，其中的似然概率函数$p\left(y_{k} | x_{k}\right)$由<strong>观测函数</strong>和$n_k$的统计值得到：<br>$$<br>{p\left(x_{k} | y_{1: k}\right)=\frac{p\left(y_{k} | x_{k}\right) p\left(x_{k} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)}} \<br>$$<br>其中的归一化常数（Evidence）为：<br>$$<br>{p\left(y_{k} | y_{1: k-1}\right)=\int p\left(y_{k} | x_{k}\right) p\left(x_{k} | y_{1: k-1}\right) d x_{k}}<br>$$<br>上述两步骤的递推关系是贝叶斯最优解的基本概念，但是公式中使用的积分，对于一般非线性，非高斯的系统，难以得到解析解，因此需要使用蒙特卡罗方法来近似。</p>
-<h3 id="卡尔曼滤波"><a href="#卡尔曼滤波" class="headerlink" title="卡尔曼滤波"></a>卡尔曼滤波</h3><blockquote>
-<p>卡尔曼、粒子滤波实际应该叫做估计器（Estimator），估计当前值叫滤波（Filtering），估计过去叫平滑（Smoothing），估计未来叫预测（Predicting）。</p>
-<p>卡尔曼滤波利用目标的动态信息，设法去掉噪声的影响，得到一个关于目标位置的好的估计。这个估计可以是对当前目标位置的估计（滤波），也可以是对于将来位置的估计（预测），也可以是对过去位置的估计（插值或平滑）。 </p>
-</blockquote>
-<p>卡尔曼滤波假设系统状态与噪声是高斯的，可以用均值和方差来描述。则上述状态空间模型可以被表述为：<br>$$<br>x_k=F_kx_{k-1}+B_ku_k+v_{k} \<br>y_k=H_kx_{k}+n_k<br>$$<br>其中：</p>
-<ul>
-<li>$F_k$是作用在$x_{k-1}$状态变换模型</li>
-<li>$B_k$是作用在控制器向量$u_k$上的输入-控制模型（系统内部控制）</li>
-<li>$v_{k}$是过程噪声，并假定$v_{k} \thicksim N(0,Q_k)$</li>
-<li>$n_k$是观测噪声，并假定$n_{k} \thicksim N(0,R_k)$</li>
-</ul>
-<p>我们使用$P_k$来表示后验估计的误差协方差矩阵，用于度量估计值的精确程度（不确定性），矩阵的值表示各个变量的相关程度，则</p>
-<p>$P_k=F_kP_{k-1}F_{k}^T+Q_k$。</p>
-<p>综合我们的预测结果和观测结果，我们得到如下两个高斯分布：<br>$$<br>\begin{array}{l}{\left(\vec{\mu}_{0}, \Sigma_{0}\right)=\left(\mathbf{H}_{k} {\mathbf{x}}_{k}, \mathrm{H}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T}\right)} \\ {\left(\vec{\mu}_{1}, \mathbf{\Sigma}_{1}\right)=\left(\mathrm{y}_{k}, \mathbf{R}_{k}\right)}\end{array}<br>$$<br>将这两个高斯概率密度函数相乘，我们就得到了一个新的高斯分布，这正是卡尔曼滤波想要的<strong>最优估计</strong>。</p>
-<p>新的分布如下所示：<br>$$<br>\begin{aligned} \mathbf{K} &amp;=\Sigma_{0}\left(\Sigma_{0}+\Sigma_{1}\right)^{-1} \\ \vec{\mu}^{\prime} &amp;=\overrightarrow{\mu_{0}}+\mathrm{K}(\overrightarrow{\mu_{1}}-\overrightarrow{\mu_{0}}) \\ \Sigma^{\prime} &amp;=\Sigma_{0}-\mathrm{K} \Sigma_{0} \end{aligned}<br>$$<br>也即：<br>$$<br>\begin{aligned} \mathbf{K} &amp;=\mathrm{H}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T}\left(\mathrm{H}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T}+\mathbf{R}_{k}\right)^{-1} \\ \mathbf{H}_{k} {\mathbf{x}}_{k}^{\prime} &amp;=\mathbf{H}_{k} {\mathbf{x}}_{k}+\mathrm{K}\left(\mathrm{y}_{k}-\mathrm{H}_{k} {\mathbf{x}}_{k}\right) \\ \mathbf{H}_{k} \mathbf{P}_{k}^{\prime} \mathbf{H}_{k}^{T} &amp;=\mathrm{H}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T}-\mathrm{KH}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T} \end{aligned}<br>$$<br>化简可得：<br>$$<br>\begin{aligned} {\mathbf{x}}_{k}^{\prime} &amp;={\mathbf{x}}_{k} +\mathbf{K}^{\prime}\left(y_{k}-\mathbf{H}_{k} {\mathbf{x}}_{k}\right) \\ \mathbf{P}_{k}^{\prime} &amp;=\mathrm{P}_{k} -\mathbf{K}^{\prime} \mathbf{H}_{k} \mathbf{P}_{k} \\ \mathbf{K}^{\prime} &amp;=\mathbf{P}_{k} \mathbf{H}_{k}^{T}\left(\mathrm{H}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T}+\mathbf{R}_{k}\right)^{-1} \end{aligned}<br>$$<br>其中的$K^\prime$就是<strong>卡尔曼增益</strong>。</p>
-<p>由此我们可以得到卡尔曼滤波的具体实现：</p>
-<h4 id="预测-1"><a href="#预测-1" class="headerlink" title="预测"></a>预测</h4><p>$$<br>x=Fx+Bu\quad P=FPF^T+Q<br>$$</p>
-<h4 id="修正"><a href="#修正" class="headerlink" title="修正"></a>修正</h4><p>$$<br>dy =y-Hx \\ S =HPH^{T}+R \\ K =PH^{T} S^{-1} \\ x =x+K * {dy}<br>$$</p>
-<p>$$<br>P =({I}-{K}{H}) *{P}<br>$$</p>
-<p>其中，$dy$为观测余量，$S$为观测余量的协方差矩阵。</p>
-<p>系统状态$x$，误差协方差矩阵$P$，卡尔曼增益$K$是不断迭代更新的，实际应用时$Q$和$R$依据具体情况来确定，可以不断调试寻找最优解，也可以是可变的。</p>
-<h3 id="扩展卡尔曼滤波"><a href="#扩展卡尔曼滤波" class="headerlink" title="扩展卡尔曼滤波"></a>扩展卡尔曼滤波</h3><p>卡尔曼滤波器假设了两个条件：噪声符合高斯分布；系统是线性系统。此外，噪声、状态转移函数、观测函数通常是不变的。</p>
-<p>实际中的问题可能并不满足这两个假设，扩展卡尔曼滤波通过将非线性系统线性化的方法处理非线性系统。</p>
-<p>TODO</p>
-<h3 id="粒子滤波"><a href="#粒子滤波" class="headerlink" title="粒子滤波"></a>粒子滤波</h3><blockquote>
-<p><strong>粒子滤波器</strong>（particle filter）是一种使用<a href="https://zh.wikipedia.org/wiki/蒙特卡罗方法" target="_blank" rel="noopener">蒙特卡罗方法</a>的<a href="https://zh.wikipedia.org/wiki/递归滤波器" target="_blank" rel="noopener">递归滤波器</a>，透过一组具有权重的随机样本（称为粒子）来表示<a href="https://zh.wikipedia.org/wiki/事件_(概率论)" target="_blank" rel="noopener">随机事件</a>的<a href="https://zh.wikipedia.org/wiki/后验概率" target="_blank" rel="noopener">后验概率</a>，从含有噪声或不完整的观测序列，估计出动力系统的状态，粒子滤波器可以运用在任何<a href="https://zh.wikipedia.org/wiki/状态空间" target="_blank" rel="noopener">状态空间</a>的模型上。</p>
-<p>粒子滤波器是<a href="https://zh.wikipedia.org/wiki/卡尔曼滤波" target="_blank" rel="noopener">卡尔曼滤波器</a>的一般化方法，卡尔曼滤波器建立在线性的状态空间和<a href="https://zh.wikipedia.org/wiki/正态分布" target="_blank" rel="noopener">高斯分布</a>的噪声上；而粒子滤波器的状态空间模型可以是非线性，且噪声分布可以是任何型式。</p>
-</blockquote>
-<p>看简介可以发现，粒子滤波的范围比卡尔曼滤波器更广，但是计算量要大上不少。</p>
-<h4 id="序列重要性采样（Sequential-Importance-Sampling-SIS）"><a href="#序列重要性采样（Sequential-Importance-Sampling-SIS）" class="headerlink" title="序列重要性采样（Sequential Importance Sampling, SIS）"></a>序列重要性采样（Sequential Importance Sampling, SIS）</h4><p>SIS将后验概率${p(x_{k}\mid y_{1:k})}$用$N$个随机采样的样本（称作粒子）与其各自的权重表示为：<br>$$<br>\{x_k^{(i)},w_k^{(i)}\}_{i=1}^{N}<br>$$<br>其中权重则根据重要性采样的规则产生，且$\sum w_i=1$，则函数的期望可以用加权平均来近似：<br>$$<br>\int f\left(x_{k}\right) p\left(x_{k} | y_{1: k}\right) d x_{k} \approx \sum_{i=1}^{N} w_{k}^{(i)} f\left(x_{k}^{(i)}\right)<br>$$<br>SIS是将重要性采样递归执行的方法，通过前一次采样的权重来计算下一次采样的权重，假设采样的样本分布可以表示为：<br>$$<br>x^{(i)}\thicksim q(x),i=1,\cdots ,N<br>$$<br>其中$q(x)$称为<strong>重要性密度(importance density)</strong> ，若样本$x_k^{(i)}$（$k$是时间下标）由重要性密度$q(x_k\mid y_{1:k})$抽取出来，则权重可以表示为：<br>$$<br>w_{k}^{(i)} \propto \frac{p\left(x_{k}^{(i)} | y_{1: k}\right)}{q\left(x_{k}^{(i)} | y_{1: k}\right)}<br>$$<br>将重要性密度分解为：<br>$$<br>q\left(x_{k} | y_{1: k}\right)=q\left(x_{k} | x_{k-1}, y_{1: k}\right) q\left(x_{k-1} | y_{1: k-1}\right)<br>$$<br>再将后验概率表示为：<br>$$<br>\begin{aligned} p\left(x_{k} | y_{1: k}\right) &amp;=\frac{p\left(y_{k} | x_{k}, y_{1: k-1}\right) p\left(x_{k} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp;=\frac{p\left(y_{k} | x_{k}, y_{1: k-1}\right) p\left(x_{k} | x_{k-1}, y_{1: k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp;=\frac{p\left(y_{k} | x_{k}\right) p\left(x_{k} | x_{k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp; \propto p\left(y_{k} | x_{k}\right) p\left(x_{k} | x_{k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right) \end{aligned}<br>$$<br>则权重的递归式可以表示为：<br>$$<br>\begin{aligned} w_{k}^{(i)} &amp; \propto \frac{p\left(y_{k} | x_{k}^{(i)}\right) p\left(x_{k}^{(i)} | x_{k-1}^{(i)}\right) p\left(x_{k-1}^{(i)} | y_{1: k-1}\right)}{q\left(x_{k}^{(i)} | x_{k-1}^{(i)}, y_{1: k}\right) q\left(x_{k-1}^{(i)} | y_{1: k-1}\right)} \\ &amp;=w_{k-1}^{(i)} \frac{p\left(y_{k} | x_{k}^{(i)}\right) p\left(x_{k}^{(i)} | x_{k-1}^{(i)}\right)}{q\left(x_{k}^{(i)} | x_{k-1}^{(i)}, y_{1: k}\right)} \end{aligned}<br>$$</p>
-<h4 id="序列重要性重采样（Sequential-Importance-Resampling-SIR）"><a href="#序列重要性重采样（Sequential-Importance-Resampling-SIR）" class="headerlink" title="序列重要性重采样（Sequential Importance Resampling, SIR）"></a>序列重要性重采样（Sequential Importance Resampling, SIR）</h4><p>经过几次迭代之后，很多例子的权重都变小到可以忽略不计，这就是SIS会造成的<strong>退化问题(degeneracy problem)</strong> 。我们定义有效粒子数为：<br>$$<br>\widehat{N_{e f f}}=\frac{1}{\sum_{i=1}^{N}\left(w_{k}^{(i)}\right)^{2}}<br>$$<br>若有效粒子数小于某一阈值，则对粒子做重采样，即可减缓退化问题。重采样的概念是去除权重过小的粒子，专注于权重较大的粒子。进行重采样时，要<strong>由现有的粒子分布取样</strong>，产生一组新的粒子。由于新样本独立同分布，因此权重重新设定为$\frac{1}{N}$。</p>
-<p>粒子滤波的核心思想是随机采样+重要性重采样+预测，如下图所示：</p>
-<p><img src="fig_particle_filter.jpg" alt></p>
-<h4 id="算法流程"><a href="#算法流程" class="headerlink" title="算法流程"></a>算法流程</h4><p>TODO</p>
-<h3 id="参考资料"><a href="#参考资料" class="headerlink" title="参考资料"></a>参考资料</h3><ul>
-<li>统计学习方法（第二版）-李航</li>
-<li><a href="https://www.jianshu.com/p/f6ce8943560c?from=singlemessage" target="_blank" rel="noopener">轻松理解卡尔曼滤波</a></li>
-</ul>
-
+                
             </div>
             <hr />
 
@@ -712,9 +614,9 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《[ML]-统计学习-1（卡尔曼滤波与粒子滤波）》
+                    《Statistical Learning Methods v2 Notes》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/11/27/ml-tong-ji-xue-xi-1/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/12/04/statistical-learning-methods-v2-notes/" property="cc:attributionName"
                rel="cc:attributionURL">
                 Martin
             </a> 采用
@@ -755,7 +657,7 @@
         repo: 'martin20150405.github.io',
         owner: 'martin20150405',
         admin: "martin20150405",
-        id: '2019/11/27/ml-tong-ji-xue-xi-1/',
+        id: '2019/12/04/statistical-learning-methods-v2-notes/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -776,9 +678,10 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
                 <a href="/2019/12/04/statistical-learning-methods-v2-notes/">
                     <div class="card-image">
@@ -796,9 +699,9 @@
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-12-04
-                        </span>
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-12-04
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -811,6 +714,7 @@
                         </span>
                     </div>
                 </div>
+
                 
                 <div class="card-action article-tags">
                     
@@ -833,26 +737,27 @@
                 下一篇&nbsp;<i class="fa fa-chevron-right"></i>
             </div>
             <div class="card">
-                <a href="/2019/11/13/dl-winograd-kuai-su-juan-ji-suan-fa/">
+                <a href="/2019/11/27/ml-tong-ji-xue-xi-1/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="[DL]Winograd快速卷积算法">
+                        <img src="/medias/featureimages/6.jpg" class="responsive-img" alt="[ML]-统计学习-1（卡尔曼滤波与粒子滤波）">
                         
-                        <span class="card-title">[DL]Winograd快速卷积算法</span>
+                        <span class="card-title">[ML]-统计学习-1（卡尔曼滤波与粒子滤波）</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            前言卷积神经网络是很多任务尤其是计算机视觉任务的基础，但很大程度上，模型需要的大量卷积计算限制了模型的可用性。因此，如何快速的完成卷积操作就至关重要。
-此处的卷积是指图像处理领域的卷积操作，且数据通常为多通道的二维数组，卷积核的长宽相等。
+                            蒙特卡罗方法蒙特卡罗（Monte Carlo）方法又称统计模拟方法，是通过从概率模型的随机抽样进行近似数值计算的方法。
+维基上介绍的基本思想如下：
 
+通常蒙特卡罗方法可以粗略地分成两类：一类是所求解的问题本身具有内在的随机性，借助计算机的运
                         
                     </div>
                     <div class="publish-info">
                             <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-13
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-27
                             </span>
                         <span class="publish-author">
                             
@@ -869,16 +774,20 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/卷积神经网络/" target="_blank">
-                        <span class="chip bg-color">卷积神经网络</span>
+                    <a href="/tags/卡尔曼滤波器/" target="_blank">
+                        <span class="chip bg-color">卡尔曼滤波器</span>
                     </a>
                     
-                    <a href="/tags/Winograd/" target="_blank">
-                        <span class="chip bg-color">Winograd</span>
+                    <a href="/tags/粒子滤波器/" target="_blank">
+                        <span class="chip bg-color">粒子滤波器</span>
                     </a>
                     
-                    <a href="/tags/端侧推理/" target="_blank">
-                        <span class="chip bg-color">端侧推理</span>
+                    <a href="/tags/蒙特卡罗方法/" target="_blank">
+                        <span class="chip bg-color">蒙特卡罗方法</span>
+                    </a>
+                    
+                    <a href="/tags/贝叶斯理论/" target="_blank">
+                        <span class="chip bg-color">贝叶斯理论</span>
                     </a>
                     
                 </div>

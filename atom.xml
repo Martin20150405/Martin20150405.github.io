@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://Martin20150405.github.io/"/>
-  <updated>2019-12-04T00:55:34.054Z</updated>
+  <updated>2019-12-04T01:02:20.722Z</updated>
   <id>https://Martin20150405.github.io/</id>
   
   <author>
@@ -15,6 +15,26 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>Statistical Learning Methods v2 Notes</title>
+    <link href="https://Martin20150405.github.io/2019/12/04/statistical-learning-methods-v2-notes/"/>
+    <id>https://Martin20150405.github.io/2019/12/04/statistical-learning-methods-v2-notes/</id>
+    <published>2019-12-04T00:58:21.000Z</published>
+    <updated>2019-12-04T01:02:20.722Z</updated>
+    
+    <summary type="html">
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://Martin20150405.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+      <category term="统计学习方法" scheme="https://Martin20150405.github.io/tags/%E7%BB%9F%E8%AE%A1%E5%AD%A6%E4%B9%A0%E6%96%B9%E6%B3%95/"/>
+    
+      <category term="笔记" scheme="https://Martin20150405.github.io/tags/%E7%AC%94%E8%AE%B0/"/>
+    
+  </entry>
   
   <entry>
     <title>[ML]-统计学习-1（卡尔曼滤波与粒子滤波）</title>
