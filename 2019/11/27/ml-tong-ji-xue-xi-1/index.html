@@ -277,7 +277,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/7.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -444,14 +444,14 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    5.6k
+                    6.1k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    23 分
+                    25 分
                 </div>
                 
                 
@@ -520,12 +520,13 @@
 <p>假设$p(x_{k-1}\mid y_{1:k-1})$已知，在$k$时间进行上述两步操作（实际上，对下一步的预测在当前就可以进行）。</p>
 <h4 id="预测"><a href="#预测" class="headerlink" title="预测"></a>预测</h4><p>利用查普曼-科尔莫戈罗夫等式(Chapman–Kolmogorov equation)，可以由状态转移函数与时间 ${k-1}$的概率密度函数，$p(x_{k-1}\mid y_{1:k-1})$计算出时间$k$的<strong>先验概率</strong>${p(x_{k}\mid y_{1:k-1})}$。</p>
 <p>由于状态转移模型被假设为一阶马尔科夫过程，故${p(x_{k}\mid x_{k-1}, y_{1:k-1})}=p(x_{k}\mid x_{k-1})$，而$p(x_{k}\mid x_{k-1})$则由<strong>状态转移函数</strong>和$v_{k-1}$的统计值得到:<br>$$<br>\begin{aligned} p\left(x_{k} | y_{1: k-1}\right) &amp;=\int p\left(x_{k}, x_{k-1} | y_{1: k-1}\right) d x_{k-1} \\ &amp;=\int p\left(x_{k} | x_{k-1}, y_{1: k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right) d x_{k-1} \\ &amp;=\int p\left(x_{k} | x_{k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right) d x_{k-1} \end{aligned}<br>$$</p>
-<h4 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h4><p>在时间$k$时我们获得了新的观测值$y_k$，因此可以利用贝叶斯法则，由<strong>先验概率</strong>${p(x_{k}\mid y_{1:k-1})}$得到<strong>后验概率</strong>${p(x_{k}\mid y_{1:k})}$，即考虑观测值后的概率，其中的似然概率函数$p\left(y_{k} | x_{k}\right)$由<strong>观测函数</strong>和$n_k$的统计值得到：<br>$$<br>{p\left(x_{k} | y_{1: k}\right)=\frac{p\left(y_{k} | x_{k}\right) p\left(x_{k} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)}} \<br>$$<br>其中的归一化常数（Evidence）为：<br>$$<br>{p\left(y_{k} | y_{1: k-1}\right)=\int p\left(y_{k} | x_{k}\right) p\left(x_{k} | y_{1: k-1}\right) d x_{k}}<br>$$<br>上述两步骤的递推关系是贝叶斯最优解的基本概念，但是公式中使用的积分，对于一般非线性，非高斯的系统，难以得到解析解，因此需要使用蒙特卡罗方法来近似。</p>
+<h4 id="更新"><a href="#更新" class="headerlink" title="更新"></a>更新</h4><p>在时间$k$时我们获得了新的观测值$y_k$，因此可以利用贝叶斯法则，由<strong>先验概率</strong>${p(x_{k}\mid y_{1:k-1})}$得到<strong>后验概率</strong>${p(x_{k}\mid y_{1:k})}$，即考虑观测值后的概率，其中的似然概率函数$p\left(y_{k} | x_{k}\right)$由<strong>观测函数</strong>和$n_k$的统计值得到：<br>$$<br>{p\left(x_{k} | y_{1: k}\right)=\frac{p\left(y_{k} | x_{k}\right) p\left(x_{k} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)}} \<br>$$<br>其中的归一化常数（Evidence）为：<br>$$<br>{p\left(y_{k} | y_{1: k-1}\right)=\int p\left(y_{k} | x_{k}\right) p\left(x_{k} | y_{1: k-1}\right) d x_{k}}<br>$$<br>我们也可将后验概率表示为如下形式，就能得到递归更新的公式，即我们的滤波问题可以通过上一个规模更小的滤波问题来求解：<br>$$<br>\begin{aligned} p\left(x_{k} | y_{1: k}\right)&amp;=\frac{p\left(x_{k} , y_{1: k}\right)}{p\left(y_{1: k}\right)}\\&amp;=\frac{p\left(y_{1: {k-1}}\right)p\left(x_{k} , y_{k} \mid y_{1: {k-1}}\right)}{p\left(y_{1: {k-1}}\right)p\left(y_{k} | y_{1: k-1}\right)}\\&amp;=\frac{p\left(y_{k} | x_{k}, y_{1: k-1}\right) p\left(x_{k} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp;=\frac{p\left(y_{k} | x_{k}, y_{1: k-1}\right) p\left(x_{k} | x_{k-1}, y_{1: k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp;=\frac{p\left(y_{k} | x_{k}\right) p\left(x_{k} | x_{k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp; \propto p\left(y_{k} | x_{k}\right) p\left(x_{k} | x_{k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right) \end{aligned}<br>$$<br>上述两步骤的递推关系是贝叶斯最优解的基本概念，但是公式中使用的积分，对于一般非线性，非高斯的系统，难以得到解析解，因此需要使用蒙特卡罗方法来近似。</p>
+<h4 id="总体步骤"><a href="#总体步骤" class="headerlink" title="总体步骤"></a>总体步骤</h4><p>总体而言，我们的跟踪过程（即Inference，测试过程，算法参数实在训练过程确定的）分为两部分，即更新（Update/Filtering）和预测（Prediction），在此基础上迭代进行：<br>$$<br>t=1,\left\{\begin{array}{l}{p\left(x_{1} | y_{1}\right) \quad – \quad update} \\ {p\left(x_{2} | y_{1}\right)\quad – \quad prediction }\end{array}\right.\<br>t=2,\left\{\begin{array}{l}{p\left(x_{2} | y_{1:2}\right) \quad – \quad update} \\ {p\left(x_{3} | y_{1:2}\right)\quad – \quad prediction }\end{array}\right.\<br>\vdots \<br>t=T,\left\{\begin{array}{l}{p\left(x_{T} | y_{1:T}\right) \quad – \quad update} \\ {p\left(x_{T+1} | y_{1:T}\right)\quad – \quad prediction }\end{array}\right.\<br>$$</p>
 <h3 id="卡尔曼滤波"><a href="#卡尔曼滤波" class="headerlink" title="卡尔曼滤波"></a>卡尔曼滤波</h3><blockquote>
 <p>卡尔曼、粒子滤波实际应该叫做估计器（Estimator），估计当前值叫滤波（Filtering），估计过去叫平滑（Smoothing），估计未来叫预测（Predicting）。</p>
 <p>卡尔曼滤波利用目标的动态信息，设法去掉噪声的影响，得到一个关于目标位置的好的估计。这个估计可以是对当前目标位置的估计（滤波），也可以是对于将来位置的估计（预测），也可以是对过去位置的估计（插值或平滑）。 </p>
 </blockquote>
-<p>卡尔曼滤波假设系统状态与噪声是高斯的，可以用均值和方差来描述。则上述状态空间模型可以被表述为：<br>$$<br>x_k=F_kx_{k-1}+B_ku_k+v_{k} \<br>y_k=H_kx_{k}+n_k<br>$$<br>其中：</p>
+<p>卡尔曼滤波假设系统状态与噪声是高斯的，可以用均值和方差来描述。则上述状态空间模型可以被表述为：<br>$$<br>x_k=F_kx_{k-1}+B_ku_k+v_{k} \\\quad<br>y_k=H_kx_{k}+n_k<br>$$<br>其中：</p>
 <ul>
 <li>$F_k$是作用在$x_{k-1}$状态变换模型</li>
 <li>$B_k$是作用在控制器向量$u_k$上的输入-控制模型（系统内部控制）</li>
@@ -537,10 +538,11 @@
 <p>综合我们的预测结果和观测结果，我们得到如下两个高斯分布：<br>$$<br>\begin{array}{l}{\left(\vec{\mu}_{0}, \Sigma_{0}\right)=\left(\mathbf{H}_{k} {\mathbf{x}}_{k}, \mathrm{H}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T}\right)} \\ {\left(\vec{\mu}_{1}, \mathbf{\Sigma}_{1}\right)=\left(\mathrm{y}_{k}, \mathbf{R}_{k}\right)}\end{array}<br>$$<br>将这两个高斯概率密度函数相乘，我们就得到了一个新的高斯分布，这正是卡尔曼滤波想要的<strong>最优估计</strong>。</p>
 <p>新的分布如下所示：<br>$$<br>\begin{aligned} \mathbf{K} &amp;=\Sigma_{0}\left(\Sigma_{0}+\Sigma_{1}\right)^{-1} \\ \vec{\mu}^{\prime} &amp;=\overrightarrow{\mu_{0}}+\mathrm{K}(\overrightarrow{\mu_{1}}-\overrightarrow{\mu_{0}}) \\ \Sigma^{\prime} &amp;=\Sigma_{0}-\mathrm{K} \Sigma_{0} \end{aligned}<br>$$<br>也即：<br>$$<br>\begin{aligned} \mathbf{K} &amp;=\mathrm{H}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T}\left(\mathrm{H}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T}+\mathbf{R}_{k}\right)^{-1} \\ \mathbf{H}_{k} {\mathbf{x}}_{k}^{\prime} &amp;=\mathbf{H}_{k} {\mathbf{x}}_{k}+\mathrm{K}\left(\mathrm{y}_{k}-\mathrm{H}_{k} {\mathbf{x}}_{k}\right) \\ \mathbf{H}_{k} \mathbf{P}_{k}^{\prime} \mathbf{H}_{k}^{T} &amp;=\mathrm{H}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T}-\mathrm{KH}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T} \end{aligned}<br>$$<br>化简可得：<br>$$<br>\begin{aligned} {\mathbf{x}}_{k}^{\prime} &amp;={\mathbf{x}}_{k} +\mathbf{K}^{\prime}\left(y_{k}-\mathbf{H}_{k} {\mathbf{x}}_{k}\right) \\ \mathbf{P}_{k}^{\prime} &amp;=\mathrm{P}_{k} -\mathbf{K}^{\prime} \mathbf{H}_{k} \mathbf{P}_{k} \\ \mathbf{K}^{\prime} &amp;=\mathbf{P}_{k} \mathbf{H}_{k}^{T}\left(\mathrm{H}_{k} \mathrm{P}_{k} \mathrm{H}_{k}^{T}+\mathbf{R}_{k}\right)^{-1} \end{aligned}<br>$$<br>其中的$K^\prime$就是<strong>卡尔曼增益</strong>。</p>
 <p>由此我们可以得到卡尔曼滤波的具体实现：</p>
-<h4 id="预测-1"><a href="#预测-1" class="headerlink" title="预测"></a>预测</h4><p>$$<br>x=Fx+Bu\quad P=FPF^T+Q<br>$$</p>
+<h4 id="预测-1"><a href="#预测-1" class="headerlink" title="预测"></a>预测</h4><p>$$<br>x=Fx+Bu \\ \quad P=FPF^T+Q<br>$$</p>
 <h4 id="修正"><a href="#修正" class="headerlink" title="修正"></a>修正</h4><p>$$<br>dy =y-Hx \\ S =HPH^{T}+R \\ K =PH^{T} S^{-1} \\ x =x+K * {dy}<br>$$</p>
 <p>$$<br>P =({I}-{K}{H}) *{P}<br>$$</p>
 <p>其中，$dy$为观测余量，$S$为观测余量的协方差矩阵。</p>
+<p>状态转移矩阵$F$，状态到观测的变换矩阵$H$通常都由训练数据得到，在测试过程中保持不变。</p>
 <p>系统状态$x$，误差协方差矩阵$P$，卡尔曼增益$K$是不断迭代更新的，实际应用时$Q$和$R$依据具体情况来确定，可以不断调试寻找最优解，也可以是可变的。</p>
 <h3 id="扩展卡尔曼滤波"><a href="#扩展卡尔曼滤波" class="headerlink" title="扩展卡尔曼滤波"></a>扩展卡尔曼滤波</h3><p>卡尔曼滤波器假设了两个条件：噪声符合高斯分布；系统是线性系统。此外，噪声、状态转移函数、观测函数通常是不变的。</p>
 <p>实际中的问题可能并不满足这两个假设，扩展卡尔曼滤波通过将非线性系统线性化的方法处理非线性系统。</p>
@@ -802,7 +804,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Statistical Learning Methods v2 Notes">
+                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Statistical Learning Methods v2 Notes">
                         
                         <span class="card-title">Statistical Learning Methods v2 Notes</span>
                     </div>
@@ -856,7 +858,7 @@ Chap01 统计学习及监督学习概论
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="[DL]Winograd快速卷积算法">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="[DL]Winograd快速卷积算法">
                         
                         <span class="card-title">[DL]Winograd快速卷积算法</span>
                     </div>
@@ -1059,7 +1061,7 @@ Chap01 统计学习及监督学习概论
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">22.2k</span>
+            <span class="white-color">25.2k</span>
             
 
             <br>
