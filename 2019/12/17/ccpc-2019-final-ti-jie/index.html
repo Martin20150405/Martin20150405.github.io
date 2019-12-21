@@ -10,9 +10,9 @@
     <meta name="360-site-verification" content>
     <meta name="description" content="题目来源：CCPC 2019
 题目链接：CodeForces-Gym-102431
+退伍两年半了还是这么蔡真是抱歉。。。
 A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11th不是11st容易怒WA
-#include &amp;lt;bits/stdc++.h&gt;
-">
+#include ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -278,7 +278,7 @@ A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/9.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -399,6 +399,10 @@ A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11
                             <span class="chip bg-color">CCPC</span>
                         </a>
                         
+                        <a href="/tags/算法/" target="_blank">
+                            <span class="chip bg-color">算法</span>
+                        </a>
+                        
                     </div>
                     
                 </div>
@@ -433,14 +437,14 @@ A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    2.5k
+                    3.5k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    13 分
+                    18 分
                 </div>
                 
                 
@@ -458,6 +462,7 @@ A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11
             <div id="articleContent">
                 <p>题目来源：CCPC 2019</p>
 <p>题目链接：<a href="http://codeforces.com/gym/102431/attachments/download/9860/statements.pdf" target="_blank" rel="noopener">CodeForces-Gym-102431</a></p>
+<p>退伍两年半了还是这么蔡真是抱歉。。。</p>
 <h2 id="A-Kick-Start（水、模拟）"><a href="#A-Kick-Start（水、模拟）" class="headerlink" title="A.Kick Start（水、模拟）"></a>A.Kick Start（水、模拟）</h2><p>题解：签到题，模拟，如果注意不到11th不是11st容易怒WA</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;bits/stdc++.h></span></span>
 <span class="token keyword">typedef</span> <span class="token keyword">long</span> <span class="token keyword">long</span> ll<span class="token punctuation">;</span>
@@ -859,6 +864,156 @@ ll <span class="token function">getGrid</span><span class="token punctuation">(<
     <span class="token punctuation">}</span>
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="K-Russian-Dolls-on-the-Christmas-Tree-（DSU-on-tree）"><a href="#K-Russian-Dolls-on-the-Christmas-Tree-（DSU-on-tree）" class="headerlink" title="K. Russian Dolls on the Christmas Tree （DSU on tree）"></a>K. Russian Dolls on the Christmas Tree （DSU on tree）</h2><p>题意：统计所有子树包含数字集合的非连续段数，如${2,3,5,6,98}$一共包括三段。</p>
+<p>题解：差不多是DSU的模板题吧（题意很迷啊），虽然作者已经不太会写了。</p>
+<p>DSU on tree又叫树上启发式合并，是一种<strong>无修改</strong>子树特征查询方法，基于树链剖分的轻重链思想（连接子树且子树节点最多的边为重边）</p>
+<p>一些名词：<a href="https://oi-wiki.org/graph/dsu-on-tree/" target="_blank" rel="noopener">树上启发式合并</a>，<a href="https://oi-wiki.org/graph/hld/" target="_blank" rel="noopener">树链剖分</a>，<a href="https://blog.csdn.net/Yaokai_AssultMaster/article/details/79599809" target="_blank" rel="noopener">线段树</a></p>
+<p><a href="https://www.cnblogs.com/zwfymqz/p/9683124.html" target="_blank" rel="noopener">DSU on tree的解析和例题</a></p>
+<p>这里说的启发式，其实就是指<strong>把小集合往大集合上合并</strong>，具体流程如下，对于某一个节点：</p>
+<ul>
+<li>递归轻儿子并消除影响（轻儿子所在子树答案确定)</li>
+<li>递归重儿子，不消除影响（重儿子所在子树答案确定)</li>
+<li>再次统计轻儿子对答案的影响</li>
+<li>更新节点答案</li>
+<li>若当前节点是轻儿子，删除影响</li>
+</ul>
+<p>总体而言，遍历了两次非重子树，一次重子树，之所以要删除中间的结果，是因为没有这么多空间存。显然若一个节点被遍历了$x$次，则其重儿子会被遍历$x$次，轻儿子（如果有的话）会被遍历$2x$次。</p>
+<p><img src="fig_dsu_on_tree.png" alt></p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;bits/stdc++.h></span></span>
+
+<span class="token keyword">typedef</span> <span class="token keyword">long</span> <span class="token keyword">long</span> ll<span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> mem(a, b) memset(a,b,sizeof(a))</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> rep(i, a, b) for(int i=a;i&lt;b;i++)</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> MOD <span class="token operator">=</span> <span class="token number">1e9</span> <span class="token operator">+</span> <span class="token number">7</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> MAXN <span class="token operator">=</span> <span class="token number">2e5</span> <span class="token operator">+</span> <span class="token number">10</span><span class="token punctuation">;</span>
+
+<span class="token keyword">struct</span> Edge <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> u<span class="token punctuation">,</span> v<span class="token punctuation">;</span>
+
+    <span class="token function">Edge</span><span class="token punctuation">(</span><span class="token keyword">int</span> u<span class="token punctuation">,</span> <span class="token keyword">int</span> v<span class="token punctuation">)</span> <span class="token operator">:</span> <span class="token function">u</span><span class="token punctuation">(</span>u<span class="token punctuation">)</span><span class="token punctuation">,</span> <span class="token function">v</span><span class="token punctuation">(</span>v<span class="token punctuation">)</span> <span class="token punctuation">{</span><span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> n<span class="token punctuation">;</span><span class="token comment" spellcheck="true">//num of node</span>
+<span class="token keyword">int</span> m<span class="token punctuation">;</span><span class="token comment" spellcheck="true">//num of edge</span>
+vector<span class="token operator">&lt;</span>Edge<span class="token operator">></span> edges<span class="token punctuation">;</span>
+vector<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token operator">></span> G<span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//edge list graph</span>
+<span class="token keyword">int</span> siz<span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//子树节点数</span>
+<span class="token keyword">int</span> dep<span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//深度</span>
+<span class="token keyword">int</span> fa<span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">;</span>  <span class="token comment" spellcheck="true">//父节点</span>
+<span class="token keyword">int</span> son<span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//重儿子</span>
+
+<span class="token keyword">void</span> <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    edges<span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">rep</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> G<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">clear</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">mem</span><span class="token punctuation">(</span>son<span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">void</span> <span class="token function">addEdge</span><span class="token punctuation">(</span><span class="token keyword">int</span> u<span class="token punctuation">,</span> <span class="token keyword">int</span> v<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    edges<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token function">Edge</span><span class="token punctuation">(</span>u<span class="token punctuation">,</span> v<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    m <span class="token operator">=</span> edges<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    G<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>m <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token comment" spellcheck="true">//找到重边(son[u])，确定深度，子树大小，父节点</span>
+<span class="token keyword">void</span> <span class="token function">dfs1</span><span class="token punctuation">(</span><span class="token keyword">int</span> u<span class="token punctuation">,</span> <span class="token keyword">int</span> pa<span class="token punctuation">,</span> <span class="token keyword">int</span> depth<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    dep<span class="token punctuation">[</span>u<span class="token punctuation">]</span> <span class="token operator">=</span> depth<span class="token punctuation">;</span>
+    fa<span class="token punctuation">[</span>u<span class="token punctuation">]</span> <span class="token operator">=</span> pa<span class="token punctuation">;</span>
+    siz<span class="token punctuation">[</span>u<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> sz <span class="token operator">=</span> G<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">rep</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> sz<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Edge <span class="token operator">&amp;</span>e <span class="token operator">=</span> edges<span class="token punctuation">[</span>G<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> v <span class="token operator">=</span> e<span class="token punctuation">.</span>v<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>v <span class="token operator">!=</span> pa<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">dfs1</span><span class="token punctuation">(</span>v<span class="token punctuation">,</span> u<span class="token punctuation">,</span> depth <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            siz<span class="token punctuation">[</span>u<span class="token punctuation">]</span> <span class="token operator">+</span><span class="token operator">=</span> siz<span class="token punctuation">[</span>v<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span> <span class="token punctuation">(</span>son<span class="token punctuation">[</span>u<span class="token punctuation">]</span> <span class="token operator">==</span> <span class="token operator">-</span><span class="token number">1</span> <span class="token operator">||</span> siz<span class="token punctuation">[</span>v<span class="token punctuation">]</span> <span class="token operator">></span> siz<span class="token punctuation">[</span>son<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                son<span class="token punctuation">[</span>u<span class="token punctuation">]</span> <span class="token operator">=</span> v<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">bool</span> flag<span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> ans<span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> cnt<span class="token punctuation">;</span>
+<span class="token keyword">bool</span> vis<span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//重儿子标签，影响不会被消除，实际上全程只有一个节点会被打上标签</span>
+
+<span class="token keyword">void</span> <span class="token function">updateAns</span><span class="token punctuation">(</span><span class="token keyword">int</span> u<span class="token punctuation">,</span><span class="token keyword">int</span> pa<span class="token punctuation">,</span><span class="token keyword">bool</span> flg<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">int</span> sum<span class="token operator">=</span>flag<span class="token punctuation">[</span>u<span class="token number">-1</span><span class="token punctuation">]</span><span class="token operator">+</span>flag<span class="token punctuation">[</span>u<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>flg<span class="token punctuation">)</span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">//insert</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>sum<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span> cnt<span class="token operator">++</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>sum<span class="token operator">==</span><span class="token number">2</span><span class="token punctuation">)</span> cnt<span class="token operator">--</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span><span class="token keyword">else</span><span class="token punctuation">{</span> <span class="token comment" spellcheck="true">//remove</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>sum<span class="token operator">==</span><span class="token number">0</span><span class="token punctuation">)</span> cnt<span class="token operator">--</span><span class="token punctuation">;</span>
+        <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>sum<span class="token operator">==</span><span class="token number">2</span><span class="token punctuation">)</span> cnt<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    flag<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token operator">=</span>flg<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> sz <span class="token operator">=</span> G<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">rep</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> sz<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Edge <span class="token operator">&amp;</span>e <span class="token operator">=</span> edges<span class="token punctuation">[</span>G<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> v <span class="token operator">=</span> e<span class="token punctuation">.</span>v<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>v <span class="token operator">!=</span> pa <span class="token operator">&amp;&amp;</span> <span class="token operator">!</span>vis<span class="token punctuation">[</span>v<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">updateAns</span><span class="token punctuation">(</span>v<span class="token punctuation">,</span> u<span class="token punctuation">,</span> flg<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">void</span> <span class="token function">dfs2</span><span class="token punctuation">(</span><span class="token keyword">int</span> u<span class="token punctuation">,</span> <span class="token keyword">int</span> pa<span class="token punctuation">,</span> <span class="token keyword">bool</span> keep<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+    <span class="token keyword">int</span> sz <span class="token operator">=</span> G<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token function">rep</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> sz<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        Edge <span class="token operator">&amp;</span>e <span class="token operator">=</span> edges<span class="token punctuation">[</span>G<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> v <span class="token operator">=</span> e<span class="token punctuation">.</span>v<span class="token punctuation">;</span>
+        <span class="token keyword">if</span> <span class="token punctuation">(</span>v <span class="token operator">!=</span> pa <span class="token operator">&amp;&amp;</span> v <span class="token operator">!=</span> son<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token function">dfs2</span><span class="token punctuation">(</span>v<span class="token punctuation">,</span> u<span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//统计轻儿子，消除影响</span>
+        <span class="token punctuation">}</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>son<span class="token punctuation">[</span>u<span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">dfs2</span><span class="token punctuation">(</span>son<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">,</span> u<span class="token punctuation">,</span> <span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        vis<span class="token punctuation">[</span>son<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//统计重儿子，统计答案前不消除影响</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">updateAns</span><span class="token punctuation">(</span>u<span class="token punctuation">,</span>pa<span class="token punctuation">,</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">if</span> <span class="token punctuation">(</span>son<span class="token punctuation">[</span>u<span class="token punctuation">]</span> <span class="token operator">!=</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> vis<span class="token punctuation">[</span>son<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">=</span><span class="token boolean">false</span><span class="token punctuation">;</span> <span class="token comment" spellcheck="true">//统计完以后重儿子已经木有用了</span>
+
+    ans<span class="token punctuation">[</span>u<span class="token punctuation">]</span><span class="token operator">=</span>cnt<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//    printf("u:%d ans:%d\n",u,cnt);</span>
+<span class="token comment" spellcheck="true">//    rep(i,1,n+1){</span>
+<span class="token comment" spellcheck="true">//        printf("%d-%d ",i,flag[i]);</span>
+<span class="token comment" spellcheck="true">//    }</span>
+<span class="token comment" spellcheck="true">//    puts("");</span>
+
+    <span class="token comment" spellcheck="true">//若当前节点是轻儿子，删除影响</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>keep<span class="token punctuation">)</span>
+        <span class="token function">updateAns</span><span class="token punctuation">(</span>u<span class="token punctuation">,</span>pa<span class="token punctuation">,</span><span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token macro property">#<span class="token directive keyword">ifndef</span> ONLINE_JUDGE</span>
+    <span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"in.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">,</span> <span class="token constant">stdin</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//freopen("out.txt","w",stdout);</span>
+<span class="token macro property">#<span class="token directive keyword">endif</span></span>
+    <span class="token keyword">int</span> T<span class="token punctuation">;</span>
+    <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>T<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> cs <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> cs <span class="token operator">&lt;=</span> T<span class="token punctuation">;</span> <span class="token operator">++</span>cs<span class="token punctuation">)</span> <span class="token punctuation">{</span>
+        <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>n<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">init</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">rep</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">,</span> n <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">int</span> u<span class="token punctuation">,</span> v<span class="token punctuation">;</span>
+            <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d %d"</span><span class="token punctuation">,</span> <span class="token operator">&amp;</span>u<span class="token punctuation">,</span> <span class="token operator">&amp;</span>v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">addEdge</span><span class="token punctuation">(</span>u<span class="token punctuation">,</span> v<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token function">addEdge</span><span class="token punctuation">(</span>v<span class="token punctuation">,</span> u<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">dfs1</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">mem</span><span class="token punctuation">(</span>flag<span class="token punctuation">,</span> <span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">mem</span><span class="token punctuation">(</span>vis<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        cnt<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token function">dfs2</span><span class="token punctuation">(</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">,</span> <span class="token boolean">false</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">"Case #%d:"</span><span class="token punctuation">,</span> cs<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">rep</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span> <span class="token number">1</span><span class="token punctuation">,</span> n <span class="token operator">+</span> <span class="token number">1</span><span class="token punctuation">)</span> <span class="token function">printf</span><span class="token punctuation">(</span><span class="token string">" %d"</span><span class="token punctuation">,</span> ans<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">puts</span><span class="token punctuation">(</span><span class="token string">""</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="I-Mr-Panda-and-Blocks-（构造）"><a href="#I-Mr-Panda-and-Blocks-（构造）" class="headerlink" title="I. Mr. Panda and Blocks （构造）"></a>I. Mr. Panda and Blocks （构造）</h2><p>题意：有$n$种颜色，颜色两两组合最终形成$\frac{n(n+1)}{2}$个由两个正方体组合成的长方体，现在进行搭积木操作，要将同色长方体连起来，且每个颜色要和其他颜色也相邻</p>
 <p>题解：这种通过构造可解而不是根据任何所谓结论去暴力搜索的题目其实很有趣，又很无聊（想不到就gg了）。还好作者玩过积木。</p>
 <p>可以看到随着$n$的增加，积木的数量也是逐渐增多的（二阶等差，每次增加$1,2,3,…$）。我们要尽可能的让一个颜色连接起来，又要和其他颜色去相连，那么最直观的做法就是把由其他颜色带来的组合放在上一层。这样子每个颜色要和其他颜色相邻的要求本来就达到了，放在上一层则能保证和之前的颜色也相邻，具体请看图。顺带吐槽一下这个样例的误导性真是太强了，一点都没有规律可言。</p>
@@ -1149,7 +1304,7 @@ ll <span class="token function">getGrid</span><span class="token punctuation">(<
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="CCPC 2019 Final 题解">
+                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="CCPC 2019 Final 题解">
                         
                         <span class="card-title">CCPC 2019 Final 题解</span>
                     </div>
@@ -1159,9 +1314,9 @@ ll <span class="token function">getGrid</span><span class="token punctuation">(<
                         
                             题目来源：CCPC 2019
 题目链接：CodeForces-Gym-102431
+退伍两年半了还是这么蔡真是抱歉。。。
 A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11th不是11st容易怒WA
-#include &lt;bits/stdc++.h>
-
+#include 
                         
                     </div>
                     <div class="publish-info">
@@ -1188,6 +1343,10 @@ A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11
                         <span class="chip bg-color">CCPC</span>
                     </a>
                     
+                    <a href="/tags/算法/" target="_blank">
+                        <span class="chip bg-color">算法</span>
+                    </a>
+                    
                 </div>
                 
             </div>
@@ -1203,7 +1362,7 @@ A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/14.jpg" class="responsive-img" alt="Statistical Learning Methods v2 Notes">
+                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Statistical Learning Methods v2 Notes">
                         
                         <span class="card-title">Statistical Learning Methods v2 Notes</span>
                     </div>
@@ -1401,7 +1560,7 @@ Chap01 统计学习及监督学习概论
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">25.2k</span>
+            <span class="white-color">26.1k</span>
             
 
             <br>
