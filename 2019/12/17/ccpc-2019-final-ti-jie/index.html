@@ -10,7 +10,7 @@
     <meta name="360-site-verification" content>
     <meta name="description" content="题目来源：CCPC 2019
 题目链接：CodeForces-Gym-102431
-退伍两年半了还是这么蔡真是抱歉。。。
+退役两年半了还是这么蔡真是抱歉。。。
 A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11th不是11st容易怒WA
 #include ">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
@@ -278,7 +278,7 @@ A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/5.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -437,14 +437,14 @@ A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    3.5k
+                    4.4k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    18 分
+                    23 分
                 </div>
                 
                 
@@ -462,7 +462,7 @@ A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11
             <div id="articleContent">
                 <p>题目来源：CCPC 2019</p>
 <p>题目链接：<a href="http://codeforces.com/gym/102431/attachments/download/9860/statements.pdf" target="_blank" rel="noopener">CodeForces-Gym-102431</a></p>
-<p>退伍两年半了还是这么蔡真是抱歉。。。</p>
+<p>退役两年半了还是这么蔡真是抱歉。。。</p>
 <h2 id="A-Kick-Start（水、模拟）"><a href="#A-Kick-Start（水、模拟）" class="headerlink" title="A.Kick Start（水、模拟）"></a>A.Kick Start（水、模拟）</h2><p>题解：签到题，模拟，如果注意不到11th不是11st容易怒WA</p>
 <pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;bits/stdc++.h></span></span>
 <span class="token keyword">typedef</span> <span class="token keyword">long</span> <span class="token keyword">long</span> ll<span class="token punctuation">;</span>
@@ -1044,6 +1044,231 @@ vector<span class="token operator">&lt;</span><span class="token keyword">int</s
     <span class="token punctuation">}</span>
     <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
 <span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
+<h2 id="J-Wire-compatible-Protocol-buffer-（模拟）"><a href="#J-Wire-compatible-Protocol-buffer-（模拟）" class="headerlink" title="J.Wire-compatible Protocol buffer （模拟）"></a>J.Wire-compatible Protocol buffer （模拟）</h2><p>题意：判断两个Protobuf descriptor是不是本质上相同的</p>
+<p>题解：出题人你出一个6页的模拟题来防AK良心不会痛吗？？？</p>
+<p>虽然概念写了很多，但是具体的比较过程还是比较容易的，需要注意的是有些消息类别是互相包含的，在验证是否相同时若要判别对象列表成环则可认为整条链上的结果都相同（没有验证过这个想法，可能数据偏水）。</p>
+<p><img src="fig_j.jpg" alt></p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;bits/stdc++.h></span></span>
+
+<span class="token keyword">typedef</span> <span class="token keyword">long</span> <span class="token keyword">long</span> ll<span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> mem(a, b) memset(a,b,sizeof(a))</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> rep(i, a, b) for(int i=a;i&lt;b;i++)</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> MOD <span class="token operator">=</span> <span class="token number">1e9</span> <span class="token operator">+</span> <span class="token number">7</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> MAXN <span class="token operator">=</span> <span class="token number">1e3</span> <span class="token operator">+</span> <span class="token number">10</span><span class="token punctuation">;</span>
+
+<span class="token keyword">enum</span> FiledLabel<span class="token punctuation">{</span>
+    REQUIRED<span class="token punctuation">,</span>OPTIONAL<span class="token punctuation">,</span>REPEATED
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">enum</span> FiledType<span class="token punctuation">{</span>
+    DOUBLE<span class="token punctuation">,</span>STRING<span class="token punctuation">,</span>EMBEDDED_MESSAGE
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">struct</span> Filed<span class="token punctuation">{</span>
+    FiledLabel filedLabel<span class="token punctuation">;</span>
+    FiledType filedType<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> filedMessageID<span class="token punctuation">;</span>
+    string filedMessageName<span class="token punctuation">;</span>
+    string filedName<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> filedNumber<span class="token punctuation">;</span>
+
+    <span class="token keyword">bool</span> <span class="token keyword">operator</span><span class="token operator">&lt;</span><span class="token punctuation">(</span><span class="token keyword">const</span> Filed<span class="token operator">&amp;</span>rhs<span class="token punctuation">)</span><span class="token keyword">const</span><span class="token punctuation">{</span>
+        <span class="token keyword">return</span> filedNumber<span class="token operator">&lt;</span>rhs<span class="token punctuation">.</span>filedNumber<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+<span class="token keyword">struct</span> Message<span class="token punctuation">{</span>
+    <span class="token keyword">int</span> id<span class="token punctuation">;</span>
+    string name<span class="token punctuation">;</span>
+    vector<span class="token operator">&lt;</span>Filed<span class="token operator">></span> fileds<span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span class="token punctuation">;</span>
+
+Filed <span class="token function">parseFiled</span><span class="token punctuation">(</span>string <span class="token operator">&amp;</span>str<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//cout&lt;&lt;"\t Parsing Filed ["&lt;&lt;str&lt;&lt;"]"&lt;&lt;endl;</span>
+    Filed ret<span class="token punctuation">;</span>
+    stringstream <span class="token function">ss</span><span class="token punctuation">(</span>str<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    string tmp<span class="token punctuation">;</span>
+    ss<span class="token operator">>></span>tmp<span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>tmp<span class="token operator">==</span><span class="token string">"optional"</span><span class="token punctuation">)</span> ret<span class="token punctuation">.</span>filedLabel<span class="token operator">=</span>OPTIONAL<span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>tmp<span class="token operator">==</span><span class="token string">"required"</span><span class="token punctuation">)</span> ret<span class="token punctuation">.</span>filedLabel<span class="token operator">=</span>REQUIRED<span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>tmp<span class="token operator">==</span><span class="token string">"repeated"</span><span class="token punctuation">)</span> ret<span class="token punctuation">.</span>filedLabel<span class="token operator">=</span>REPEATED<span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ss<span class="token operator">>></span>tmp<span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>tmp<span class="token operator">==</span><span class="token string">"string"</span><span class="token punctuation">)</span> ret<span class="token punctuation">.</span>filedType<span class="token operator">=</span>STRING<span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token keyword">if</span><span class="token punctuation">(</span>tmp<span class="token operator">==</span><span class="token string">"double"</span><span class="token punctuation">)</span> ret<span class="token punctuation">.</span>filedType<span class="token operator">=</span>DOUBLE<span class="token punctuation">;</span>
+    <span class="token keyword">else</span> <span class="token punctuation">{</span>
+        ret<span class="token punctuation">.</span>filedMessageName<span class="token operator">=</span>tmp<span class="token punctuation">;</span>
+        ret<span class="token punctuation">.</span>filedType<span class="token operator">=</span>EMBEDDED_MESSAGE<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    ss<span class="token operator">>></span>ret<span class="token punctuation">.</span>filedName<span class="token operator">>></span>tmp<span class="token operator">>></span>ret<span class="token punctuation">.</span>filedNumber<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> ret<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+vector<span class="token operator">&lt;</span>string<span class="token operator">></span> <span class="token function">splitFiled</span><span class="token punctuation">(</span>string str<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    vector<span class="token operator">&lt;</span>string<span class="token operator">></span> rets<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> curPos<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">,</span>pos<span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token punctuation">(</span>pos<span class="token operator">=</span>str<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token string">';'</span><span class="token punctuation">,</span>curPos<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token operator">!=</span>string<span class="token operator">::</span>npos<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        rets<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">substr</span><span class="token punctuation">(</span>curPos<span class="token punctuation">,</span>pos<span class="token operator">-</span>curPos<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        curPos<span class="token operator">=</span>pos<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> rets<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+Message <span class="token function">parseMessage</span><span class="token punctuation">(</span>string <span class="token operator">&amp;</span>str<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token comment" spellcheck="true">//cout&lt;&lt;"Parsing Message ["&lt;&lt;str&lt;&lt;"]"&lt;&lt;endl;</span>
+    Message ret<span class="token punctuation">;</span>
+    <span class="token keyword">int</span> st<span class="token operator">=</span>str<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token string">'{'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">int</span> ed<span class="token operator">=</span>str<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token string">'}'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> filedStrs<span class="token operator">=</span><span class="token function">splitFiled</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">substr</span><span class="token punctuation">(</span>st<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">,</span>ed<span class="token operator">-</span>st<span class="token number">-1</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">auto</span> <span class="token operator">&amp;</span>x<span class="token operator">:</span>filedStrs<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        ret<span class="token punctuation">.</span>fileds<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token function">parseFiled</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token function">sort</span><span class="token punctuation">(</span>ret<span class="token punctuation">.</span>fileds<span class="token punctuation">.</span><span class="token function">begin</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">,</span>ret<span class="token punctuation">.</span>fileds<span class="token punctuation">.</span><span class="token function">end</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    stringstream <span class="token function">ss</span><span class="token punctuation">(</span>str<span class="token punctuation">.</span><span class="token function">substr</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>st<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    string tmp<span class="token punctuation">;</span>
+    ss<span class="token operator">>></span>tmp<span class="token punctuation">;</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>tmp<span class="token operator">!=</span><span class="token string">"message"</span><span class="token punctuation">)</span> <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    ss<span class="token operator">>></span>tmp<span class="token punctuation">;</span>
+    ret<span class="token punctuation">.</span>name<span class="token operator">=</span>tmp<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> ret<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+vector<span class="token operator">&lt;</span>string<span class="token operator">></span> <span class="token function">splitMessage</span><span class="token punctuation">(</span>vector<span class="token operator">&lt;</span>string<span class="token operator">></span><span class="token operator">&amp;</span> strs<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    string cur<span class="token punctuation">;</span>
+    vector<span class="token operator">&lt;</span>string<span class="token operator">></span> rets<span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>strs<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        string s<span class="token operator">=</span>strs<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token boolean">true</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">auto</span> idx<span class="token operator">=</span>s<span class="token punctuation">.</span><span class="token function">find</span><span class="token punctuation">(</span><span class="token string">'}'</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>idx<span class="token operator">!=</span>string<span class="token operator">::</span>npos<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                cur<span class="token operator">+</span><span class="token operator">=</span>s<span class="token punctuation">.</span><span class="token function">substr</span><span class="token punctuation">(</span><span class="token number">0</span><span class="token punctuation">,</span>idx<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                s<span class="token operator">=</span>s<span class="token punctuation">.</span><span class="token function">substr</span><span class="token punctuation">(</span>idx<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+                rets<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>cur<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                cur<span class="token operator">=</span><span class="token string">""</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token punctuation">{</span>
+                cur<span class="token operator">+</span><span class="token operator">=</span>s<span class="token punctuation">;</span>
+                <span class="token keyword">break</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        i<span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> rets<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">bool</span> sameBaseContent<span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> same<span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">bool</span> <span class="token function">compareBaseContent</span><span class="token punctuation">(</span>Message <span class="token operator">&amp;</span>a<span class="token punctuation">,</span>Message <span class="token operator">&amp;</span>b<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>a<span class="token punctuation">.</span>fileds<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">!=</span>b<span class="token punctuation">.</span>fileds<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>a<span class="token punctuation">.</span>fileds<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        Filed <span class="token operator">&amp;</span>fai<span class="token operator">=</span>a<span class="token punctuation">.</span>fileds<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        Filed <span class="token operator">&amp;</span>fbi<span class="token operator">=</span>b<span class="token punctuation">.</span>fileds<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span>fai<span class="token punctuation">.</span>filedNumber<span class="token operator">!=</span>fbi<span class="token punctuation">.</span>filedNumber
+           <span class="token operator">||</span> fai<span class="token punctuation">.</span>filedLabel<span class="token operator">!=</span>fbi<span class="token punctuation">.</span>filedLabel
+           <span class="token operator">||</span> fai<span class="token punctuation">.</span>filedType<span class="token operator">!=</span>fbi<span class="token punctuation">.</span>filedType
+                <span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">false</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+
+<span class="token keyword">char</span> buf<span class="token punctuation">[</span>MAXN<span class="token punctuation">]</span><span class="token punctuation">;</span>
+
+<span class="token keyword">bool</span> <span class="token function">checkSame</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token punctuation">,</span><span class="token keyword">int</span> j<span class="token punctuation">,</span>vector<span class="token operator">&lt;</span>Message<span class="token operator">></span><span class="token operator">&amp;</span> messages<span class="token punctuation">,</span>map<span class="token operator">&lt;</span>pair<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span><span class="token keyword">int</span><span class="token operator">></span><span class="token punctuation">,</span><span class="token keyword">int</span><span class="token operator">></span> <span class="token operator">&amp;</span>se<span class="token punctuation">)</span><span class="token punctuation">{</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>same<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">!=</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span> <span class="token keyword">return</span> same<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//递归陷入循环</span>
+    <span class="token keyword">if</span><span class="token punctuation">(</span>se<span class="token punctuation">[</span><span class="token function">make_pair</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token operator">>=</span><span class="token number">2</span><span class="token punctuation">)</span> <span class="token keyword">return</span> <span class="token boolean">true</span><span class="token punctuation">;</span>
+    se<span class="token punctuation">[</span><span class="token function">make_pair</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">)</span><span class="token punctuation">]</span><span class="token operator">++</span><span class="token punctuation">;</span>
+    <span class="token keyword">auto</span> <span class="token operator">&amp;</span>a<span class="token operator">=</span>messages<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>b<span class="token operator">=</span>messages<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">;</span>
+    <span class="token keyword">bool</span> ret<span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span>
+    <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> p<span class="token operator">=</span>a<span class="token punctuation">.</span>fileds<span class="token punctuation">.</span><span class="token function">size</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">;</span>p<span class="token operator">>=</span><span class="token number">0</span><span class="token punctuation">;</span>p<span class="token operator">--</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token keyword">auto</span> <span class="token operator">&amp;</span>fap<span class="token operator">=</span>a<span class="token punctuation">.</span>fileds<span class="token punctuation">[</span>p<span class="token punctuation">]</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>fbp<span class="token operator">=</span>b<span class="token punctuation">.</span>fileds<span class="token punctuation">[</span>p<span class="token punctuation">]</span><span class="token punctuation">;</span>
+        <span class="token keyword">if</span><span class="token punctuation">(</span><span class="token operator">!</span>sameBaseContent<span class="token punctuation">[</span>fap<span class="token punctuation">.</span>filedMessageID<span class="token punctuation">]</span><span class="token punctuation">[</span>fbp<span class="token punctuation">.</span>filedMessageID<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            ret<span class="token operator">=</span><span class="token boolean">false</span><span class="token punctuation">;</span>
+            <span class="token keyword">break</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">else</span> ret<span class="token operator">&amp;</span><span class="token operator">=</span><span class="token function">checkSame</span><span class="token punctuation">(</span>fap<span class="token punctuation">.</span>filedMessageID<span class="token punctuation">,</span>fbp<span class="token punctuation">.</span>filedMessageID<span class="token punctuation">,</span>messages<span class="token punctuation">,</span>se<span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token comment" spellcheck="true">//update previous result</span>
+    same<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span>same<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>sameBaseContent<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span>sameBaseContent<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span>ret<span class="token punctuation">;</span>
+    <span class="token keyword">return</span> ret<span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+<span class="token macro property">#<span class="token directive keyword">ifndef</span> ONLINE_JUDGE</span>
+    <span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"in.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">,</span> <span class="token constant">stdin</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//freopen("out.txt","w",stdout);</span>
+<span class="token macro property">#<span class="token directive keyword">endif</span></span>
+    <span class="token keyword">int</span> n<span class="token punctuation">,</span>m<span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span><span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>n<span class="token punctuation">)</span><span class="token operator">!=</span><span class="token constant">EOF</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+        map<span class="token operator">&lt;</span>string<span class="token punctuation">,</span><span class="token keyword">int</span><span class="token operator">></span> ma<span class="token punctuation">;</span>
+        vector<span class="token operator">&lt;</span>Message<span class="token operator">></span> messages<span class="token punctuation">;</span>
+        vector<span class="token operator">&lt;</span>string<span class="token operator">></span> strs<span class="token punctuation">;</span>
+        <span class="token function">gets</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token function">rep</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>n<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token function">gets</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            strs<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span><span class="token function">string</span><span class="token punctuation">(</span>buf<span class="token punctuation">)</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+        <span class="token comment" spellcheck="true">//rep(i,0,n) cout&lt;&lt;"=="&lt;&lt;strs[i]&lt;&lt;"=="&lt;&lt;endl;</span>
+
+        strs<span class="token operator">=</span><span class="token function">splitMessage</span><span class="token punctuation">(</span>strs<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">int</span> cnt<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span>string <span class="token operator">&amp;</span>s<span class="token operator">:</span>strs<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">auto</span> x<span class="token operator">=</span><span class="token function">parseMessage</span><span class="token punctuation">(</span>s<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            messages<span class="token punctuation">.</span><span class="token function">push_back</span><span class="token punctuation">(</span>x<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            x<span class="token punctuation">.</span>id<span class="token operator">=</span>cnt<span class="token operator">++</span><span class="token punctuation">;</span>
+            ma<span class="token punctuation">[</span>x<span class="token punctuation">.</span>name<span class="token punctuation">]</span><span class="token operator">=</span>x<span class="token punctuation">.</span>id<span class="token punctuation">;</span>
+<span class="token comment" spellcheck="true">//            cout&lt;&lt;"["&lt;&lt;s&lt;&lt;"]\n";</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">auto</span> <span class="token operator">&amp;</span>message<span class="token operator">:</span>messages<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">auto</span> <span class="token operator">&amp;</span>filed<span class="token operator">:</span>message<span class="token punctuation">.</span>fileds<span class="token punctuation">)</span><span class="token punctuation">{</span>
+                filed<span class="token punctuation">.</span>filedMessageID<span class="token operator">=</span>ma<span class="token punctuation">[</span>filed<span class="token punctuation">.</span>filedMessageName<span class="token punctuation">]</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token function">mem</span><span class="token punctuation">(</span>sameBaseContent<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>cnt<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            sameBaseContent<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token boolean">true</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span>cnt<span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                sameBaseContent<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span>sameBaseContent<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token function">compareBaseContent</span><span class="token punctuation">(</span>messages<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">,</span>messages<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//        cout&lt;&lt;"Base:\n";</span>
+<span class="token comment" spellcheck="true">//        for(int i=0;i&lt;cnt;i++){</span>
+<span class="token comment" spellcheck="true">//            rep(j,0,cnt){</span>
+<span class="token comment" spellcheck="true">//                cout&lt;&lt;sameBaseContent[i][j]&lt;&lt;" ";</span>
+<span class="token comment" spellcheck="true">//            }</span>
+<span class="token comment" spellcheck="true">//            cout&lt;&lt;endl;</span>
+<span class="token comment" spellcheck="true">//        }</span>
+<span class="token comment" spellcheck="true">//        cout&lt;&lt;"End"&lt;&lt;endl;</span>
+        <span class="token function">mem</span><span class="token punctuation">(</span>same<span class="token punctuation">,</span><span class="token operator">-</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>i<span class="token operator">&lt;</span>cnt<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+            same<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+            <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> j<span class="token operator">=</span>i<span class="token operator">+</span><span class="token number">1</span><span class="token punctuation">;</span>j<span class="token operator">&lt;</span>cnt<span class="token punctuation">;</span>j<span class="token operator">++</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token keyword">if</span><span class="token punctuation">(</span>sameBaseContent<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                    map<span class="token operator">&lt;</span>pair<span class="token operator">&lt;</span><span class="token keyword">int</span><span class="token punctuation">,</span><span class="token keyword">int</span><span class="token operator">></span><span class="token punctuation">,</span><span class="token keyword">int</span><span class="token operator">></span> se<span class="token punctuation">;</span>
+                    same<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token operator">=</span>same<span class="token punctuation">[</span>j<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token function">checkSame</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span>j<span class="token punctuation">,</span>messages<span class="token punctuation">,</span>se<span class="token punctuation">)</span><span class="token punctuation">;</span>
+                <span class="token punctuation">}</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+<span class="token comment" spellcheck="true">//        cout&lt;&lt;"Same:\n";</span>
+<span class="token comment" spellcheck="true">//        for(int i=0;i&lt;cnt;i++){</span>
+<span class="token comment" spellcheck="true">//            rep(j,0,cnt){</span>
+<span class="token comment" spellcheck="true">//                cout&lt;&lt;same[i][j]&lt;&lt;" ";</span>
+<span class="token comment" spellcheck="true">//            }</span>
+<span class="token comment" spellcheck="true">//            cout&lt;&lt;endl;</span>
+<span class="token comment" spellcheck="true">//        }</span>
+<span class="token comment" spellcheck="true">//        cout&lt;&lt;"End"&lt;&lt;endl;</span>
+        <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%d"</span><span class="token punctuation">,</span><span class="token operator">&amp;</span>m<span class="token punctuation">)</span><span class="token punctuation">;</span>
+        string messageNameA<span class="token punctuation">,</span>messageNameB<span class="token punctuation">;</span>
+        <span class="token function">rep</span><span class="token punctuation">(</span>i<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">,</span>m<span class="token punctuation">)</span><span class="token punctuation">{</span>
+            <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%s"</span><span class="token punctuation">,</span>buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            messageNameA<span class="token operator">=</span>buf<span class="token punctuation">;</span>
+            <span class="token function">scanf</span><span class="token punctuation">(</span><span class="token string">"%s"</span><span class="token punctuation">,</span>buf<span class="token punctuation">)</span><span class="token punctuation">;</span>
+            messageNameB<span class="token operator">=</span>buf<span class="token punctuation">;</span>
+            <span class="token keyword">if</span><span class="token punctuation">(</span>same<span class="token punctuation">[</span>ma<span class="token punctuation">[</span>messageNameA<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token punctuation">[</span>ma<span class="token punctuation">[</span>messageNameB<span class="token punctuation">]</span><span class="token punctuation">]</span><span class="token operator">==</span><span class="token number">1</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+                <span class="token function">puts</span><span class="token punctuation">(</span><span class="token string">"Wire-format compatible."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+            <span class="token punctuation">}</span><span class="token keyword">else</span> <span class="token function">puts</span><span class="token punctuation">(</span><span class="token string">"Wire-format incompatible."</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token punctuation">}</span>
+
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span><span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 <h2 id="L-Spiral-Matrix-（规律）"><a href="#L-Spiral-Matrix-（规律）" class="headerlink" title="L. Spiral Matrix （规律）"></a>L. Spiral Matrix （规律）</h2><p>题意：在矩阵中的任意一点开始，初始朝向可以任选，每次只能直行或者右拐，需要将矩阵中所有点走完且走一次，一共有几种方案</p>
 <p>题解：  一定可以找到恰好一条横线或竖线使得图形仅经过其一次（下图虚线），共有$2(n+m-2)$种方案，注意特判某个边长为1的情况 </p>
 <p>实际上，针对一个可行的方案，轨迹肯定只对一个方向开口，并且，根据轨迹的开口朝向，我们做垂直或者水平的翻转，并交换起终点，就可以得到另外一条对称的轨迹，如下图所示：</p>
@@ -1304,7 +1529,7 @@ vector<span class="token operator">&lt;</span><span class="token keyword">int</s
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="CCPC 2019 Final 题解">
+                        <img src="/medias/featureimages/5.jpg" class="responsive-img" alt="CCPC 2019 Final 题解">
                         
                         <span class="card-title">CCPC 2019 Final 题解</span>
                     </div>
@@ -1314,7 +1539,7 @@ vector<span class="token operator">&lt;</span><span class="token keyword">int</s
                         
                             题目来源：CCPC 2019
 题目链接：CodeForces-Gym-102431
-退伍两年半了还是这么蔡真是抱歉。。。
+退役两年半了还是这么蔡真是抱歉。。。
 A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11th不是11st容易怒WA
 #include 
                         
@@ -1362,7 +1587,7 @@ A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/16.jpg" class="responsive-img" alt="Statistical Learning Methods v2 Notes">
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Statistical Learning Methods v2 Notes">
                         
                         <span class="card-title">Statistical Learning Methods v2 Notes</span>
                     </div>
@@ -1560,7 +1785,7 @@ Chap01 统计学习及监督学习概论
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">26.1k</span>
+            <span class="white-color">27.1k</span>
             
 
             <br>
