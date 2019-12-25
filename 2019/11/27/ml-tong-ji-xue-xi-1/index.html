@@ -277,7 +277,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/3.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -444,7 +444,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.1k
+                    6.3k
                 </div>
                 
 
@@ -529,6 +529,7 @@
 <p>卡尔曼滤波假设系统状态与噪声是高斯的，可以用均值和方差来描述。则上述状态空间模型可以被表述为：<br>$$<br>x_k=F_kx_{k-1}+B_ku_k+v_{k} \\\quad<br>y_k=H_kx_{k}+n_k<br>$$<br>其中：</p>
 <ul>
 <li>$F_k$是作用在$x_{k-1}$状态变换模型</li>
+<li>$H_k$是作用在$x_{k}$的状态到观测变换模型</li>
 <li>$B_k$是作用在控制器向量$u_k$上的输入-控制模型（系统内部控制）</li>
 <li>$v_{k}$是过程噪声，并假定$v_{k} \thicksim N(0,Q_k)$</li>
 <li>$n_k$是观测噪声，并假定$n_{k} \thicksim N(0,R_k)$</li>
@@ -545,6 +546,8 @@
 <p>状态转移矩阵$F$，状态到观测的变换矩阵$H$通常都由训练数据得到，在测试过程中保持不变。</p>
 <p>系统状态$x$，误差协方差矩阵$P$，卡尔曼增益$K$是不断迭代更新的，实际应用时$Q$和$R$依据具体情况来确定，可以不断调试寻找最优解，也可以是可变的。</p>
 <p>那么$x$与$P$的初值该如何设定呢？只要在合理的范围内，无论是使用测试集真实Label还是默认值，都不会对结果产生很大的影响，算法会自动收敛。</p>
+<p><strong>对卡尔曼增益$K$</strong>的理解：</p>
+<p>在《An Introduction to the Kalman Filter by Greg Welch and Gary Bishop》中曾提到，当我们的观测噪声协方差$R$趋向于0时，卡尔曼增益会给残差更大的权重，这实际也就是说更加倾向于观测的结果，如果噪声为0，则表示完全相信观测，反之则更加倾向于预测的结果。</p>
 <h3 id="扩展卡尔曼滤波"><a href="#扩展卡尔曼滤波" class="headerlink" title="扩展卡尔曼滤波"></a>扩展卡尔曼滤波</h3><p>卡尔曼滤波器假设了两个条件：噪声符合高斯分布；系统是线性系统。此外，噪声、状态转移函数、观测函数通常是不变的。</p>
 <p>实际中的问题可能并不满足这两个假设，扩展卡尔曼滤波通过将非线性系统线性化的方法处理非线性系统。</p>
 <p>TODO</p>
@@ -553,7 +556,7 @@
 <p>粒子滤波器是<a href="https://zh.wikipedia.org/wiki/卡尔曼滤波" target="_blank" rel="noopener">卡尔曼滤波器</a>的一般化方法，卡尔曼滤波器建立在线性的状态空间和<a href="https://zh.wikipedia.org/wiki/正态分布" target="_blank" rel="noopener">高斯分布</a>的噪声上；而粒子滤波器的状态空间模型可以是非线性，且噪声分布可以是任何型式。</p>
 </blockquote>
 <p>看简介可以发现，粒子滤波的范围比卡尔曼滤波器更广，但是计算量要大上不少。</p>
-<h4 id="序列重要性采样（Sequential-Importance-Sampling-SIS）"><a href="#序列重要性采样（Sequential-Importance-Sampling-SIS）" class="headerlink" title="序列重要性采样（Sequential Importance Sampling, SIS）"></a>序列重要性采样（Sequential Importance Sampling, SIS）</h4><p>SIS将后验概率${p(x_{k}\mid y_{1:k})}$用$N$个随机采样的样本（称作粒子）与其各自的权重表示为：<br>$$<br>\{x_k^{(i)},w_k^{(i)}\}_{i=1}^{N}<br>$$<br>其中权重则根据重要性采样的规则产生，且$\sum w_i=1$，则函数的期望可以用加权平均来近似：<br>$$<br>\int f\left(x_{k}\right) p\left(x_{k} | y_{1: k}\right) d x_{k} \approx \sum_{i=1}^{N} w_{k}^{(i)} f\left(x_{k}^{(i)}\right)<br>$$<br>SIS是将重要性采样递归执行的方法，通过前一次采样的权重来计算下一次采样的权重，假设采样的样本分布可以表示为：<br>$$<br>x^{(i)}\thicksim q(x),i=1,\cdots ,N<br>$$<br>其中$q(x)$称为<strong>重要性密度(importance density)</strong> ，若样本$x_k^{(i)}$（$k$是时间下标）由重要性密度$q(x_k\mid y_{1:k})$抽取出来，则权重可以表示为：<br>$$<br>w_{k}^{(i)} \propto \frac{p\left(x_{k}^{(i)} | y_{1: k}\right)}{q\left(x_{k}^{(i)} | y_{1: k}\right)}<br>$$<br>将重要性密度分解为（假定有这个分解）：<br>$$<br>q\left(x_{k} | y_{1: k}\right)=q\left(x_{k} | x_{k-1}, y_{1: k}\right) q\left(x_{k-1} | y_{1: k-1}\right)<br>$$<br>再将后验概率表示为：<br>$$<br>\begin{aligned} p\left(x_{k} | y_{1: k}\right)&amp;=\frac{p\left(x_{k} , y_{1: k}\right)}{p\left(y_{1: k}\right)}\\&amp;=\frac{p\left(y_{1: {k-1}}\right)p\left(x_{k} , y_{k} \mid y_{1: {k-1}}\right)}{p\left(y_{1: {k-1}}\right)p\left(y_{k} | y_{1: k-1}\right)}<br>\\&amp;=\frac{p\left(y_{k} | x_{k}, y_{1: k-1}\right) p\left(x_{k} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp;=\frac{p\left(y_{k} | x_{k}, y_{1: k-1}\right) p\left(x_{k} | x_{k-1}, y_{1: k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp;=\frac{p\left(y_{k} | x_{k}\right) p\left(x_{k} | x_{k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp; \propto p\left(y_{k} | x_{k}\right) p\left(x_{k} | x_{k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right) \end{aligned}<br>$$<br>则权重的递归式可以表示为：<br>$$<br>\begin{aligned} w_{k}^{(i)} &amp; \propto \frac{p\left(y_{k} | x_{k}^{(i)}\right) p\left(x_{k}^{(i)} | x_{k-1}^{(i)}\right) p\left(x_{k-1}^{(i)} | y_{1: k-1}\right)}{q\left(x_{k}^{(i)} | x_{k-1}^{(i)}, y_{1: k}\right) q\left(x_{k-1}^{(i)} | y_{1: k-1}\right)} \\ &amp;=w_{k-1}^{(i)} \frac{p\left(y_{k} | x_{k}^{(i)}\right) p\left(x_{k}^{(i)} | x_{k-1}^{(i)}\right)}{q\left(x_{k}^{(i)} | x_{k-1}^{(i)}, y_{1: k}\right)} \end{aligned}<br>$$</p>
+<h4 id="序列重要性采样（Sequential-Importance-Sampling-SIS）"><a href="#序列重要性采样（Sequential-Importance-Sampling-SIS）" class="headerlink" title="序列重要性采样（Sequential Importance Sampling, SIS）"></a>序列重要性采样（Sequential Importance Sampling, SIS）</h4><p>SIS将后验概率${p(x_{k}\mid y_{1:k})}$用$N$个随机采样的样本（称作粒子）与其各自的权重表示为：<br>$$<br>\{x_k^{(i)},w_k^{(i)}\}_{i=1}^{N}<br>$$<br>其中权重则根据重要性采样的规则产生，且$\sum w_i=1$，则函数的期望可以用加权平均来近似：<br>$$<br>\int f\left(x_{k}\right) p\left(x_{k} | y_{1: k}\right) d x_{k} \approx \sum_{i=1}^{N} w_{k}^{(i)} f\left(x_{k}^{(i)}\right)<br>$$<br>SIS是将重要性采样递归执行的方法，通过前一次采样的权重来计算下一次采样的权重，假设采样的样本分布可以表示为：<br>$$<br>x^{(i)}\thicksim q(x),i=1,\cdots ,N<br>$$<br>其中$q(x)$称为<strong>重要性密度（importance density）</strong> ，也就是我们之前说的建议分布，若样本$x_k^{(i)}$（$k$是时间下标）由重要性密度$q(x_k\mid y_{1:k})$抽取出来，则权重可以表示为：<br>$$<br>w_{k}^{(i)} \propto \frac{p\left(x_{k}^{(i)} | y_{1: k}\right)}{q\left(x_{k}^{(i)} | y_{1: k}\right)}<br>$$<br>将重要性密度分解为（假定有这个分解）：<br>$$<br>q\left(x_{k} | y_{1: k}\right)=q\left(x_{k} | x_{k-1}, y_{1: k}\right) q\left(x_{k-1} | y_{1: k-1}\right)<br>$$<br>再将后验概率表示为：<br>$$<br>\begin{aligned} p\left(x_{k} | y_{1: k}\right)&amp;=\frac{p\left(x_{k} , y_{1: k}\right)}{p\left(y_{1: k}\right)}\\&amp;=\frac{p\left(y_{1: {k-1}}\right)p\left(x_{k} , y_{k} \mid y_{1: {k-1}}\right)}{p\left(y_{1: {k-1}}\right)p\left(y_{k} | y_{1: k-1}\right)}<br>\\&amp;=\frac{p\left(y_{k} | x_{k}, y_{1: k-1}\right) p\left(x_{k} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp;=\frac{p\left(y_{k} | x_{k}, y_{1: k-1}\right) p\left(x_{k} | x_{k-1}, y_{1: k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp;=\frac{p\left(y_{k} | x_{k}\right) p\left(x_{k} | x_{k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right)}{p\left(y_{k} | y_{1: k-1}\right)} \\ &amp; \propto p\left(y_{k} | x_{k}\right) p\left(x_{k} | x_{k-1}\right) p\left(x_{k-1} | y_{1: k-1}\right) \end{aligned}<br>$$<br>则权重的递归式可以表示为：<br>$$<br>\begin{aligned} w_{k}^{(i)} &amp; \propto \frac{p\left(y_{k} | x_{k}^{(i)}\right) p\left(x_{k}^{(i)} | x_{k-1}^{(i)}\right) p\left(x_{k-1}^{(i)} | y_{1: k-1}\right)}{q\left(x_{k}^{(i)} | x_{k-1}^{(i)}, y_{1: k}\right) q\left(x_{k-1}^{(i)} | y_{1: k-1}\right)} \\ &amp;=w_{k-1}^{(i)} \frac{p\left(y_{k} | x_{k}^{(i)}\right) p\left(x_{k}^{(i)} | x_{k-1}^{(i)}\right)}{q\left(x_{k}^{(i)} | x_{k-1}^{(i)}, y_{1: k}\right)} \end{aligned}<br>$$</p>
 <h4 id="序列重要性重采样（Sequential-Importance-Resampling-SIR）"><a href="#序列重要性重采样（Sequential-Importance-Resampling-SIR）" class="headerlink" title="序列重要性重采样（Sequential Importance Resampling, SIR）"></a>序列重要性重采样（Sequential Importance Resampling, SIR）</h4><p>经过几次迭代之后，很多例子的权重都变小到可以忽略不计，这就是SIS会造成的<strong>退化问题（degeneracy problem）</strong> 。我们定义有效粒子数为：<br>$$<br>\widehat{N_{e f f}}=\frac{1}{\sum_{i=1}^{N}\left(w_{k}^{(i)}\right)^{2}}<br>$$<br>若有效粒子数小于某一阈值，则对粒子做重采样，即可减缓退化问题。重采样的概念是去除权重过小的粒子，专注于权重较大的粒子。进行重采样时，要<strong>由现有的粒子分布取样</strong>，产生一组新的粒子。由于新样本独立同分布，因此权重重新设定为$\frac{1}{N}$。</p>
 <p>粒子滤波的核心思想是随机采样+重要性重采样+预测，如下图所示：</p>
 <p><img src="fig_particle_filter.jpg" alt></p>
@@ -805,7 +808,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="Statistical Learning Methods v2 Notes">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Statistical Learning Methods v2 Notes">
                         
                         <span class="card-title">Statistical Learning Methods v2 Notes</span>
                     </div>
@@ -859,7 +862,7 @@ Chap01 统计学习及监督学习概论
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="[DL]Winograd快速卷积算法">
+                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="[DL]Winograd快速卷积算法">
                         
                         <span class="card-title">[DL]Winograd快速卷积算法</span>
                     </div>
@@ -1062,7 +1065,7 @@ Chap01 统计学习及监督学习概论
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">27.2k</span>
+            <span class="white-color">27.3k</span>
             
 
             <br>
