@@ -4,12 +4,11 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="新坑落成纪念, Martin&#39;s">
+    <meta name="keywords" content="Codeforces-Solutions, Martin&#39;s">
     <meta name="baidu-site-verification" content>
     <meta name="google-site-verification" content>
     <meta name="360-site-verification" content>
-    <meta name="description" content="20191106很久没有写博客啦，之前学习的东西都没有系统的整理过，因此和小伙伴@Fx-Ren(awesome_rfx@163.com)一起开一个新坑，给自己一些压力，希望之后能更新的勤快一些。
-博客配置参考了这个,主题是Matery，感谢">
+    <meta name="description" content="Educational Codeforces Round 80C - Two Arrays（组合数学、动态规划）题意：给定n，m，利用1~n之间的数（可重复）来组成长度为m的数组a,b，要求数组a非递减,数组b非递增，且a数组的数小于等于b">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +16,7 @@
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>新坑落成纪念 | Martin&#39;s</title>
+    <title>Codeforces-Solutions | Martin&#39;s</title>
     <link rel="icon" type="image/jpeg" href="/favicon.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -275,13 +274,13 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/11.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/13.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        新坑落成纪念
+                        Codeforces-Solutions
                     </div>
                 </div>
             </div>
@@ -391,7 +390,11 @@
                 <div class="col s7">
                     
                     <div class="article-tag">
-                        <span class="chip bg-color">无标签</span>
+                        
+                        <a href="/tags/Codeforces/" target="_blank">
+                            <span class="chip bg-color">Codeforces</span>
+                        </a>
+                        
                     </div>
                     
                 </div>
@@ -400,8 +403,8 @@
                     <div class="post-cate">
                         <i class="fa fa-bookmark fa-fw icon-category"></i>
                         
-                        <a href="/categories/随笔/" class="post-category" target="_blank">
-                            随笔
+                        <a href="/categories/题解/" class="post-category" target="_blank">
+                            题解
                         </a>
                         
                     </div>
@@ -412,13 +415,13 @@
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-11-06
+                    2020-01-16
                 </div>
 
                 <div class="post-author info-break-policy">
                     <i class="fa fa-user-o fa-fw"></i>作者:&nbsp;&nbsp;
                     
-                    Martin & Fx-Ren
+                    Martin
                     
                 </div>
 
@@ -426,7 +429,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    80
+                    370
                 </div>
                 
 
@@ -449,8 +452,44 @@
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <h2 id="20191106"><a href="#20191106" class="headerlink" title="20191106"></a>20191106</h2><p>很久没有写博客啦，之前学习的东西都没有系统的整理过，因此和小伙伴@Fx-Ren(<a href="mailto:awesome_rfx@163.com" target="_blank" rel="noopener">awesome_rfx@163.com</a>)一起开一个新坑，给自己一些压力，希望之后能更新的勤快一些。</p>
-<p>博客配置参考了<a href="https://godweiyang.com/2018/04/13/hexo-blog" target="_blank" rel="noopener">这个</a>,主题是<strong><a href="https://github.com/blinkfox/hexo-theme-matery" target="_blank" rel="noopener">Matery</a></strong>，感谢原作者。</p>
+                <h2 id="Educational-Codeforces-Round-80"><a href="#Educational-Codeforces-Round-80" class="headerlink" title="Educational Codeforces Round 80"></a>Educational Codeforces Round 80</h2><h3 id="C-Two-Arrays（组合数学、动态规划）"><a href="#C-Two-Arrays（组合数学、动态规划）" class="headerlink" title="C - Two Arrays（组合数学、动态规划）"></a><a href="https://codeforces.com/contest/1288/problem/C" target="_blank" rel="noopener">C - Two Arrays</a>（组合数学、动态规划）</h3><p>题意：给定n，m，利用1~n之间的数（可重复）来组成长度为m的数组a,b，要求数组a非递减,数组b非递增，且a数组的数小于等于b数组中对应位置的数，求出a,b数组对数</p>
+<p>思路1：官方题解，$a_1\le a_m \le b_m$故可看成可放回的随机抽取$2m$个数（<a href="https://sites.math.northwestern.edu/~mlerma/courses/cs310-05s/notes/dm-gcomb" target="_blank" rel="noopener">Combinations with Repetition</a>），进行排序，故答案为${n+2m-1 \choose 2m} = \frac{(n + 2m - 1)!}{(2m)! (n-1)!}$</p>
+<p>思路2：$dp[i][j]$表示第$i$个位置（长度）放置数字$j$（末位数字）的方案数，序列为非递减序列（相等或增加），故状态转移方程为$dp[i][j]=dp[i-1][j]+dp[i][j-1]$（左边：$j-1$变为$j$新增的方案，右边：$j-1$原有的方案），初始条件$dp[1][x]=1$</p>
+<p>代码2：</p>
+<pre class="line-numbers language-cpp"><code class="language-cpp"><span class="token macro property">#<span class="token directive keyword">include</span> <span class="token string">&lt;bits/stdc++.h></span></span>
+
+<span class="token keyword">typedef</span> <span class="token keyword">long</span> <span class="token keyword">long</span> ll<span class="token punctuation">;</span>
+<span class="token keyword">using</span> <span class="token keyword">namespace</span> std<span class="token punctuation">;</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> mem(a, b) memset(a,b,sizeof(a))</span>
+<span class="token macro property">#<span class="token directive keyword">define</span> rep(i, a, b) for(int i=a;i&lt;b;i++)</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> MOD <span class="token operator">=</span> <span class="token number">1e9</span> <span class="token operator">+</span> <span class="token number">7</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> MAXN <span class="token operator">=</span> <span class="token number">1e6</span> <span class="token operator">+</span> <span class="token number">50</span><span class="token punctuation">;</span>
+<span class="token keyword">const</span> <span class="token keyword">int</span> INF<span class="token operator">=</span><span class="token number">0x3f3f3f3f</span><span class="token punctuation">;</span>
+
+<span class="token keyword">int</span> dp<span class="token punctuation">[</span><span class="token number">23</span><span class="token punctuation">]</span><span class="token punctuation">[</span><span class="token number">2333</span><span class="token punctuation">]</span><span class="token punctuation">;</span>
+<span class="token keyword">int</span> <span class="token function">main</span><span class="token punctuation">(</span><span class="token punctuation">)</span><span class="token punctuation">{</span>
+<span class="token macro property">#<span class="token directive keyword">ifndef</span> ONLINE_JUDGE</span>
+    <span class="token function">freopen</span><span class="token punctuation">(</span><span class="token string">"in.txt"</span><span class="token punctuation">,</span> <span class="token string">"r"</span><span class="token punctuation">,</span> <span class="token constant">stdin</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+    <span class="token comment" spellcheck="true">//freopen("out.txt","w",stdout);</span>
+<span class="token macro property">#<span class="token directive keyword">endif</span></span>
+    <span class="token keyword">int</span> n<span class="token punctuation">,</span>m<span class="token punctuation">;</span>
+    <span class="token keyword">while</span><span class="token punctuation">(</span>cin<span class="token operator">>></span>n<span class="token operator">>></span>m<span class="token punctuation">)</span><span class="token punctuation">{</span>
+        <span class="token function">mem</span><span class="token punctuation">(</span>dp<span class="token punctuation">,</span><span class="token number">0</span><span class="token punctuation">)</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>i<span class="token operator">&lt;=</span>n<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+            dp<span class="token punctuation">[</span><span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">2</span><span class="token punctuation">;</span>i<span class="token operator">&lt;=</span><span class="token number">2</span><span class="token operator">*</span>m<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+            <span class="token keyword">for</span> <span class="token punctuation">(</span><span class="token keyword">int</span> j <span class="token operator">=</span> <span class="token number">1</span><span class="token punctuation">;</span> j <span class="token operator">&lt;=</span> n<span class="token punctuation">;</span> j<span class="token operator">++</span><span class="token punctuation">)</span> <span class="token punctuation">{</span>
+                dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">=</span> <span class="token punctuation">(</span>dp<span class="token punctuation">[</span>i <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">[</span>j<span class="token punctuation">]</span> <span class="token operator">+</span> dp<span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">[</span>j <span class="token operator">-</span> <span class="token number">1</span><span class="token punctuation">]</span><span class="token punctuation">)</span> <span class="token operator">%</span> MOD<span class="token punctuation">;</span>
+            <span class="token punctuation">}</span>
+        <span class="token punctuation">}</span>
+        <span class="token keyword">int</span> ans<span class="token operator">=</span><span class="token number">0</span><span class="token punctuation">;</span>
+        <span class="token keyword">for</span><span class="token punctuation">(</span><span class="token keyword">int</span> i<span class="token operator">=</span><span class="token number">1</span><span class="token punctuation">;</span>i<span class="token operator">&lt;=</span>n<span class="token punctuation">;</span>i<span class="token operator">++</span><span class="token punctuation">)</span>
+            ans<span class="token operator">=</span><span class="token punctuation">(</span>ans<span class="token operator">+</span>dp<span class="token punctuation">[</span><span class="token number">2</span><span class="token operator">*</span>m<span class="token punctuation">]</span><span class="token punctuation">[</span>i<span class="token punctuation">]</span><span class="token punctuation">)</span><span class="token operator">%</span>MOD<span class="token punctuation">;</span>
+        cout<span class="token operator">&lt;&lt;</span>ans<span class="token operator">&lt;&lt;</span>endl<span class="token punctuation">;</span>
+    <span class="token punctuation">}</span>
+    <span class="token keyword">return</span> <span class="token number">0</span><span class="token punctuation">;</span>
+<span class="token punctuation">}</span>
+<span aria-hidden="true" class="line-numbers-rows"><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span><span></span></span></code></pre>
 
             </div>
             <hr />
@@ -609,11 +648,11 @@
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《新坑落成纪念》
+                    《Codeforces-Solutions》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/11/06/xin-keng-luo-cheng-ji-nian/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2020/01/16/codeforces-solutions/" property="cc:attributionName"
                rel="cc:attributionURL">
-                Martin & Fx-Ren
+                Martin
             </a> 采用
             <a rel="license" href="https://creativecommons.org/licenses/by/4.0/deed.zh">
                 知识共享署名 4.0 国际许可协议
@@ -652,7 +691,7 @@
         repo: 'martin20150405.github.io',
         owner: 'martin20150405',
         admin: "martin20150405",
-        id: '2019/11/06/xin-keng-luo-cheng-ji-nian/',
+        id: '2020/01/16/codeforces-solutions/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -673,39 +712,84 @@
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/11/07/leetcode-solutions/">
+                <a href="/2020/01/16/codeforces-solutions/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="LeetCode Solutions">
+                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Codeforces-Solutions">
                         
-                        <span class="card-title">LeetCode Solutions</span>
+                        <span class="card-title">Codeforces-Solutions</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            动态规划LeetCode-72-编辑距离题目给定两个单词 word1 和 word2，计算出将 word1 转换成 word2 所使用的最少操作数 。
-你可以对一个单词进行如下三种操作：
-
-插入一个字符
-
-删除一个字符
-
-替换一个字符
-
-
-
+                            Educational Codeforces Round 80C - Two Arrays（组合数学、动态规划）题意：给定n，m，利用1~n之间的数（可重复）来组成长度为m的数组a,b，要求数组a非递减,数组b非递增，且a数组的数小于等于b
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-07
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-01-16
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/题解/" class="post-category" target="_blank">
+                                    题解
+                                </a>
+                            
+                            
                         </span>
+                    </div>
+                </div>
+
+                
+                <div class="card-action article-tags">
+                    
+                    <a href="/tags/Codeforces/" target="_blank">
+                        <span class="chip bg-color">Codeforces</span>
+                    </a>
+                    
+                </div>
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2019/12/17/ccpc-2019-final-ti-jie/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/10.jpg" class="responsive-img" alt="CCPC 2019 Final 题解">
+                        
+                        <span class="card-title">CCPC 2019 Final 题解</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            题目来源：CCPC 2019
+题目链接：CodeForces-Gym-102431
+退役两年半了还是这么蔡真是抱歉。。。
+A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11th不是11st容易怒WA
+#include 
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-12-17
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -721,54 +805,15 @@
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/LeetCode/" target="_blank">
-                        <span class="chip bg-color">LeetCode</span>
+                    <a href="/tags/CCPC/" target="_blank">
+                        <span class="chip bg-color">CCPC</span>
+                    </a>
+                    
+                    <a href="/tags/算法/" target="_blank">
+                        <span class="chip bg-color">算法</span>
                     </a>
                     
                 </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                本篇&nbsp;<i class="fa fa-dot-circle-o"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/11/06/xin-keng-luo-cheng-ji-nian/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/11.jpg" class="responsive-img" alt="新坑落成纪念">
-                        
-                        <span class="card-title">新坑落成纪念</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            20191106很久没有写博客啦，之前学习的东西都没有系统的整理过，因此和小伙伴@Fx-Ren(awesome_rfx@163.com)一起开一个新坑，给自己一些压力，希望之后能更新的勤快一些。
-博客配置参考了这个,主题是Matery，感谢
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-06
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/随笔/" class="post-category" target="_blank">
-                                    随笔
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-
                 
             </div>
         </div>

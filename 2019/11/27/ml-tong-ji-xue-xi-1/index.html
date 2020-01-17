@@ -277,7 +277,7 @@
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/6.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/8.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
@@ -444,7 +444,7 @@
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    6.3k
+                    6.4k
                 </div>
                 
 
@@ -531,7 +531,7 @@
 <li>$F_k$是作用在$x_{k-1}$状态变换模型</li>
 <li>$H_k$是作用在$x_{k}$的状态到观测变换模型</li>
 <li>$B_k$是作用在控制器向量$u_k$上的输入-控制模型（系统内部控制）</li>
-<li>$v_{k}$是过程噪声，并假定$v_{k} \thicksim N(0,Q_k)$</li>
+<li>$v_{k}$是过程噪声（预测噪声），并假定$v_{k} \thicksim N(0,Q_k)$</li>
 <li>$n_k$是观测噪声，并假定$n_{k} \thicksim N(0,R_k)$</li>
 </ul>
 <p>我们使用$P_k$来表示后验估计的误差协方差矩阵，用于度量估计值的精确程度（不确定性），矩阵的值表示各个变量的相关程度，则</p>
@@ -548,6 +548,7 @@
 <p>那么$x$与$P$的初值该如何设定呢？只要在合理的范围内，无论是使用测试集真实Label还是默认值，都不会对结果产生很大的影响，算法会自动收敛。</p>
 <p><strong>对卡尔曼增益$K$</strong>的理解：</p>
 <p>在《An Introduction to the Kalman Filter by Greg Welch and Gary Bishop》中曾提到，当我们的观测噪声协方差$R$趋向于0时，卡尔曼增益会给残差更大的权重，这实际也就是说更加倾向于观测的结果，如果噪声为0，则表示完全相信观测，反之则更加倾向于预测的结果。</p>
+<p>需要补充的一点是，$K$是由<code>最小化后验估计误差协方差</code>的目标推导而来的，如果状态转移矩阵$F$，状态到观测的变换矩阵$H$，以及观测误差$R$与估计误差（过程噪声）$Q$都是给定不变的，则$K$随着时间的变化序列<strong>与具体的输入（观测）无关</strong>。</p>
 <h3 id="扩展卡尔曼滤波"><a href="#扩展卡尔曼滤波" class="headerlink" title="扩展卡尔曼滤波"></a>扩展卡尔曼滤波</h3><p>卡尔曼滤波器假设了两个条件：噪声符合高斯分布；系统是线性系统。此外，噪声、状态转移函数、观测函数通常是不变的。</p>
 <p>实际中的问题可能并不满足这两个假设，扩展卡尔曼滤波通过将非线性系统线性化的方法处理非线性系统。</p>
 <p>TODO</p>
@@ -808,7 +809,7 @@
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/13.jpg" class="responsive-img" alt="Statistical Learning Methods v2 Notes">
+                        <img src="/medias/featureimages/15.jpg" class="responsive-img" alt="Statistical Learning Methods v2 Notes">
                         
                         <span class="card-title">Statistical Learning Methods v2 Notes</span>
                     </div>
@@ -862,7 +863,7 @@ Chap01 统计学习及监督学习概论
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/1.jpg" class="responsive-img" alt="[DL]Winograd快速卷积算法">
+                        <img src="/medias/featureimages/3.jpg" class="responsive-img" alt="[DL]Winograd快速卷积算法">
                         
                         <span class="card-title">[DL]Winograd快速卷积算法</span>
                     </div>
@@ -1065,7 +1066,7 @@ Chap01 统计学习及监督学习概论
 
             
             &nbsp;<i class="fa fa-area-chart"></i>&nbsp;站点总字数:&nbsp;
-            <span class="white-color">27.3k</span>
+            <span class="white-color">27.8k</span>
             
 
             <br>
