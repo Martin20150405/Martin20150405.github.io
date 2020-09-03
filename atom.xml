@@ -6,7 +6,7 @@
   <link href="/atom.xml" rel="self"/>
   
   <link href="https://Martin20150405.github.io/"/>
-  <updated>2020-01-16T06:39:46.447Z</updated>
+  <updated>2020-03-13T02:11:22.809Z</updated>
   <id>https://Martin20150405.github.io/</id>
   
   <author>
@@ -15,6 +15,30 @@
   </author>
   
   <generator uri="http://hexo.io/">Hexo</generator>
+  
+  <entry>
+    <title>DeepMind Works 2020 Notes</title>
+    <link href="https://Martin20150405.github.io/2020/03/09/deepmind-works-2020-notes/"/>
+    <id>https://Martin20150405.github.io/2020/03/09/deepmind-works-2020-notes/</id>
+    <published>2020-03-09T08:11:45.000Z</published>
+    <updated>2020-03-13T02:11:22.809Z</updated>
+    
+    <summary type="html">
+    
+      
+      
+        
+        
+          &lt;h3 id=&quot;1-Self-Distillation-Amplifies-Regularization-in-Hilbert-Space&quot;&gt;&lt;a
+        
+      
+    
+    </summary>
+    
+      <category term="机器学习" scheme="https://Martin20150405.github.io/categories/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0/"/>
+    
+    
+  </entry>
   
   <entry>
     <title>Codeforces-Solutions</title>
@@ -167,7 +191,7 @@
     <link href="https://Martin20150405.github.io/2019/11/07/leetcode-solutions/"/>
     <id>https://Martin20150405.github.io/2019/11/07/leetcode-solutions/</id>
     <published>2019-11-07T01:55:11.000Z</published>
-    <updated>2020-02-21T02:18:32.218Z</updated>
+    <updated>2020-08-25T08:15:21.273Z</updated>
     
     <summary type="html">
     

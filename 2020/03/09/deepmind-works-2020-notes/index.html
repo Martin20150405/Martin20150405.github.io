@@ -4,12 +4,14 @@
 
 <head><meta name="generator" content="Hexo 3.9.0">
     <meta charset="utf-8">
-    <meta name="keywords" content="Statistical Learning Methods v2 Notes, Martin&#39;s">
+    <meta name="keywords" content="DeepMind Works 2020 Notes, Martin&#39;s">
     <meta name="baidu-site-verification" content>
     <meta name="google-site-verification" content>
     <meta name="360-site-verification" content>
-    <meta name="description" content="《统计学习方法第二版-李航》的笔记非常多，可以参考这个
-Chap01 统计学习及监督学习概论">
+    <meta name="description" content="1.Self-Distillation Amplifies Regularization in Hilbert Space
+H Mobahi, Mehrdad Farajtabar, et al. arXiv 2020
+
+DEEP LEAR">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=no">
     <meta name="renderer" content="webkit|ie-stand|ie-comp">
@@ -17,7 +19,7 @@ Chap01 统计学习及监督学习概论">
     <meta name="format-detection" content="telephone=no">
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <title>Statistical Learning Methods v2 Notes | Martin&#39;s</title>
+    <title>DeepMind Works 2020 Notes | Martin&#39;s</title>
     <link rel="icon" type="image/jpeg" href="/favicon.jpg">
 
     <link rel="stylesheet" type="text/css" href="/libs/awesome/css/font-awesome.min.css">
@@ -275,13 +277,13 @@ Chap01 统计学习及监督学习概论">
 
 
 
-<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/14.jpg')">
+<div class="bg-cover pd-header post-cover" style="background-image: url('/medias/featureimages/2.jpg')">
     <div class="container">
         <div class="row">
             <div class="col s12 m12 l12">
                 <div class="brand">
                     <div class="description center-align post-title">
-                        Statistical Learning Methods v2 Notes
+                        DeepMind Works 2020 Notes
                     </div>
                 </div>
             </div>
@@ -391,15 +393,7 @@ Chap01 统计学习及监督学习概论">
                 <div class="col s7">
                     
                     <div class="article-tag">
-                        
-                        <a href="/tags/统计学习方法/" target="_blank">
-                            <span class="chip bg-color">统计学习方法</span>
-                        </a>
-                        
-                        <a href="/tags/笔记/" target="_blank">
-                            <span class="chip bg-color">笔记</span>
-                        </a>
-                        
+                        <span class="chip bg-color">无标签</span>
                     </div>
                     
                 </div>
@@ -420,7 +414,7 @@ Chap01 统计学习及监督学习概论">
             <div class="post-info">
                 <div class="post-date info-break-policy">
                     <i class="fa fa-calendar-minus-o fa-fw"></i>发布日期:&nbsp;&nbsp;
-                    2019-12-04
+                    2020-03-09
                 </div>
 
                 <div class="post-author info-break-policy">
@@ -434,14 +428,14 @@ Chap01 统计学习及监督学习概论">
                 
                 <div class="info-break-policy">
                     <i class="fa fa-file-word-o fa-fw"></i>文章字数:&nbsp;&nbsp;
-                    35
+                    1.3k
                 </div>
                 
 
                 
                 <div class="info-break-policy">
                     <i class="fa fa-clock-o fa-fw"></i>阅读时长:&nbsp;&nbsp;
-                    1 分
+                    5 分
                 </div>
                 
                 
@@ -457,8 +451,159 @@ Chap01 统计学习及监督学习概论">
         <hr class="clearfix">
         <div class="card-content article-card-content">
             <div id="articleContent">
-                <p>《统计学习方法第二版-李航》的笔记非常多，可以参考<a href="https://github.com/SmirkCao/Lihang" target="_blank" rel="noopener">这个</a></p>
-<h3 id="Chap01-统计学习及监督学习概论"><a href="#Chap01-统计学习及监督学习概论" class="headerlink" title="Chap01 统计学习及监督学习概论"></a>Chap01 统计学习及监督学习概论</h3>
+                <h3 id="1-Self-Distillation-Amplifies-Regularization-in-Hilbert-Space"><a href="#1-Self-Distillation-Amplifies-Regularization-in-Hilbert-Space" class="headerlink" title="1.Self-Distillation Amplifies Regularization in Hilbert Space"></a>1.<a href="https://deepmind.com/research/publications/Self-Distillation-Amplifies-Regularization-in-Hilbert-Space" target="_blank" rel="noopener">Self-Distillation Amplifies Regularization in Hilbert Space</a></h3><ul>
+<li><p>H Mobahi, Mehrdad Farajtabar, et al. arXiv 2020</p>
+</li>
+<li><p>DEEP LEARNING</p>
+<p>THEORY &amp; FOUNDATIONS</p>
+</li>
+</ul>
+<h4 id="知识蒸馏（Knowledge-distillation）"><a href="#知识蒸馏（Knowledge-distillation）" class="headerlink" title="知识蒸馏（Knowledge distillation）"></a>知识蒸馏（Knowledge distillation）</h4><blockquote>
+<p><em>知识蒸馏</em>将知识从一个复杂的机器学习模型迁移到另一个紧凑的机器学习模型,而一般紧凑的模型在性能上会有一些降低。</p>
+</blockquote>
+<blockquote>
+<p>从头学习一个新模型就是从<strong>有限的数据</strong>中近似一个<strong>未知的函数</strong>。如果让新模型近似原模型，因为原模型的<strong>函数是已知的</strong>，我们可以使用很多非训练集内的伪数据来训练新模型，这显然要更可行。</p>
+</blockquote>
+<p>为了达到更好的预测，原始训练模型时通常会使用<strong>过参数化</strong>的网络或者使用<strong>集成学习</strong>方法。知识蒸馏可以得到性能相近（输出的概率分布充分接近）但体积小得多的模型。</p>
+<blockquote>
+<p>总体来说知识蒸馏是一个简单而有效的模型压缩/训练方法。这大体上是因为原模型的softmax提供了比one-hot标签更多的监督信号</p>
+</blockquote>
+<h4 id="自蒸馏（self-distillation）"><a href="#自蒸馏（self-distillation）" class="headerlink" title="自蒸馏（self-distillation）"></a>自蒸馏（self-distillation）</h4><p>当新模型的结构和之前完全相同时，被称作自蒸馏。一般来说这样子得到的模型都会比原始的模型泛化性能更好（过拟合的程度更低）。</p>
+<p>该文对这种现象进行了细致的理论分析（发生了什么，为何有效）。</p>
+<p><img src="fig_1.png" alt></p>
+<p>主要结论：几轮self-distillation会通过逐渐限制代表解的基函数的数量，这往往会减少过度拟合（次数过多会导致欠拟合，影响性能）。</p>
+<h4 id="希尔伯特空间"><a href="#希尔伯特空间" class="headerlink" title="希尔伯特空间"></a>希尔伯特空间</h4><blockquote>
+<ul>
+<li><p>希尔伯特空间就是完备的内积空间</p>
+</li>
+<li><p>在数学分析中，完备空间又称完备度量空间或称柯西空间（Cauchy space）。如果一个度量空间中的所有柯西序列都收敛在该空间中的一点，则称该空间为完备空间。</p>
+</li>
+<li><p>在数学中，度量空间是个具有距离函数的集合，该距离函数定义集合内所有元素间之距离。此距离函数被称为集合上的度量。度量空间中最符合人们对于现实直观理解的是三维欧几里得空间（Euclidean space）。</p>
+</li>
+<li><p>这里的“距离”是一个抽象概念，不仅仅指两点间的直线距离，还包括向量距离、函数距离、曲面距离等。</p>
+</li>
+<li><p>在数学中，柯西序列、柯西列、柯西数列或基本列是指这样一个数列，它的元素随着序数的增加而愈发靠近。任何收敛数列必然是柯西列，任何柯西列必然是有界序列。</p>
+</li>
+<li><p>内积空间指的是添加了一个“运算方法”（或称“结构”）的向量空间（或称为“线性空间”，两者同义），这个新添加的运算方法即“内积（Inner product）”又称“标量积（Scalar product）”或称“点积（Dot product）”。内积将一对向量与一个纯量连接起来，允许我们严格地谈论向量的“夹角”和“长度”，并进一步谈论向量的正交性。</p>
+</li>
+<li><p>希尔伯特空间（Hilbert space）是<strong>有限维欧几里得空间（Euclidean space）的一个推广，使之不局限于实数的情形和有限的维数，但又不失完备性</strong>（不像一般的非欧几里得空间那样破坏了完备性）</p>
+</li>
+</ul>
+</blockquote>
+<h3 id="2-Social-Diversity-and-Social-Preferences-in-Mixed-Motive-Reinforcement-Learning"><a href="#2-Social-Diversity-and-Social-Preferences-in-Mixed-Motive-Reinforcement-Learning" class="headerlink" title="2.Social Diversity and Social Preferences in Mixed-Motive Reinforcement Learning"></a>2.<a href="https://deepmind.com/research/publications/Social-Diversity-and-Social-Preferences-in-Mixed-Motive-Reinforcement-Learning" target="_blank" rel="noopener">Social Diversity and Social Preferences in Mixed-Motive Reinforcement Learning</a></h3><ul>
+<li><p>Kevin McKee, Ian Gemp, et al. arXiv 2020</p>
+</li>
+<li><p>REINFORCEMENT LEARNING</p>
+<p>NEUROSCIENCE</p>
+</li>
+</ul>
+<h4 id="A"><a href="#A" class="headerlink" title="A"></a>A</h4><h3 id="3-Targeted-free-energy-estimation-via-learned-mappings"><a href="#3-Targeted-free-energy-estimation-via-learned-mappings" class="headerlink" title="3.Targeted free energy estimation via learned mappings"></a>3.<a href="https://deepmind.com/research/publications/Targeted-free-energy-estimation-via-learned-mappings" target="_blank" rel="noopener">Targeted free energy estimation via learned mappings</a></h3><ul>
+<li>Peter Wirnsberger, Andy Ballard, et al. arXiv 2020</li>
+</ul>
+<h3 id="4-Static-and-Dynamic-Values-of-Computation-in-MCTS"><a href="#4-Static-and-Dynamic-Values-of-Computation-in-MCTS" class="headerlink" title="4.Static and Dynamic Values of Computation in MCTS"></a>4.<a href="https://deepmind.com/research/publications/Static-and-Dynamic-Values-of-Computation-in-MCTS" target="_blank" rel="noopener">Static and Dynamic Values of Computation in MCTS</a></h3><ul>
+<li>Eren Sezener, P Dayan, arXiv 2020</li>
+<li>REINFORCEMENT LEARNING</li>
+</ul>
+<h3 id="5-On-Contrastive-Learning-for-Likelihood-free-Inference"><a href="#5-On-Contrastive-Learning-for-Likelihood-free-Inference" class="headerlink" title="5.On Contrastive Learning for Likelihood-free Inference"></a>5.<a href="https://deepmind.com/research/publications/On-Contrastive-Learning-for-Likelihood-free-Inference" target="_blank" rel="noopener">On Contrastive Learning for Likelihood-free Inference</a></h3><ul>
+<li>C Durkan, I Murray, et al. arXiv 2020</li>
+<li>UNSUPERVISED LEARNING &amp; GENERATIVE MODELS</li>
+</ul>
+<h3 id="6-Causally-Correct-Partial-Models-for-Reinforcement-Learning"><a href="#6-Causally-Correct-Partial-Models-for-Reinforcement-Learning" class="headerlink" title="6.Causally Correct Partial Models for Reinforcement Learning"></a>6.<a href="https://deepmind.com/research/publications/Causally-Correct-Partial-Models-for-Reinforcement-Learning" target="_blank" rel="noopener">Causally Correct Partial Models for Reinforcement Learning</a></h3><ul>
+<li><p>Danilo Rezende, Ivo Danihelka, et al. arXiv 2020</p>
+</li>
+<li><p>UNSUPERVISED LEARNING &amp; GENERATIVE MODELS</p>
+<p>THEORY &amp; FOUNDATIONS</p>
+</li>
+</ul>
+<h3 id="7-Provably-efficient-reconstruction-of-policy-networks"><a href="#7-Provably-efficient-reconstruction-of-policy-networks" class="headerlink" title="7.Provably efficient reconstruction of policy networks"></a>7.<a href="https://deepmind.com/research/publications/Provably-efficient-reconstruction-of-policy-networks" target="_blank" rel="noopener">Provably efficient reconstruction of policy networks</a></h3><ul>
+<li>B Mazoure, T Doan, et al. arXiv 2020</li>
+</ul>
+<h3 id="8-Normalizing-Flows-on-Tori-and-Spheres"><a href="#8-Normalizing-Flows-on-Tori-and-Spheres" class="headerlink" title="8.Normalizing Flows on Tori and Spheres"></a>8.<a href="https://deepmind.com/research/publications/Normalizing-Flows-on-Tori-and-Spheres" target="_blank" rel="noopener">Normalizing Flows on Tori and Spheres</a></h3><ul>
+<li><p>Danilo Jimenez Rezende, George Papamakarios, et al. arXiv 2020</p>
+</li>
+<li><p>UNSUPERVISED LEARNING &amp; GENERATIVE MODELS</p>
+<p>THEORY &amp; FOUNDATIONS</p>
+</li>
+</ul>
+<h3 id="9-Locally-Adaptive-Nonparametric-Online-Learning"><a href="#9-Locally-Adaptive-Nonparametric-Online-Learning" class="headerlink" title="9.Locally-Adaptive Nonparametric Online Learning"></a>9.<a href="https://deepmind.com/research/publications/Locally-Adaptive-Nonparametric-Online-Learning" target="_blank" rel="noopener">Locally-Adaptive Nonparametric Online Learning</a></h3><ul>
+<li>Ilja Kuzborskij, N Cesa-Bianchi, arXiv 2020</li>
+<li>THEORY &amp; FOUNDATIONS</li>
+</ul>
+<h3 id="10-MEMO-A-Deep-Network-for-Flexible-Combination-of-Episodic-Memories"><a href="#10-MEMO-A-Deep-Network-for-Flexible-Combination-of-Episodic-Memories" class="headerlink" title="10.MEMO: A Deep Network for Flexible Combination of Episodic Memories"></a>10.<a href="https://deepmind.com/research/publications/MEMO-A-Deep-Network-for-Flexible-Combination-of-Episodic-Memories" target="_blank" rel="noopener">MEMO: A Deep Network for Flexible Combination of Episodic Memories</a></h3><ul>
+<li>Andrea Banino, Adrià Puigdomènech, et al. arXiv 2020</li>
+<li>DEEP LEARNING</li>
+</ul>
+<h3 id="11-Learning-Robust-and-Multilingual-Speech-Representations"><a href="#11-Learning-Robust-and-Multilingual-Speech-Representations" class="headerlink" title="11.Learning Robust and Multilingual Speech Representations"></a>11.<a href="https://deepmind.com/research/publications/Learning-Robust-and-Multilingual-Speech-Representations" target="_blank" rel="noopener">Learning Robust and Multilingual Speech Representations</a></h3><ul>
+<li><p>Kazuya Kawakami, L Wang, et al. arXiv 2020</p>
+</li>
+<li><p>DEEP LEARNING</p>
+<p>UNSUPERVISED LEARNING &amp; GENERATIVE MODELS</p>
+</li>
+</ul>
+<h3 id="12-Silly-rules-improve-the-capacity-of-agents-to-learn-stable-enforcement-and-compliance-behaviors"><a href="#12-Silly-rules-improve-the-capacity-of-agents-to-learn-stable-enforcement-and-compliance-behaviors" class="headerlink" title="12.Silly rules improve the capacity of agents to learn stable enforcement and compliance behaviors"></a>12.<a href="https://deepmind.com/research/publications/Silly-rules-improve-the-capacity-of-agents-to-learn-stable-enforcement-and-compliance-behaviors" target="_blank" rel="noopener">Silly rules improve the capacity of agents to learn stable enforcement and compliance behaviors</a></h3><ul>
+<li>Raphael Koster, D Hadfield-Menell, et al. arXiv 2020</li>
+</ul>
+<h3 id="13-Q-Learning-in-enormous-action-spaces-via-amortized-approximate-maximization"><a href="#13-Q-Learning-in-enormous-action-spaces-via-amortized-approximate-maximization" class="headerlink" title="13.Q-Learning in enormous action spaces via amortized approximate maximization"></a>13.<a href="https://deepmind.com/research/publications/Q-Learning-in-enormous-action-spaces-via-amortized-approximate-maximization" target="_blank" rel="noopener">Q-Learning in enormous action spaces via amortized approximate maximization</a></h3><ul>
+<li>Tom Van de Wiele, David Warde-Farley, et al. arXiv 2020</li>
+</ul>
+<h3 id="14-The-Incentives-that-Shape-Behaviour"><a href="#14-The-Incentives-that-Shape-Behaviour" class="headerlink" title="14.The Incentives that Shape Behaviour"></a>14.<a href="https://deepmind.com/research/publications/The-Incentives-that-Shape-Behaviour" target="_blank" rel="noopener">The Incentives that Shape Behaviour</a></h3><ul>
+<li><p>R Carey, Eric Langlois, et al. arXiv 2020</p>
+</li>
+<li><p>SAFETY</p>
+<p>THEORY &amp; FOUNDATIONS</p>
+</li>
+</ul>
+<h3 id="15-Smooth-markets-A-basic-mechanism-for-organizing-gradient-based-learners"><a href="#15-Smooth-markets-A-basic-mechanism-for-organizing-gradient-based-learners" class="headerlink" title="15.Smooth markets: A basic mechanism for organizing gradient-based learners"></a>15.<a href="https://deepmind.com/research/publications/Smooth-markets-A-basic-mechanism-for-organizing-gradient-based-learners" target="_blank" rel="noopener">Smooth markets: A basic mechanism for organizing gradient-based learners</a></h3><ul>
+<li>David Balduzzi, Wojciech Marian Czarnecki, et al. arXiv 2020</li>
+<li>THEORY &amp; FOUNDATIONS</li>
+</ul>
+<h3 id="16-Sideways-Depth-Parallel-Training-of-Video-Models"><a href="#16-Sideways-Depth-Parallel-Training-of-Video-Models" class="headerlink" title="16.Sideways: Depth-Parallel Training of Video Models"></a>16.<a href="https://deepmind.com/research/publications/Sideways-Depth-Parallel-Training-of-Video-Models" target="_blank" rel="noopener">Sideways: Depth-Parallel Training of Video Models</a></h3><ul>
+<li><p>Mateusz Malinowski, Grzegorz Swirszcz, et al. arXiv 2020</p>
+</li>
+<li><p>DEEP LEARNING</p>
+<p>NEUROSCIENCE</p>
+</li>
+</ul>
+<h3 id="17-A-distributional-code-for-value-in-dopamine-based-reinforcement-learning"><a href="#17-A-distributional-code-for-value-in-dopamine-based-reinforcement-learning" class="headerlink" title="17.A distributional code for value in dopamine-based reinforcement learning"></a>17.<a href="https://deepmind.com/research/publications/A-distributional-code-for-value-in-dopamine-based-reinforcement-learning" target="_blank" rel="noopener">A distributional code for value in dopamine-based reinforcement learning</a></h3><ul>
+<li><p>Will Dabney, Zeb Kurth-Nelson, et al. Nature 2020</p>
+</li>
+<li><p>NEUROSCIENCE</p>
+<p>REINFORCEMENT LEARNING</p>
+</li>
+</ul>
+<h3 id="18-AlphaFold-Improved-protein-structure-prediction-using-potentials-from-deep-learning"><a href="#18-AlphaFold-Improved-protein-structure-prediction-using-potentials-from-deep-learning" class="headerlink" title="18.AlphaFold: Improved protein structure prediction using potentials from deep learning"></a>18.<a href="https://deepmind.com/research/publications/AlphaFold-Improved-protein-structure-prediction-using-potentials-from-deep-learning" target="_blank" rel="noopener">AlphaFold: Improved protein structure prediction using potentials from deep learning</a></h3><ul>
+<li>Andrew Senior, Richard Evans, et al. Nature 2020</li>
+<li>DEEP LEARNING</li>
+</ul>
+<h3 id="19-Artificial-Intelligence-Values-and-Alignment"><a href="#19-Artificial-Intelligence-Values-and-Alignment" class="headerlink" title="19.Artificial Intelligence, Values and Alignment"></a>19.<a href="https://deepmind.com/research/publications/Artificial-Intelligence-Values-and-Alignment" target="_blank" rel="noopener">Artificial Intelligence, Values and Alignment</a></h3><ul>
+<li>Iason Gabriel, arXiv 2020</li>
+<li>SAFETY</li>
+</ul>
+<h3 id="20-Making-Sense-of-Reinforcement-Learning-and-Probabilistic-Inference"><a href="#20-Making-Sense-of-Reinforcement-Learning-and-Probabilistic-Inference" class="headerlink" title="20.Making Sense of Reinforcement Learning and Probabilistic Inference"></a>20.<a href="https://deepmind.com/research/publications/Making-Sense-of-Reinforcement-Learning-and-Probabilistic-Inference" target="_blank" rel="noopener">Making Sense of Reinforcement Learning and Probabilistic Inference</a></h3><ul>
+<li><p>Brendan O’Donoghue, Ian Osband, et al. ICLR 2020</p>
+</li>
+<li><p>REINFORCEMENT LEARNING</p>
+<p>THEORY &amp; FOUNDATIONS</p>
+</li>
+</ul>
+<h3 id="21-A-Deep-Neural-Network’s-Loss-Surface-Contains-Every-Low-dimensional-Pattern"><a href="#21-A-Deep-Neural-Network’s-Loss-Surface-Contains-Every-Low-dimensional-Pattern" class="headerlink" title="21.A Deep Neural Network’s Loss Surface Contains Every Low-dimensional Pattern"></a>21.<a href="https://deepmind.com/research/publications/A-Deep-Neural-Networks-Loss-Surface-Contains-Every-Low-dimensional-Pattern" target="_blank" rel="noopener">A Deep Neural Network’s Loss Surface Contains Every Low-dimensional Pattern</a></h3><ul>
+<li><p>Wojciech Marian Czarnecki, Simon Osindero, et al. arXiv 2020</p>
+</li>
+<li><p>THEORY &amp; FOUNDATIONS</p>
+<p>DEEP LEARNING</p>
+</li>
+</ul>
+<h3 id="22-Continuous-Discrete-Reinforcement-Learning-for-Hybrid-Control-in-Robotics"><a href="#22-Continuous-Discrete-Reinforcement-Learning-for-Hybrid-Control-in-Robotics" class="headerlink" title="22.Continuous-Discrete Reinforcement Learning for Hybrid Control in Robotics"></a>22.<a href="https://deepmind.com/research/publications/Continuous-Discrete-Reinforcement-Learning-for-Hybrid-Control-in-Robotics" target="_blank" rel="noopener">Continuous-Discrete Reinforcement Learning for Hybrid Control in Robotics</a></h3><ul>
+<li>Michael Neunert, Abbas Abdolmaleki, et al. CoRL 2020</li>
+</ul>
+<h3 id="23-International-evaluation-of-an-AI-system-for-breast-cancer-screening"><a href="#23-International-evaluation-of-an-AI-system-for-breast-cancer-screening" class="headerlink" title="23.International evaluation of an AI system for breast cancer screening"></a>23.<a href="https://deepmind.com/research/publications/International-evaluation-of-an-artificial-intelligence-system-to-identify-breast-cancer-in-screening-mammography" target="_blank" rel="noopener">International evaluation of an AI system for breast cancer screening</a></h3><ul>
+<li>Scott Mayer McKinney, Marcin T. Sieniek, et al. Nature 2020</li>
+<li>DEEP LEARNING</li>
+</ul>
+<h3 id="24-Options-of-Interest-Temporal-Abstraction-with-Interest-Functions"><a href="#24-Options-of-Interest-Temporal-Abstraction-with-Interest-Functions" class="headerlink" title="24. Options of Interest: Temporal Abstraction with Interest Functions"></a>24.<a href="https://deepmind.com/research/publications/Options-of-Interest-Temporal-Abstraction-with-Interest-Functions" target="_blank" rel="noopener"> Options of Interest: Temporal Abstraction with Interest Functions</a></h3><ul>
+<li>K Khetarpal, M Klissarov, et al. AAAI 2020</li>
+</ul>
+
             </div>
             <hr />
 
@@ -616,9 +761,9 @@ Chap01 统计学习及监督学习概论">
             <br/>
             <span xmlns:dct="http://purl.org/dc/terms/" href="http://purl.org/dc/dcmitype/Text"
                   property="dct:title" rel="dct:type">
-                    《Statistical Learning Methods v2 Notes》
+                    《DeepMind Works 2020 Notes》
                 </span> 由
-            <a xmlns:cc="http://creativecommons.org/ns#" href="/2019/12/04/statistical-learning-methods-v2-notes/" property="cc:attributionName"
+            <a xmlns:cc="http://creativecommons.org/ns#" href="/2020/03/09/deepmind-works-2020-notes/" property="cc:attributionName"
                rel="cc:attributionURL">
                 Martin
             </a> 采用
@@ -659,7 +804,7 @@ Chap01 统计学习及监督学习概论">
         repo: 'martin20150405.github.io',
         owner: 'martin20150405',
         admin: "martin20150405",
-        id: '2019/12/04/statistical-learning-methods-v2-notes/',
+        id: '2020/03/09/deepmind-works-2020-notes/',
         distractionFreeMode: false  // Facebook-like distraction free mode
     });
 
@@ -680,33 +825,75 @@ Chap01 统计学习及监督学习概论">
 <article id="prenext-posts" class="prev-next articles">
     <div class="row article-row">
         
-        <div class="article col s12 m6" data-aos="fade-up">
+        <div class="article col s12 m6" data-aos="fade-up" data-aos="fade-up">
             <div class="article-badge left-badge text-color">
-                <i class="fa fa-chevron-left"></i>&nbsp;上一篇</div>
+                <i class="fa fa-dot-circle-o"></i>&nbsp;本篇
+            </div>
             <div class="card">
-                <a href="/2019/12/17/ccpc-2019-final-ti-jie/">
+                <a href="/2020/03/09/deepmind-works-2020-notes/">
                     <div class="card-image">
                         
                         
-                        <img src="/medias/featureimages/9.jpg" class="responsive-img" alt="CCPC 2019 Final 题解">
+                        <img src="/medias/featureimages/2.jpg" class="responsive-img" alt="DeepMind Works 2020 Notes">
                         
-                        <span class="card-title">CCPC 2019 Final 题解</span>
+                        <span class="card-title">DeepMind Works 2020 Notes</span>
                     </div>
                 </a>
                 <div class="card-content article-content">
                     <div class="summary block-with-text">
                         
-                            题目来源：CCPC 2019
-题目链接：CodeForces-Gym-102431
-退役两年半了还是这么蔡真是抱歉。。。
-A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11th不是11st容易怒WA
-#include 
+                            1.Self-Distillation Amplifies Regularization in Hilbert Space
+H Mobahi, Mehrdad Farajtabar, et al. arXiv 2020
+
+DEEP LEAR
                         
                     </div>
                     <div class="publish-info">
-                        <span class="publish-date">
-                            <i class="fa fa-clock-o fa-fw icon-date"></i>2019-12-17
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-03-09
+                            </span>
+                        <span class="publish-author">
+                            
+                            <i class="fa fa-bookmark fa-fw icon-category"></i>
+                            
+                            <a href="/categories/机器学习/" class="post-category" target="_blank">
+                                    机器学习
+                                </a>
+                            
+                            
                         </span>
+                    </div>
+                </div>
+
+                
+            </div>
+        </div>
+        
+        
+        <div class="article col s12 m6" data-aos="fade-up">
+            <div class="article-badge right-badge text-color">
+                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
+            </div>
+            <div class="card">
+                <a href="/2020/01/16/codeforces-solutions/">
+                    <div class="card-image">
+                        
+                        
+                        <img src="/medias/featureimages/12.jpg" class="responsive-img" alt="Codeforces-Solutions">
+                        
+                        <span class="card-title">Codeforces-Solutions</span>
+                    </div>
+                </a>
+                <div class="card-content article-content">
+                    <div class="summary block-with-text">
+                        
+                            Educational Codeforces Round 80C - Two Arrays（组合数学、动态规划）题意：给定n，m，利用1~n之间的数（可重复）来组成长度为m的数组a,b，要求数组a非递减,数组b非递增，且a数组的数小于等于b
+                        
+                    </div>
+                    <div class="publish-info">
+                            <span class="publish-date">
+                                <i class="fa fa-clock-o fa-fw icon-date"></i>2020-01-16
+                            </span>
                         <span class="publish-author">
                             
                             <i class="fa fa-bookmark fa-fw icon-category"></i>
@@ -722,76 +909,8 @@ A.Kick Start（水、模拟）题解：签到题，模拟，如果注意不到11
                 
                 <div class="card-action article-tags">
                     
-                    <a href="/tags/CCPC/" target="_blank">
-                        <span class="chip bg-color">CCPC</span>
-                    </a>
-                    
-                    <a href="/tags/算法/" target="_blank">
-                        <span class="chip bg-color">算法</span>
-                    </a>
-                    
-                </div>
-                
-            </div>
-        </div>
-        
-        
-        <div class="article col s12 m6" data-aos="fade-up">
-            <div class="article-badge right-badge text-color">
-                下一篇&nbsp;<i class="fa fa-chevron-right"></i>
-            </div>
-            <div class="card">
-                <a href="/2019/11/27/ml-tong-ji-xue-xi-1/">
-                    <div class="card-image">
-                        
-                        
-                        <img src="/medias/featureimages/7.jpg" class="responsive-img" alt="[ML]-统计学习-1（卡尔曼滤波与粒子滤波）">
-                        
-                        <span class="card-title">[ML]-统计学习-1（卡尔曼滤波与粒子滤波）</span>
-                    </div>
-                </a>
-                <div class="card-content article-content">
-                    <div class="summary block-with-text">
-                        
-                            蒙特卡罗方法蒙特卡罗（Monte Carlo）方法又称统计模拟方法，是通过从概率模型的随机抽样进行近似数值计算的方法。
-维基上介绍的基本思想如下：
-
-通常蒙特卡罗方法可以粗略地分成两类：一类是所求解的问题本身具有内在的随机性，借助计算机的运
-                        
-                    </div>
-                    <div class="publish-info">
-                            <span class="publish-date">
-                                <i class="fa fa-clock-o fa-fw icon-date"></i>2019-11-27
-                            </span>
-                        <span class="publish-author">
-                            
-                            <i class="fa fa-bookmark fa-fw icon-category"></i>
-                            
-                            <a href="/categories/机器学习/" class="post-category" target="_blank">
-                                    机器学习
-                                </a>
-                            
-                            
-                        </span>
-                    </div>
-                </div>
-                
-                <div class="card-action article-tags">
-                    
-                    <a href="/tags/卡尔曼滤波器/" target="_blank">
-                        <span class="chip bg-color">卡尔曼滤波器</span>
-                    </a>
-                    
-                    <a href="/tags/粒子滤波器/" target="_blank">
-                        <span class="chip bg-color">粒子滤波器</span>
-                    </a>
-                    
-                    <a href="/tags/蒙特卡罗方法/" target="_blank">
-                        <span class="chip bg-color">蒙特卡罗方法</span>
-                    </a>
-                    
-                    <a href="/tags/贝叶斯理论/" target="_blank">
-                        <span class="chip bg-color">贝叶斯理论</span>
+                    <a href="/tags/Codeforces/" target="_blank">
+                        <span class="chip bg-color">Codeforces</span>
                     </a>
                     
                 </div>
